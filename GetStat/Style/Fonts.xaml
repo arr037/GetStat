@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <FontFamily x:Key="GothamPro">pack://application:,,,/GetStat;Component/Style/fonts/#Gotham Pro</FontFamily>
+    <FontFamily x:Key="GothamProMedium">pack://application:,,,/GetStat;Component/Style/fonts/#Gotham Pro Medium</FontFamily>
+    <FontFamily x:Key="GothamProNarrowMedium">pack://application:,,,/GetStat;Component/Style/fonts/#Gotham Pro Narrow Medium</FontFamily>
+    <FontFamily x:Key="GothamProLight">pack://application:,,,/GetStat;Component/Style/fonts/#Gotham Pro Light</FontFamily>
+
+
+</ResourceDictionary>

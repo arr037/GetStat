@@ -1,0 +1,80 @@
+﻿<Page x:Class="GetStat.Pages.SignIn"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GetStat.Pages"
+      mc:Ignorable="d" 
+      
+      Title="SignIn"
+      Name="Root"
+      DataContext="{Binding Source={StaticResource ViewModelLocator},Path=SignInViewModel}">
+
+    <Border>
+        <Grid Background="{StaticResource BackgroundLightGrayBrush}">
+            <!-- Main content scroll -->
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                <StackPanel 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                    <Border Name="brd" Background="{StaticResource BackgroundWhiteBrush}" 
+                            CornerRadius="10"
+                            Padding="15 50 15 15"
+                            Width="330"
+                            Margin="50 50 50 5">
+
+                        <StackPanel Background="#fff">
+                            <TextBlock Foreground="{StaticResource ForegroundGreenBrush}" FontWeight="Bold" FontFamily="{StaticResource GothamPro}" HorizontalAlignment="Center" FontSize="26" Text="Авторизация" />
+
+                            <ContentControl  HorizontalAlignment="Center" Margin="0 0 35 20" Height="120" Content="{StaticResource SignInImage}"/>
+
+                           
+                            <TextBox Margin="0 10" FontFamily="{StaticResource GothamProLight}" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите логин:" Text="{Binding UserName}" />
+                            <PasswordBox Name="PasswordText"  Margin="0 15" FontFamily="{StaticResource GothamProLight}" FontSize="20" Tag="Введите пароль:" />
+
+                            <Button Style="{StaticResource SignButtonStyle}"  Content="Войти" Command="{Binding SignIn}" CommandParameter="{Binding ElementName=Root}" />
+
+                        </StackPanel>
+
+                    </Border>
+                    <TextBlock HorizontalAlignment="Center" Grid.Row="3" FontSize="16" Margin="0 10">
+                    <Run Text="У вас нет аккаута?" FontWeight="Light" FontFamily="{StaticResource GothamProLight}"/>
+                    <Run  Text="Регистрация" Cursor="Hand" FontWeight="DemiBold"  FontFamily="{StaticResource GothamProMedium}">
+                        <Run.InputBindings>
+                            <MouseBinding Command="{Binding SignUp}" Gesture="LeftClick"/>
+                        </Run.InputBindings>
+                        <Run.Style>
+                            <Style TargetType="Run">
+                                <Setter Property="FontFamily" Value="{StaticResource GothamProMedium}" />
+                                <Setter Property="Foreground" Value="{StaticResource ForegroundDarkGrayBrush}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                           <BeginStoryboard>
+                                               <Storyboard>
+                                                   <ColorAnimation  Duration="0:0:.5"  To="{StaticResource ForegroundBlue}"
+                                                                    Storyboard.TargetProperty="Foreground.Color" />
+                                               </Storyboard>
+                                           </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ColorAnimation  Duration="0:0:.5"  To="{StaticResource ForegroundDarkGray}"
+                                                                     Storyboard.TargetProperty="Foreground.Color" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Run.Style>
+                    </Run>
+                </TextBlock>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Page>

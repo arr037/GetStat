@@ -1,0 +1,134 @@
+﻿<Page x:Class="GetStat.Pages.SignUp"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:GetStat.Pages"
+      mc:Ignorable="d"
+      Title="SignUp"
+      Name="Root"
+      DataContext="{Binding Source={StaticResource ViewModelLocator},Path=SignUpViewModel}">
+
+    <Border>
+        <Grid Background="{StaticResource BackgroundLightGrayBrush}">
+            <!-- Main content scroll -->
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                <StackPanel
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                    <Border Name="brd" Background="{StaticResource BackgroundWhiteBrush}"
+                            CornerRadius="10"
+                            Padding="15 50 15 15"
+                            Width="660"
+                            Margin="50 50 50 5">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="2" Width="1" Margin="5 0" Background="LightGray" Grid.RowSpan="4"
+                                    Grid.Column="1">
+                            </Border>
+                            <TextBlock Grid.ColumnSpan="3" Grid.Row="0"
+                                       Foreground="{StaticResource ForegroundGreenBrush}" FontWeight="Bold"
+                                       FontFamily="{StaticResource GothamPro}" HorizontalAlignment="Center"
+                                       FontSize="26" Text="Регистрация" />
+
+                            <ContentControl Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Center" Height="120"
+                                            Content="{StaticResource SignUpImage}" />
+
+
+                            <TextBox Grid.Column="0" Grid.Row="2" Margin="0 25 0 12"
+                                     FontFamily="{StaticResource GothamProLight}"
+                                     Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите логин:" Text="{Binding UserName}"/>
+
+
+                            <TextBox Grid.Row="2" Grid.Column="2" Margin="0 25 0 12"
+                                     FontFamily="{StaticResource GothamProLight}"
+                                     Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите email:" Text="{Binding Email}"/>
+
+                            <TextBox Grid.Row="3" Grid.Column="0" Margin="0 12"
+                                     FontFamily="{StaticResource GothamProLight}"
+                                     Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите ваше имя:" Text="{Binding Name}"/>
+
+
+                            <TextBox Grid.Row="3" Grid.Column="2" Margin="0 12"
+                                     FontFamily="{StaticResource GothamProLight}"
+                                     Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите ваше фамилию:" Text="{Binding Surname}"/>
+
+                            <TextBox Grid.Row="4" Grid.Column="0" Margin="0 12"
+                                     FontFamily="{StaticResource GothamProLight}"
+                                     Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите ваше отчество:" Text="{Binding MiddleName}"/>
+
+
+                            <PasswordBox Grid.Row="5" Grid.Column="0" Name="PasswordText" Margin="0 12"
+                                         FontFamily="{StaticResource GothamProLight}"
+                                         FontSize="20" Tag="Введите пароль:" />
+
+
+                            <PasswordBox Grid.Row="5" Grid.Column="2" Name="PasswordText1" Margin="0 12"
+                                         FontFamily="{StaticResource GothamProLight}"
+                                         FontSize="20" Tag="Подтвердите пароль:" />
+
+
+                            <Button Grid.Row="6" Grid.ColumnSpan="3" Margin="0 10 0 0"
+                                    Style="{StaticResource SignButtonStyle}" Content="Регистрация"
+                                    Command="{Binding RegistrationCommand}"
+                                    CommandParameter="{Binding ElementName=Root}" />
+                        </Grid>
+                    </Border>
+                    <TextBlock HorizontalAlignment="Center" Grid.Row="3" FontSize="16" Margin="0 10">
+                        <Run Text="У вас есть аккаунт?" FontWeight="Light" FontFamily="{StaticResource GothamProLight}" />
+                        <Run Text="Авторизация" Cursor="Hand" FontWeight="DemiBold"
+                             FontFamily="{StaticResource GothamProMedium}">
+                            <Run.InputBindings>
+                                <MouseBinding Command="{Binding SignInCommand}" Gesture="LeftClick" />
+                            </Run.InputBindings>
+                            <Run.Style>
+                                <Style TargetType="Run">
+                                    <Setter Property="FontFamily" Value="{StaticResource GothamProMedium}" />
+                                    <Setter Property="Foreground" Value="{StaticResource ForegroundDarkGrayBrush}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Duration="0:0:.5"
+                                                                        To="{StaticResource ForegroundBlue}"
+                                                                        Storyboard.TargetProperty="Foreground.Color" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.EnterActions>
+                                            <Trigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Duration="0:0:.5"
+                                                                        To="{StaticResource ForegroundDarkGray}"
+                                                                        Storyboard.TargetProperty="Foreground.Color" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.ExitActions>
+
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Run.Style>
+                        </Run>
+                    </TextBlock>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Page>
