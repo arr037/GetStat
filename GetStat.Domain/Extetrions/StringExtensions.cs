@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GetStat.Domain.Extetrions
 {
@@ -38,18 +35,16 @@ namespace GetStat.Domain.Extetrions
             ////////////////////////////////////////////////////////
             // Step 2: Find how many padding chars are present in the end
             for (endPosition = base64String.Length; endPosition > 0; endPosition--)
-            {
                 if (base64String[endPosition - 1] != '=') // Found a non-padding char!
-                {
                     break; // Stop here
-                }
-            }
 
             ////////////////////////////////////////////////////////
             // Step 3: Create char array to store all non-padding chars,
             //      plus a char to indicate how many padding chars are needed
             var base64Chars = new char[endPosition + 1];
-            base64Chars[endPosition] = (char)('0' + base64String.Length - endPosition); // Store a char at the end, to indicate how many padding chars are needed
+            base64Chars[endPosition] =
+                (char) ('0' + base64String.Length -
+                        endPosition); // Store a char at the end, to indicate how many padding chars are needed
 
             ////////////////////////////////////////////////////////
             // Step 3: Copy in the other chars. Transform the "+" to "-", and "/" to "_"
@@ -77,6 +72,7 @@ namespace GetStat.Domain.Extetrions
                         break;
                 }
             }
+
             return new string(base64Chars);
         }
 
@@ -127,10 +123,7 @@ namespace GetStat.Domain.Extetrions
 
             ////////////////////////////////////////////////////////
             // Step 4: Add padding chars
-            for (var i = inputLength - 1; i < base64Chars.Length; i++)
-            {
-                base64Chars[i] = '=';
-            }
+            for (var i = inputLength - 1; i < base64Chars.Length; i++) base64Chars[i] = '=';
 
             // Do the actual conversion
             return Convert.FromBase64CharArray(base64Chars, 0, base64Chars.Length);

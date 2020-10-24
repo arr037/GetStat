@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using GetStat.Annotations;
 
 namespace GetStat.Models
 {
-    public class BaseVM:INotifyPropertyChanged
+    public class BaseVM : INotifyPropertyChanged
 
     {
         public event PropertyChangedEventHandler PropertyChanged;

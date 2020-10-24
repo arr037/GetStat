@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dna;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models;
+using GetStat.Domain.ViewModels;
 
 namespace GetStat.Services
 {
     public class AuthorizationService
     {
         private readonly ModalService _modalService;
-        public string AccountId { get; private set; }
 
+        public string AccountId { get; private set; }
+        public LoginResponse LoginResponse { get; private set; }
 
         public AuthorizationService(ModalService modalService)
         {
@@ -23,7 +24,7 @@ namespace GetStat.Services
 
         public async Task<bool> Register(Account account)
         {
-            var error =  CheckError(account);
+            var error = CheckError(account);
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -51,16 +52,33 @@ namespace GetStat.Services
             var data = $"https://localhost:5001/api/Confirm?id={AccountId}";
             var response = await WebRequests.PostAsync<bool>(data);
 
-            if (response?.ServerResponse != null)
-            {
-                return response.ServerResponse;
-            }
+            if (response?.ServerResponse != null) return response.ServerResponse;
 
             return false;
         }
 
-       
 
+        public async Task<bool> Login(LoginViewModel model)
+        {
+            var response = await WebRequests.PostAsync<ApiResponse<LoginResponse>>("https://localhost:5001/api/login", model);
+
+            var res = response.DisplayErrorIfFailedAsync();
+            if (res.SuccessFul == false)
+            {
+                _modalService.ShowModalWindow("Ошибка при авторизации", res.Message);
+                return false;
+            }
+
+            LoginResponse = response.ServerResponse.Response;
+            return true;
+        }
+
+        public  void LogOut()
+        {
+            AccountId= String.Empty;
+            LoginResponse = null;
+
+        }
 
         private string CheckError(Account account)
         {
@@ -87,10 +105,7 @@ namespace GetStat.Services
                 var dat = account.Email.Count(c => c == '@');
                 if (dat == 1)
                 {
-                    if (account.Email.Trim().StartsWith("@"))
-                    {
-                        errors.Add("Email адрес не может начинатся с '@'");
-                    }
+                    if (account.Email.Trim().StartsWith("@")) errors.Add("Email адрес не может начинатся с '@'");
                 }
                 else if (dat > 1)
                 {
@@ -100,7 +115,6 @@ namespace GetStat.Services
                 else
                 {
                     errors.Add("Введите корректно email");
-
                 }
             }
             //

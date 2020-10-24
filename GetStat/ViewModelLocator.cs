@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GetStat.ViewModels;
+﻿using GetStat.ViewModels;
 using GetStat.ViewModels.PagesViewModels;
+using GetStat.ViewModels.PagesViewModels.Authorization;
 
 namespace GetStat
 {
@@ -13,6 +9,8 @@ namespace GetStat
         public MainViewModel MainViewModel => Ioc.Resolve<MainViewModel>();
         public SignInViewModel SignInViewModel => Ioc.Resolve<SignInViewModel>();
         public SignUpViewModel SignUpViewModel => Ioc.Resolve<SignUpViewModel>();
-        public ConfirmEmailViewModel ConfirmEmailViewModel=> Ioc.Resolve<ConfirmEmailViewModel>();
+        public ConfirmEmailViewModel ConfirmEmailViewModel => Ioc.Resolve<ConfirmEmailViewModel>();
+        public AboutUserViewModel AboutUserViewModel => Ioc.Resolve<AboutUserViewModel>();
+        public MainPageViewModel MainPageViewModel => Ioc.Resolve<MainPageViewModel>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,21 +11,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GetStat.ViewModels.Base;
+using GetStat.Services;
 
-namespace GetStat.Pages
+namespace GetStat.Pages.UserControls
 {
     /// <summary>
-    /// Логика взаимодействия для SignUp.xaml
+    /// Логика взаимодействия для AboutUser.xaml
     /// </summary>
-    public partial class SignUp : Page,IHavePassword
+    public partial class AboutUser : UserControl
     {
-        public SignUp()
+        public AboutUser()
         {
             InitializeComponent();
         }
-
-        public SecureString SecureString => PasswordText.SecurePassword;
-        public bool IsEquals => PasswordText.Password == PasswordText1.Password;
     }
+
+
 }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using GetStat.Services;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
@@ -12,14 +8,7 @@ namespace GetStat.Domain.Services
 {
     public class EmailService
     {
-        private readonly ModalService _modalService;
-
-        public EmailService(ModalService modalService)
-        {
-            _modalService = modalService;
-        }
-
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public async Task<bool> SendEmailAsync(string email, string subject, string message)
         {
             try
             {
@@ -41,10 +30,12 @@ namespace GetStat.Domain.Services
 
                     await client.DisconnectAsync(true);
                 }
+                return true;
             }
             catch (Exception e)
             {
-                _modalService.ShowModalWindow("Ошибка при отправке email", e.Message);
+                Console.WriteLine(e.Message);
+                return false;
             }
         }
     }

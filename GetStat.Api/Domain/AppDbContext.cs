@@ -6,8 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GetStat.Api.Domain
 {
-    public class AppDbContext: IdentityDbContext<Account>
+    public class AppDbContext : IdentityDbContext<Account>
     {
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Tutor> Tutors { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
@@ -15,12 +20,6 @@ namespace GetStat.Api.Domain
         public DbSet<Student> Students { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Group> Groups { get; set; }
-
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options)
-        {
-
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,7 +31,7 @@ namespace GetStat.Api.Domain
                 {
                     Id = "2BF94763-FE0B-48CD-B413-C8BC705380DC",
                     Name = "User",
-                    NormalizedName = "USER",
+                    NormalizedName = "USER"
                 },
                 new IdentityRole
                 {
@@ -72,41 +71,6 @@ namespace GetStat.Api.Domain
                 }
             );
 
-
-
-            var pw = System.Environment.GetEnvironmentVariable("adminPw");
-            modelBuilder.Entity<Account>().HasData(new Account
-            {
-                Id = "9FE2BC2C-82E6-4724-9F08-B8B6B279662D",
-                UserName = "Akhmet0ff",
-                NormalizedUserName = "RUSLAN",
-                Name = "Ruslan",
-                Surname = "Akhmetov",
-                MiddleName = "Ravilevich",
-                Email = "arr073099@mail.ru",
-                NormalizedEmail = "ARR073099@MAIL.RU",
-                EmailConfirmed = true,
-                PasswordHash = new PasswordHasher<Account>().HashPassword(null, pw),
-                SecurityStamp = string.Empty
-            });
-
-            modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-            {
-                UserId = "9FE2BC2C-82E6-4724-9F08-B8B6B279662D",
-                RoleId = "D9CBECB0-5A1E-41A7-A122-D3E1B0B73D94"
-            });
-
-
-            /*
-             * User=0,
-        Student=1,
-        Teacher=2,
-        Tutor=3,
-        TeacherAndTutor=4,
-        Moderator=5,
-        Admin=6,
-        MainAdmin=7
-             */
         }
     }
 }

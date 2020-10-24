@@ -1,11 +1,4 @@
-﻿
-
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GetStat.Domain.Base
+﻿namespace GetStat.Domain.Base
 {
     public class ApiResponse
     {
@@ -18,7 +11,8 @@ namespace GetStat.Domain.Base
     {
         public new T Response
         {
-            get => (T)base.Response; set => base.Response = value;
+            get => (T) base.Response;
+            set => base.Response = value;
         }
     }
 }

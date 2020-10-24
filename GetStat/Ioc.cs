@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GetStat.Domain.Services;
 using GetStat.Services;
 using GetStat.ViewModels;
 using GetStat.ViewModels.PagesViewModels;
+using GetStat.ViewModels.PagesViewModels.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GetStat
@@ -23,16 +19,19 @@ namespace GetStat
             services.AddTransient<SignInViewModel>();
             services.AddTransient<SignUpViewModel>();
             services.AddTransient<ConfirmEmailViewModel>();
+            services.AddTransient<AboutUserViewModel>();
+            services.AddTransient<MainPageViewModel>();
 
 
-
-            services.AddTransient<EmailService>();
             services.AddSingleton<PageService>();
             services.AddSingleton<ModalService>();
             services.AddSingleton<AuthorizationService>();
             _provider = services.BuildServiceProvider();
         }
 
-        public static T Resolve<T>() => _provider.GetRequiredService<T>();
+        public static T Resolve<T>()
+        {
+            return _provider.GetRequiredService<T>();
+        }
     }
 }

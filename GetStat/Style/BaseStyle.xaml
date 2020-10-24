@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="Border" x:Key="BaseBorder">
-        <Setter Property="Effect"  >
+        <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect  RenderingBias="Quality" Opacity="0.15" />
+                <DropShadowEffect RenderingBias="Quality" Opacity="0.15" />
             </Setter.Value>
         </Setter>
     </Style>

@@ -8,7 +8,7 @@ namespace GetStat.Domain.Base
 {
     public class BaseError
     {
-        public bool SuccessFul => string.IsNullOrEmpty(Message);
         public string Message { get; set; }
+        public bool SuccessFul => string.IsNullOrEmpty(Message);
     }
 }

@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GetStat.Pages
+namespace GetStat.Pages.Main
 {
     /// <summary>
-    /// Логика взаимодействия для ConfirmEmail.xaml
+    /// Логика взаимодействия для MainPage.xaml
     /// </summary>
-    public partial class ConfirmEmail : Page
+    public partial class MainPage : BasePage
     {
-        public ConfirmEmail()
+        public MainPage()
         {
             InitializeComponent();
         }

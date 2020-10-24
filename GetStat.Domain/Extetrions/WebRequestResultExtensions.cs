@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dna;
+﻿using Dna;
 using GetStat.Domain.Base;
 
 namespace GetStat.Domain.Extetrions
@@ -29,7 +24,8 @@ namespace GetStat.Domain.Extetrions
 
                 // Если у нас есть результат, но нет никаких подробностей ответа сервера вообще...
                 else if (response != null)
-                    message = $"Не удалось связаться с сервером. Код состояния: {response.StatusCode}. {response.StatusDescription}";
+                    message =
+                        $"Не удалось связаться с сервером. Код состояния: {response.StatusCode}. {response.StatusDescription}";
 
 
                 return new BaseError {Message = message};
