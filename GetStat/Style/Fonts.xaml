@@ -1,11 +1,22 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
 
 
     <FontFamily x:Key="GothamPro">pack://application:,,,/GetStat;Component/Style/fonts/#Gotham Pro</FontFamily>
     <FontFamily x:Key="GothamProMedium">pack://application:,,,/GetStat;Component/Style/fonts/#Gotham Pro Medium</FontFamily>
     <FontFamily x:Key="GothamProNarrowMedium">pack://application:,,,/GetStat;Component/Style/fonts/#Gotham Pro Narrow Medium</FontFamily>
     <FontFamily x:Key="GothamProLight">pack://application:,,,/GetStat;Component/Style/fonts/#Gotham Pro Light</FontFamily>
+    <FontFamily x:Key="IcoMood">pack://application:,,,/GetStat;Component/Style/fonts/#icomoon</FontFamily>
 
+    <system:String x:Key="RegisterIcon">&#xe973;</system:String>
+    <system:String x:Key="LogInIcon">&#xe972;</system:String>
+    <system:String x:Key="CodeIcon">&#xe900;</system:String>
+    <system:String x:Key="ShowTest">&#xe901;</system:String>
+    <system:String x:Key="NewTest">&#xe902;</system:String>
+    <system:String x:Key="CloseIcon">&#xe903;</system:String>
+    <system:String x:Key="MyTest">&#xe964;</system:String>
+    <system:String x:Key="MyRes">&#xe99b;</system:String>
+    <system:String x:Key="Pretenzii">&#xe9f0;</system:String>
 
 </ResourceDictionary>

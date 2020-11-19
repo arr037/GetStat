@@ -30,27 +30,33 @@ namespace GetStat.ViewModels.PagesViewModels.Authorization
         public string Surname { get; set; }
         public string MiddleName { get; set; }
         public string Email { get; set; }
-
+        public bool IsRegistered { get; set; }
         public ICommand RegistrationCommand => new DelegateCommand<IHavePassword>(async item =>
         {
-            if (!item.IsEquals)
+            if (!IsRegistered)
             {
-                _modalService.ShowModalWindow("Ошибка пароля", "Пароли не совпадают!");
-                return;
+                await RunCommandAsync(() => IsRegistered, async () =>
+                {
+                    if (!item.IsEquals)
+                    {
+                        _modalService.ShowModalWindow("Ошибка пароля", "Пароли не совпадают!");
+                        return;
+                    }
+
+                    var account = new Account
+                    {
+                        UserName = UserName,
+                        Email = Email,
+                        PasswordHash = item.SecureString.Unsecure(),
+                        Surname = Surname,
+                        MiddleName = MiddleName,
+                        Name = Name
+                    };
+
+                    var checkSignUp = await _authorizationService.Register(account);
+                    if (checkSignUp) _pageService.Navigate(new ConfirmEmail());
+                });
             }
-
-            var account = new Account
-            {
-                UserName = UserName,
-                Email = Email,
-                PasswordHash = item.SecureString.Unsecure(),
-                Surname = Surname,
-                MiddleName = MiddleName,
-                Name = Name
-            };
-
-            var checkSignUp = await _authorizationService.Register(account);
-            if (checkSignUp) _pageService.Navigate(new ConfirmEmail());
         });
 
         public ICommand SignInCommand => new DelegateCommand(() =>

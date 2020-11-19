@@ -45,8 +45,8 @@
                                        FontFamily="{StaticResource GothamPro}" HorizontalAlignment="Center"
                                        FontSize="26" Text="Регистрация" />
 
-                            <ContentControl Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Center" Height="120"
-                                            Content="{StaticResource SignUpImage}" />
+                            <ContentControl Grid.ColumnSpan="3" Grid.Row="1" Margin="0 20" HorizontalAlignment="Center" FontSize="60" Foreground="{StaticResource BackgroundDarkBlueBrush}"
+                                            FontFamily="{StaticResource IcoMood}" Content="{StaticResource RegisterIcon}" />
 
 
                             <TextBox Grid.Column="0" Grid.Row="2" Margin="0 25 0 12"
@@ -88,7 +88,7 @@
 
 
                             <Button Grid.Row="6" Grid.ColumnSpan="3" Margin="0 10 0 0"
-                                    Style="{StaticResource SignButtonStyle}" Content="Регистрация"
+                                    Style="{StaticResource SignButtonLoadingStyle}" local:IsBusyProperty.Value="{Binding IsRegistered}" Content="Регистрация"
                                     Command="{Binding RegistrationCommand}"
                                     CommandParameter="{Binding ElementName=Root}" />
                         </Grid>

@@ -4,6 +4,7 @@ using GetStat.Commands;
 using GetStat.Models;
 using GetStat.Pages;
 using GetStat.Pages.Authorization;
+using GetStat.Pages.Main;
 using GetStat.Services;
 
 namespace GetStat.ViewModels
@@ -19,11 +20,7 @@ namespace GetStat.ViewModels
             _pageService = pageService;
             _modalService = modalService;
             pageService.OnPageChanged += page => CurrentPage = page;
-            pageService.Navigate( new SignIn
-            {
-                PageLoadAnimation = PageAnimation.None,
-                PageUnloadAnimation = PageAnimation.None
-            });
+            pageService.Navigate( new MainPage());
 
             modalService.OnModalWindowChanged += (title, text) =>
             {

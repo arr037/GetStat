@@ -16,8 +16,9 @@ namespace GetStat
             var services = new ServiceCollection();
             services.AddSingleton<MainViewModel>();
 
-            services.AddTransient<SignInViewModel>();
+            services.AddScoped<SignInViewModel>();
             services.AddTransient<SignUpViewModel>();
+            services.AddTransient<EnterCodePageViewModel>();
             services.AddTransient<ConfirmEmailViewModel>();
             services.AddTransient<AboutUserViewModel>();
             services.AddTransient<MainPageViewModel>();

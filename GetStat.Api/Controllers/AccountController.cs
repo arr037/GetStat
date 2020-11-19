@@ -137,6 +137,7 @@ namespace GetStat.Api.Controllers
                 var confirmed = await _userManager.IsEmailConfirmedAsync(user);
                 if (confirmed)
                     return new BaseError();
+
                 return new BaseError
                 {
                     Message = "Подтверите свой email"

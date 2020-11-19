@@ -10,7 +10,7 @@ namespace GetStat
         public SignInViewModel SignInViewModel => Ioc.Resolve<SignInViewModel>();
         public SignUpViewModel SignUpViewModel => Ioc.Resolve<SignUpViewModel>();
         public ConfirmEmailViewModel ConfirmEmailViewModel => Ioc.Resolve<ConfirmEmailViewModel>();
-        public AboutUserViewModel AboutUserViewModel => Ioc.Resolve<AboutUserViewModel>();
         public MainPageViewModel MainPageViewModel => Ioc.Resolve<MainPageViewModel>();
+        public EnterCodePageViewModel EnterCodePageViewModel => Ioc.Resolve<EnterCodePageViewModel>();
     }
 }

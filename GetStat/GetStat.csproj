@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Style\fonts\icomoon.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Style\fonts\icomoon.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dna.Framework" Version="1.0.7.19" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.9" />

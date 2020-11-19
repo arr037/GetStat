@@ -1,5 +1,6 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:Boolean x:Key="/Default/CodeInspection/CodeAnnotations/NamespacesWithAnnotations/=GetStat_002EAnnotations/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/CodeAnnotations/NamespacesWithAnnotations/=GetStat_002EDomain_002EAnnotations/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/RunConfigs/Config/=8A15FF84ABB3D745BB64B1B47E93D9A9/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/RunConfigs/Config/=8A15FF84ABB3D745BB64B1B47E93D9A9/Name/@EntryValue">GetStat</s:String>
 	<s:String x:Key="/Default/RunConfigs/Config/=8A15FF84ABB3D745BB64B1B47E93D9A9/ProjectGuid/@EntryValue">40FA37108C9A524AA390672CE1F4312F</s:String>

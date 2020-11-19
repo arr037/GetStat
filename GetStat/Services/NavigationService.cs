@@ -11,11 +11,6 @@ namespace GetStat.Services
     public class PageService
     {
         private readonly Stack<Page> history;
-        private PageAnimation loadAnimation;
-        private PageAnimation unloadAnimation;
-        private bool shouldAnimateOut;
-        
-
         public PageService()
         {
             history = new Stack<Page>();
@@ -27,7 +22,7 @@ namespace GetStat.Services
         public void Navigate(BasePage page)
         {
             page.PageLoadAnimation = PageAnimation.None;
-            page.PageUnloadAnimation = PageAnimation.None;
+            page.PageUnloadAnimation = PageAnimation.SlideAndFadeOutToLeft;
 
             OnPageChanged?.Invoke(page);
             history?.Push(page);

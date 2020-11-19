@@ -11,6 +11,8 @@
       x:Name="Root"
       DataContext="{Binding Source={StaticResource ViewModelLocator},Path=SignInViewModel}">
 
+
+
     <Border>
         <Grid Background="{StaticResource BackgroundLightGrayBrush}">
             <!-- Main content scroll -->
@@ -30,8 +32,8 @@
                                        FontFamily="{StaticResource GothamPro}" HorizontalAlignment="Center"
                                        FontSize="26" Text="Авторизация" />
 
-                            <ContentControl HorizontalAlignment="Center" Margin="0 0 35 20" Height="120"
-                                            Content="{StaticResource SignInImage}" />
+                            <ContentControl HorizontalAlignment="Center" Margin="0 20" FontSize="50"
+                                            Content="{StaticResource LogInIcon}" FontFamily="{StaticResource IcoMood}" Foreground="{StaticResource BackgroundDarkBlueBrush}"/>
 
 
                             <TextBox Margin="0 10" FontFamily="{StaticResource GothamProLight}"
@@ -40,7 +42,7 @@
                             <PasswordBox Name="PasswordText" Margin="0 15" FontFamily="{StaticResource GothamProLight}"
                                          FontSize="20" Tag="Введите пароль:" />
 
-                            <Button Style="{StaticResource SignButtonStyle}" Content="Войти" Command="{Binding SignIn}"
+                            <Button Style="{StaticResource SignButtonLoadingStyle}" getStat:IsBusyProperty.Value="{Binding IsLogging}"  Content="Войти" Command="{Binding SignIn}"
                                     CommandParameter="{Binding ElementName=Root}" />
 
                         </StackPanel>
@@ -84,6 +86,45 @@
                             </Run.Style>
                         </Run>
                     </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" Grid.Row="3" FontSize="16" Margin="0">
+                        <Run Text="Вы хотите войти с помощью кода?" FontWeight="Light" FontFamily="{StaticResource GothamProLight}" />
+                        <Run Text="Войти" Cursor="Hand" FontWeight="DemiBold"
+                             FontFamily="{StaticResource GothamProMedium}">
+                            <Run.InputBindings>
+                                <MouseBinding Command="{Binding SignInWithCode}" Gesture="LeftClick" />
+                            </Run.InputBindings>
+                            <Run.Style>
+                                <Style TargetType="Run">
+                                    <Setter Property="FontFamily" Value="{StaticResource GothamProMedium}" />
+                                    <Setter Property="Foreground" Value="{StaticResource ForegroundDarkGrayBrush}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Duration="0:0:.5"
+                                                                        To="{StaticResource ForegroundBlue}"
+                                                                        Storyboard.TargetProperty="Foreground.Color" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.EnterActions>
+                                            <Trigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Duration="0:0:.5"
+                                                                        To="{StaticResource ForegroundDarkGray}"
+                                                                        Storyboard.TargetProperty="Foreground.Color" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.ExitActions>
+
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Run.Style>
+                        </Run>
+                    </TextBlock>
+
                 </StackPanel>
             </ScrollViewer>
         </Grid>

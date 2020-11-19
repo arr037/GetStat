@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GetStat.Pages.Main.Pages
+namespace GetStat.Pages.Authorization
 {
     /// <summary>
-    /// Логика взаимодействия для JoinInGroupPage.xaml
+    /// Логика взаимодействия для EnterCodePage.xaml
     /// </summary>
-    public partial class JoinInGroupPage : Page
+    public partial class EnterCodePage : BasePage
     {
-        public JoinInGroupPage()
+        public EnterCodePage()
         {
             InitializeComponent();
         }
