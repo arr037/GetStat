@@ -3,6 +3,7 @@ using GetStat.Services;
 using GetStat.ViewModels;
 using GetStat.ViewModels.PagesViewModels;
 using GetStat.ViewModels.PagesViewModels.Authorization;
+using GetStat.ViewModels.PagesViewModels.Tests;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GetStat
@@ -22,6 +23,7 @@ namespace GetStat
             services.AddTransient<ConfirmEmailViewModel>();
             services.AddTransient<AboutUserViewModel>();
             services.AddTransient<MainPageViewModel>();
+            services.AddTransient<CreateTestViewModel>();
 
 
             services.AddSingleton<PageService>();
