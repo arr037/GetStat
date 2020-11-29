@@ -38,6 +38,6 @@
     <Color x:Key="BackgroundWhite">#ffffff</Color>
     <SolidColorBrush x:Key="BackgroundWhiteBrush" Color="{StaticResource BackgroundWhite}" />
 
-    <Color x:Key="BackgroundLightGray">#f2f2f2</Color>
+    <Color x:Key="BackgroundLightGray">#f5f6fb</Color>
     <SolidColorBrush x:Key="BackgroundLightGrayBrush" Color="{StaticResource BackgroundLightGray}" />
 </ResourceDictionary>

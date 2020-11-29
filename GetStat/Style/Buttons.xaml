@@ -217,9 +217,34 @@
     </Style>
 
 
+    <Style TargetType="Button" x:Key="TranperamentButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            x:Name="border"
+                            CornerRadius="50" Background="{TemplateBinding Background}" Padding="7">
+                        <ContentPresenter x:Name="cp" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-
-
+    <Style TargetType="Button" x:Key="TranperamentButton1">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            x:Name="border" Background="{TemplateBinding Background}" Padding="7">
+                        <ContentPresenter x:Name="cp" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!-- FocusVisual -->
 
     <Style x:Key="ButtonFocusVisual">

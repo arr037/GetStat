@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 using GetStat.Commands;
 using GetStat.Domain.Models.Questions;
 using GetStat.Models;
@@ -20,7 +21,33 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
         public CreateTestViewModel()
         {
-            Questions = new ObservableCollection<Question>();
+            Questions = new ObservableCollection<Question>
+            {
+                new Question
+                {
+                    QuestionNum = 1,
+                    Quest = "Вопрос 1",
+                    Answers = new ObservableCollection<Answer>
+                    {
+                        new Answer
+                        {
+                            Ans = "C6376E4C-D331-4912-A289-8B591CBA5012"
+                        },
+                        new Answer
+                        {
+                            Ans = "C6376E4C-D331-4912-A289-8B591CBA5012"
+                        },
+                        new Answer
+                        {
+                            Ans = "C6376E4C-D331-4912-A289-8B591CBA5012"
+                        },
+                        new Answer
+                        {
+                            Ans = "C6376E4C-D331-4912-A289-8B591CBA5012"
+                        }
+                    }
+                }
+            };
         }
 
         public DelegateCommand<Question> AddNewAnswer => new DelegateCommand<Question>(question =>
@@ -46,6 +73,12 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
             b.Answers.Remove(item);
         });
+
+        public ICommand RemoveQuestion => new DelegateCommand<Question>(item =>
+        {
+            Questions.Remove(item);
+        });
+
 
         public DelegateCommand PreviewCommand => new DelegateCommand(() =>
         {

@@ -15,6 +15,8 @@
                 <ResourceDictionary Source="Style/TextBox.xaml" />
                 <ResourceDictionary Source="Style/Buttons.xaml" />
                 <ResourceDictionary Source="Style/TabsStyle.xaml" />
+                <ResourceDictionary Source="Style/Listbox.xaml" />
+                <ResourceDictionary Source="Style/RadioButton.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

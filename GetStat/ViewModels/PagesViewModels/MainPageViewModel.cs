@@ -11,6 +11,7 @@ using Dna;
 using GetStat.Commands;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
+using GetStat.Domain.Models.Menu;
 using GetStat.Domain.Models.Tabs;
 using GetStat.Models;
 using GetStat.Pages;
@@ -28,6 +29,7 @@ namespace GetStat.ViewModels.PagesViewModels
         private readonly AuthorizationService _authorizationService;
         private readonly PageService _pageService;
         private readonly ModalService _modalService;
+        public ObservableCollection<ItemText> MenuCollection { get; private set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string MiddleName { get; set; }
@@ -48,41 +50,55 @@ namespace GetStat.ViewModels.PagesViewModels
 
             ShortName = Name?.FirstOrDefault() + Surname?.FirstOrDefault().ToString();
 
+            MenuCollection = new ObservableCollection<ItemText>
+            {
+                new ItemText()
+                {
+                    Name = "Создать тест",
+                    IconImage = "\uf067",
+                    Page = new CreateTestPage()
+                },
+                new ItemText()
+                {
+                    Name = "Редактировать тест",
+                    IconImage = "\uf040"
+                },
+                new ItemText()
+                {
+                    Name = "Удалить тест",
+                    IconImage = "\uf1f8"
+                },
+                new ItemText()
+                {
+                    Name = "Мои тесты",
+                    IconImage = "\uf16c"
+                },
+                new ItemText()
+                {
+                    Name = "Запросы",
+                    IconImage = "\uf1e9"
+                },
+                new ItemText()
+                {
+                    Name = "Результаты",
+                    IconImage = "\uf201"
+                },
+                new ItemText()
+                {
+                    Name = "Претензии",
+                    IconImage = "\uf296"
+                },
+
+            };
             Tabs = new ObservableCollection<ITab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
         }
 
 
-        public ICommand CreateTestCommand => new DelegateCommand(() =>
+        public ICommand CloseTab=> new DelegateCommand<ITab>(item =>
         {
-            var b = Tabs.AddUnique(new Tab
-            {
-                Name = "Создание теста",
-                Page = new CreateTestPage()
-            });
-            SelectedTab = b;
+            Tabs.Remove(item);
         });
-
-        public ICommand GoToTest => new DelegateCommand(() =>
-        {
-            var b = Tabs.AddUnique(new Tab
-            {
-                Name = "Перейти к тесту",
-                Page = new Page()
-            });
-            SelectedTab = b;
-        });
-
-        public ICommand MyTest => new DelegateCommand(() =>
-        {
-            var b = Tabs.AddUnique(new Tab
-            {
-                Name = "Мои Тесты",
-                Page = new Page()
-            });
-            SelectedTab = b;
-        });
-
 
         public ICommand LogOutCommand => new DelegateCommand( () =>
          {
@@ -90,6 +106,14 @@ namespace GetStat.ViewModels.PagesViewModels
              _pageService.Navigate(new SignIn());
          });
 
+        public ICommand AddItemToTabs=> new DelegateCommand<ItemText>((item) =>
+        {
+            SelectedTab = Tabs.AddUnique(new Tab
+            {
+                Name = item.Name,
+                Page = item.Page
+            });
+        });
 
         private void Tabs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
