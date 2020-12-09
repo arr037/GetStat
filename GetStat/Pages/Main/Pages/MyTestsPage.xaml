@@ -1,0 +1,132 @@
+﻿<Page x:Class="GetStat.Pages.Main.Pages.MyTestsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GetStat.Pages.Main.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MyTestsPage"
+      DataContext="{Binding Source={StaticResource ViewModelLocator},Path=MyTestViewModel}">
+
+    <Grid>
+        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Tests,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="150 2" Padding="7 5" Background="White" CornerRadius="5" BorderThickness="0.5"
+                                BorderBrush="Gray">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Foreground="#3a55d8" Name="qNum"
+                                               VerticalAlignment="Center"
+                                               FontWeight="DemiBold"
+                                               FontSize="16"
+                                               Grid.Column="0"
+                                               Text="{Binding Settings.TestName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat={}{0}.}" />
+                                </Grid>
+
+                                <Canvas Canvas.ZIndex="1000" Grid.Row="0">
+                                    <Border Background="#FFDAD4" Canvas.Right="-8.5" CornerRadius="2 5 2 50"
+                                            Canvas.Top="-5.5" Width="20" Height="20">
+                                        <TextBlock Foreground="#FF5B44" Name="img" Text="&#xf00d;"
+                                                   Padding="3 0 0 3"
+                                                   FontFamily="{StaticResource IcoMood}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                                        <Border.InputBindings>
+                                            <MouseBinding
+                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.RemoveQuestion}"
+                                                CommandParameter="{Binding}" Gesture="LeftClick" />
+                                        </Border.InputBindings>
+
+                                        <Border.Triggers>
+                                            <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation
+                                                            Storyboard.TargetProperty="(Border.Width)"
+                                                            To="20" Duration="0:0:0.3">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <QuarticEase EasingMode="EaseInOut" />
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation
+                                                            Storyboard.TargetProperty="(Border.Height)"
+                                                            To="20" Duration="0:0:0.3">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <QuarticEase EasingMode="EaseInOut" />
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+
+                                                        <DoubleAnimation
+                                                            Storyboard.TargetName="img"
+                                                            Storyboard.TargetProperty="(TextBlock.FontSize)"
+                                                            To="14" Duration="0:0:0.3">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <QuarticEase EasingMode="EaseInOut" />
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                        <ThicknessAnimation To="3 0 0 3"
+                                                                            Duration="0:0:0.3"
+                                                                            Storyboard.TargetName="img"
+                                                                            Storyboard.TargetProperty="(TextBlock.Padding)" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ThicknessAnimation To="6 0 0 6"
+                                                                            Duration="0:0:0.3"
+                                                                            Storyboard.TargetName="img"
+                                                                            Storyboard.TargetProperty="(TextBlock.Padding)" />
+
+
+                                                        <DoubleAnimation
+                                                            Storyboard.TargetName="img"
+                                                            Storyboard.TargetProperty="(TextBlock.FontSize)"
+                                                            To="20" Duration="0:0:0.3">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <QuarticEase EasingMode="EaseInOut" />
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+
+
+                                                        <DoubleAnimation
+                                                            Storyboard.TargetProperty="(Border.Width)"
+                                                            To="30" Duration="0:0:0.3">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <QuarticEase EasingMode="EaseInOut" />
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation
+                                                            Storyboard.TargetProperty="(Border.Height)"
+                                                            To="30" Duration="0:0:0.3">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <QuarticEase EasingMode="EaseInOut" />
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Border.Triggers>
+                                    </Border>
+                                </Canvas>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>
