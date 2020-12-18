@@ -1,0 +1,40 @@
+﻿<Page x:Class="GetStat.Pages.Main.Pages.StartTest.JoinWithCode"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GetStat.Pages.Main.Pages.StartTest"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="JoinWithCode"
+      DataContext="{Binding Source={StaticResource ViewModelLocator},Path=JoinWithCodeViewModel}">
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                <StackPanel
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                    <Border Name="brd" Background="{StaticResource BackgroundWhiteBrush}"
+                            CornerRadius="10"
+                            Padding="15 50 15 15"
+                            Width="330"
+                            Margin="50 50 50 5">
+
+                        <StackPanel Background="#fff">
+                            <TextBox Name="code" Margin="0 10" FontFamily="{StaticResource GothamProLight}"
+                                     Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите код:"/>
+
+                            <Button Style="{StaticResource SignButtonLoadingStyle}" 
+                                    Content="Войти" 
+                                    Command="{Binding JoinInTest}"
+                                    CommandParameter="{Binding ElementName=code,Path=Text}" />
+
+                        </StackPanel>
+
+                    </Border>
+                   
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+</Page>

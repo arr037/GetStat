@@ -2,84 +2,64 @@
 
 namespace GetStat.Api.Migrations
 {
-    public partial class addTest : Migration
+    public partial class editQuestion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "AccountId",
-                table: "Tests",
-                nullable: true);
+            migrationBuilder.AddColumn<int>(
+                name: "CorrectAnswer",
+                table: "Questions",
+                nullable: false,
+                defaultValue: -1);
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "B0BAB2ED-F61E-4E83-81D7-7B96267D473B",
                 column: "ConcurrencyStamp",
-                value: "a4999fb8-a112-45c5-8969-ca97d34a26cc");
+                value: "35ca7d43-6b71-4eb4-9a86-643a5bd04124");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "D3FCF42A-22C1-455E-825B-2BF65AA877FE",
                 column: "ConcurrencyStamp",
-                value: "e40a7aa5-f977-497a-8562-15d0ee568ebc");
+                value: "846f3002-1025-4c9f-80ec-f579427b7d4d");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "D9CBECB0-5A1E-41A7-A122-D3E1B0B73D94",
                 column: "ConcurrencyStamp",
-                value: "8289eeb7-59db-4132-b9d1-50b67c61944c");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tests_AccountId",
-                table: "Tests",
-                column: "AccountId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Tests_AspNetUsers_AccountId",
-                table: "Tests",
-                column: "AccountId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                value: "27db5fac-c103-421d-a872-67fe2c5c7c97");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Tests_AspNetUsers_AccountId",
-                table: "Tests");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Tests_AccountId",
-                table: "Tests");
-
             migrationBuilder.DropColumn(
-                name: "AccountId",
-                table: "Tests");
+                name: "CorrectAnswer",
+                table: "Questions");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "B0BAB2ED-F61E-4E83-81D7-7B96267D473B",
                 column: "ConcurrencyStamp",
-                value: "ae8a20e1-33d3-4aab-8311-f725c71f7484");
+                value: "178ffc1a-0a64-431b-849b-089f10b3a1b7");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "D3FCF42A-22C1-455E-825B-2BF65AA877FE",
                 column: "ConcurrencyStamp",
-                value: "25784ee1-0c9e-4817-b0dc-f74ed8a02ff7");
+                value: "65c70bef-57b9-4d08-a14e-e2eca0ce3d84");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "D9CBECB0-5A1E-41A7-A122-D3E1B0B73D94",
                 column: "ConcurrencyStamp",
-                value: "6a1c3e14-0651-40ac-ac2f-37bdc2e84fa7");
+                value: "0516870c-3eaf-45bc-8983-746856265332");
         }
     }
 }

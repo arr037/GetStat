@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GetStat.Api.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,20 +50,22 @@ namespace GetStat.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Setting",
+                name: "Settings",
                 columns: table => new
                 {
-                    SettingId = table.Column<Guid>(nullable: false),
+                    SettingId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TestName = table.Column<string>(nullable: true),
                     MaxQuestion = table.Column<string>(nullable: true),
                     StartDay = table.Column<DateTime>(nullable: false),
                     StartTime = table.Column<TimeSpan>(nullable: false),
                     EndTime = table.Column<TimeSpan>(nullable: false),
-                    Code = table.Column<int>(nullable: false)
+                    DeadLine = table.Column<TimeSpan>(nullable: false),
+                    Code = table.Column<string>(nullable: true, defaultValueSql: "SUBSTRING(CONVERT(varchar(40), NEWID()),0,9)")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Setting", x => x.SettingId);
+                    table.PrimaryKey("PK_Settings", x => x.SettingId);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,28 +178,36 @@ namespace GetStat.Api.Migrations
                 name: "Tests",
                 columns: table => new
                 {
-                    TestId = table.Column<Guid>(nullable: false),
-                    SettingsSettingId = table.Column<Guid>(nullable: true)
+                    TestId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SettingsId = table.Column<int>(nullable: false),
+                    AccountId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tests", x => x.TestId);
                     table.ForeignKey(
-                        name: "FK_Tests_Setting_SettingsSettingId",
-                        column: x => x.SettingsSettingId,
-                        principalTable: "Setting",
-                        principalColumn: "SettingId",
+                        name: "FK_Tests_AspNetUsers_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tests_Settings_SettingsId",
+                        column: x => x.SettingsId,
+                        principalTable: "Settings",
+                        principalColumn: "SettingId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
-                    QuestionId = table.Column<Guid>(nullable: false),
+                    QuestionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Quest = table.Column<string>(nullable: true),
-                    QuestionNum = table.Column<int>(nullable: false),
-                    TestId = table.Column<Guid>(nullable: true)
+                    TestId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -211,19 +221,19 @@ namespace GetStat.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Answer",
+                name: "Answers",
                 columns: table => new
                 {
-                    AnswerId = table.Column<Guid>(nullable: false),
+                    AnswerId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Ans = table.Column<string>(nullable: true),
-                    IsCorrect = table.Column<bool>(nullable: false),
-                    QuestionId = table.Column<Guid>(nullable: true)
+                    QuestionId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Answer", x => x.AnswerId);
+                    table.PrimaryKey("PK_Answers", x => x.AnswerId);
                     table.ForeignKey(
-                        name: "FK_Answer_Questions_QuestionId",
+                        name: "FK_Answers_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "QuestionId",
@@ -233,21 +243,21 @@ namespace GetStat.Api.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "D3FCF42A-22C1-455E-825B-2BF65AA877FE", "25784ee1-0c9e-4817-b0dc-f74ed8a02ff7", "Moderator", "MODERATOR" });
+                values: new object[] { "D3FCF42A-22C1-455E-825B-2BF65AA877FE", "65c70bef-57b9-4d08-a14e-e2eca0ce3d84", "Moderator", "MODERATOR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "B0BAB2ED-F61E-4E83-81D7-7B96267D473B", "ae8a20e1-33d3-4aab-8311-f725c71f7484", "Admin", "ADMIN" });
+                values: new object[] { "B0BAB2ED-F61E-4E83-81D7-7B96267D473B", "178ffc1a-0a64-431b-849b-089f10b3a1b7", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "D9CBECB0-5A1E-41A7-A122-D3E1B0B73D94", "6a1c3e14-0651-40ac-ac2f-37bdc2e84fa7", "MainAdmin", "MAINADMIN" });
+                values: new object[] { "D9CBECB0-5A1E-41A7-A122-D3E1B0B73D94", "0516870c-3eaf-45bc-8983-746856265332", "MainAdmin", "MAINADMIN" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Answer_QuestionId",
-                table: "Answer",
+                name: "IX_Answers_QuestionId",
+                table: "Answers",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
@@ -295,15 +305,20 @@ namespace GetStat.Api.Migrations
                 column: "TestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tests_SettingsSettingId",
+                name: "IX_Tests_AccountId",
                 table: "Tests",
-                column: "SettingsSettingId");
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tests_SettingsId",
+                table: "Tests",
+                column: "SettingsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Answer");
+                name: "Answers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -327,13 +342,13 @@ namespace GetStat.Api.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Tests");
 
             migrationBuilder.DropTable(
-                name: "Setting");
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Settings");
         }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetStat.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201203170412_addTest")]
-    partial class addTest
+    [Migration("20201218073757_editQuestion")]
+    partial class editQuestion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,42 +98,43 @@ namespace GetStat.Api.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("GetStat.Domain.Models.Questions.Answer", b =>
+            modelBuilder.Entity("GetStat.Domain.Models.Test.Answer", b =>
                 {
-                    b.Property<Guid>("AnswerId")
+                    b.Property<int>("AnswerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Ans")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("QuestionId")
+                        .HasColumnType("int");
 
                     b.HasKey("AnswerId");
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answer");
+                    b.ToTable("Answers");
                 });
 
-            modelBuilder.Entity("GetStat.Domain.Models.Questions.Question", b =>
+            modelBuilder.Entity("GetStat.Domain.Models.Test.Question", b =>
                 {
-                    b.Property<Guid>("QuestionId")
+                    b.Property<int>("QuestionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CorrectAnswer")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(-1);
 
                     b.Property<string>("Quest")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("QuestionNum")
+                    b.Property<int?>("TestId")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("TestId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("QuestionId");
 
@@ -144,12 +145,18 @@ namespace GetStat.Api.Migrations
 
             modelBuilder.Entity("GetStat.Domain.Models.Test.Setting", b =>
                 {
-                    b.Property<Guid>("SettingId")
+                    b.Property<int>("SettingId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Code")
-                        .HasColumnType("int");
+                    b.Property<string>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValueSql("SUBSTRING(CONVERT(varchar(40), NEWID()),0,9)");
+
+                    b.Property<TimeSpan>("DeadLine")
+                        .HasColumnType("time");
 
                     b.Property<TimeSpan>("EndTime")
                         .HasColumnType("time");
@@ -168,26 +175,27 @@ namespace GetStat.Api.Migrations
 
                     b.HasKey("SettingId");
 
-                    b.ToTable("Setting");
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("GetStat.Domain.Models.Test.Test", b =>
                 {
-                    b.Property<Guid>("TestId")
+                    b.Property<int>("TestId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("SettingsSettingId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("SettingsId")
+                        .HasColumnType("int");
 
                     b.HasKey("TestId");
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("SettingsSettingId");
+                    b.HasIndex("SettingsId");
 
                     b.ToTable("Tests");
                 });
@@ -222,21 +230,21 @@ namespace GetStat.Api.Migrations
                         new
                         {
                             Id = "D3FCF42A-22C1-455E-825B-2BF65AA877FE",
-                            ConcurrencyStamp = "e40a7aa5-f977-497a-8562-15d0ee568ebc",
+                            ConcurrencyStamp = "846f3002-1025-4c9f-80ec-f579427b7d4d",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
                             Id = "B0BAB2ED-F61E-4E83-81D7-7B96267D473B",
-                            ConcurrencyStamp = "a4999fb8-a112-45c5-8969-ca97d34a26cc",
+                            ConcurrencyStamp = "35ca7d43-6b71-4eb4-9a86-643a5bd04124",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "D9CBECB0-5A1E-41A7-A122-D3E1B0B73D94",
-                            ConcurrencyStamp = "8289eeb7-59db-4132-b9d1-50b67c61944c",
+                            ConcurrencyStamp = "27db5fac-c103-421d-a872-67fe2c5c7c97",
                             Name = "MainAdmin",
                             NormalizedName = "MAINADMIN"
                         });
@@ -346,14 +354,14 @@ namespace GetStat.Api.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("GetStat.Domain.Models.Questions.Answer", b =>
+            modelBuilder.Entity("GetStat.Domain.Models.Test.Answer", b =>
                 {
-                    b.HasOne("GetStat.Domain.Models.Questions.Question", null)
+                    b.HasOne("GetStat.Domain.Models.Test.Question", null)
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId");
                 });
 
-            modelBuilder.Entity("GetStat.Domain.Models.Questions.Question", b =>
+            modelBuilder.Entity("GetStat.Domain.Models.Test.Question", b =>
                 {
                     b.HasOne("GetStat.Domain.Models.Test.Test", null)
                         .WithMany("Questions")
@@ -368,7 +376,9 @@ namespace GetStat.Api.Migrations
 
                     b.HasOne("GetStat.Domain.Models.Test.Setting", "Settings")
                         .WithMany()
-                        .HasForeignKey("SettingsSettingId");
+                        .HasForeignKey("SettingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
