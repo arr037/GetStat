@@ -49,61 +49,7 @@
                                                FontSize="16"
                                                Grid.Column="1"
                                                Grid.Row="0"
-                                               Text="{Binding Settings.TestName}" />
-
-                                    <TextBlock Foreground="#364C59"
-                                               VerticalAlignment="Center"
-                                               FontWeight="DemiBold"
-                                               FontSize="16"
-                                               Grid.Column="0"
-                                               Grid.Row="1"
-                                               Text="Дата начала:" />
-                                    <TextBlock Foreground="#3a55d8" 
-                                               VerticalAlignment="Center"
-                                               FontSize="16"
-                                               Grid.Column="1"
-                                               Grid.Row="1"
-                                               Text="{Binding Settings.StartDay,StringFormat='{}{0:dd.MM.yyyy}'}" />
-                                    <TextBlock Foreground="#364C59"
-                                               VerticalAlignment="Center"
-                                               FontWeight="DemiBold"
-                                               FontSize="16"
-                                               Grid.Column="0"
-                                               Grid.Row="2"
-                                               Text="Время начала:" />
-                                    <TextBlock Foreground="#3a55d8" 
-                                               VerticalAlignment="Center"
-                                               FontSize="16"
-                                               Grid.Column="1"
-                                               Grid.Row="2"
-                                               Text="{Binding Settings.StartTime,StringFormat=hh\\:mm}" />
-
-                                    <TextBlock Foreground="#364C59"
-                                               VerticalAlignment="Center"
-                                               FontWeight="DemiBold"
-                                               FontSize="16"
-                                               Grid.Column="0"
-                                               Grid.Row="3"
-                                               Text="Время конца:" />
-                                    <TextBlock Foreground="#3a55d8" 
-                                               VerticalAlignment="Center"
-                                               FontSize="16"
-                                               Grid.Column="1"
-                                               Grid.Row="3"
-                                               Text="{Binding Settings.EndTime,StringFormat=hh\\:mm}" />
-                                    <TextBlock Foreground="#364C59"
-                                               VerticalAlignment="Center"
-                                               FontWeight="DemiBold"
-                                               FontSize="16"
-                                               Grid.Column="0"
-                                               Grid.Row="4"
-                                               Text="Код:" />
-                                    <TextBlock Foreground="#3a55d8" 
-                                               VerticalAlignment="Center"
-                                               FontSize="16"
-                                               Grid.Column="1"
-                                               Grid.Row="4"
-                                               Text="{Binding Settings.Code}" />
+                                               Text="{Binding CorrectCountQuestion}" />
 
                                 </Grid>
                         </Border>

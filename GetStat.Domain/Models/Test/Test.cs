@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GetStat.Domain.Models.Questions;
 
 namespace GetStat.Domain.Models.Test
 {
     public class Test
     {
-        public Guid TestId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int TestId { get; set; }
         public List<Question> Questions { get; set; }
         public Setting Settings { get; set; }
-        public virtual string AccountId { get; set; }
+        public string AccountId { get; set; }
+        
     }
+
 }
