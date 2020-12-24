@@ -4,12 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GetStat.Pages.Main"
-      xmlns:userControls="clr-namespace:GetStat.Pages.UserControls"
       xmlns:getStat="clr-namespace:GetStat"
       xmlns:tabs="clr-namespace:GetStat.Domain.Models.Tabs;assembly=GetStat.Domain"
-      xmlns:converters="clr-namespace:GetStat.Domain.Converters;assembly=GetStat.Domain"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="MainPage"
       x:Name="MpPage"
       DataContext="{Binding Source={StaticResource ViewModelLocator},Path=MainPageViewModel}">
@@ -28,13 +24,22 @@
 
         <Border BorderThickness="0 0 0 0.5" BorderBrush="Gray" Height="75" Grid.Column="1" Grid.Row="0" Background="White" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <ContentControl Content="">
+                    
+                </ContentControl>
                 <Border Background="#3a55d8" CornerRadius="50" Width="50" Height="50">
-                    <TextBlock Text="R" FontWeight="DemiBold" FontSize="35" Foreground="White" Padding="0 0 0 5" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ShortName}" FontWeight="DemiBold" FontSize="35" Foreground="White" Padding="0 0 0 5" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
 
-                <TextBlock Text="Ruslan Akhmetov" FontWeight="DemiBold" Foreground="#364C59" FontSize="16" VerticalAlignment="Center" Padding="15 0 15 5"/>
+                <TextBlock FontWeight="DemiBold"
+                           Foreground="#364C59" FontSize="16"
+                           VerticalAlignment="Center"
+                           Padding="15 0 15 5">
+                    <Run Text="{Binding Name}"/>
+                    <Run Text="{Binding Surname}"/>
+                </TextBlock>
 
-                <Button  VerticalAlignment="Center" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Padding="10" Margin="0 0 10 0">
+                <Button Command="{Binding LogOutCommand}"  VerticalAlignment="Center" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Padding="10" Margin="0 0 10 0">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xf08b;" Foreground="#364C59" FontSize="25" FontFamily="{StaticResource IcoMood}" VerticalAlignment="Center"/>
@@ -71,7 +76,7 @@
                         <Setter Property="Margin" Value="0"></Setter>
                         <Setter Property="Padding" Value="0"></Setter>
                         <Setter Property="Template" Value="{StaticResource MenuTemplate}"/>
-                    </Style>
+                        </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Border>

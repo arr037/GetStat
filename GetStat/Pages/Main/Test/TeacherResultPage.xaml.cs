@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GetStat.Pages.Main.Pages.StartTest
+namespace GetStat.Pages.Main.Test
 {
     /// <summary>
-    /// Логика взаимодействия для JoinWithCode.xaml
+    /// Логика взаимодействия для TeacherResultPage.xaml
     /// </summary>
-    public partial class JoinWithCode : Page
+    public partial class TeacherResultPage : Page
     {
-        public JoinWithCode()
+        public TeacherResultPage()
         {
             InitializeComponent();
         }

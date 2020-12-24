@@ -1,13 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Converters\MultiValueConverter.cs~RF349fa0a2.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dna.Framework" Version="1.0.7.19" />
-    <PackageReference Include="MailKit" Version="2.9.0" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.9" />
+    <PackageReference Include="MailKit" Version="2.10.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,10 +25,10 @@
       <HintPath>..\..\..\..\..\..\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\3.1.0\ref\netcoreapp3.1\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
-      <HintPath>..\..\..\..\..\..\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\3.1.0\ref\netcoreapp3.1\PresentationCore.dll</HintPath>
+      <HintPath>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\5.0.0\ref\net5.0\PresentationCore.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework">
-      <HintPath>..\..\..\..\..\..\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\3.1.0\ref\netcoreapp3.1\PresentationFramework.dll</HintPath>
+      <HintPath>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\5.0.0\ref\net5.0\PresentationFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
 

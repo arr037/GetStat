@@ -11,17 +11,21 @@ using Dna;
 using GetStat.Commands;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
-using GetStat.Domain.Models.Questions;
+using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
 using GetStat.Models;
+using GetStat.Pages.Authorization;
 using GetStat.Pages.Main;
+using GetStat.Pages.Main.Test;
 using GetStat.Services;
+using GetStat.ViewModels.PagesViewModels.Tests.StartTest;
 
 namespace GetStat.ViewModels.PagesViewModels.Tests
 {
     public class StartTestViewModel:BaseVM
     {
+        private readonly EventBus _eventBus;
         private readonly PageService _pageService;
         private readonly LoginResponseService _loginResponseService;
         public string TestName { get;  set; }
@@ -32,9 +36,14 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         public string FullName { get; set; }
 
         private DispatcherTimer timer;
-        private Guid _testId { get; set; }
-        public StartTestViewModel(EventBus eventBus,PageService pageService,LoginResponseService loginResponseService)
+        private int _testId { get; set; }
+   
+        public StartTestViewModel(
+            EventBus eventBus,
+            PageService pageService,
+            LoginResponseService loginResponseService)
         {
+            _eventBus = eventBus;
             _pageService = pageService;
             _loginResponseService = loginResponseService;
             Questions = new List<Question>();
@@ -46,22 +55,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
         public ICommand EndTest=> new DelegateCommand(async () =>
         {
-            var response = await WebRequests.PostAsync<ApiResponse<string>>
-            ("https://localhost:5001/api/test/EndTest", content:new PassedTest
-                {
-                    Questions = Questions,
-                    TestId = _testId
-                },
-                bearerToken: _loginResponseService.LoginResponse.Token);
-
-            var res = response.DisplayErrorIfFailedAsync();
-            if (!res.SuccessFul)
-            {
-                MessageBox.Show(res.Message);
-                return;
-            }
-
-            MessageBox.Show(response.ServerResponse.Response);
+            await SendResult();
         });
 
         public ICommand StartTest =>new DelegateCommand(() =>
@@ -81,19 +75,57 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
         public ICommand CancelTestCommand=> new DelegateCommand(() =>
         {
-            _pageService.GoToBack();
+            if (_loginResponseService.LoginResponse==null)
+            {
+                _pageService.NavigateWithAnimation(new SignIn());
+            }
+            else
+            {
+                _pageService.NavigateWithAnimation(new MainPage());
+            }
         });
 
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private async void Timer_Tick(object sender, EventArgs e)
         {
             RemarkingTime = RemarkingTime.Subtract(TimeSpan.FromSeconds(1));
 
             if (RemarkingTime == TimeSpan.Zero)
             {
                 timer.Stop();
-
+                await SendResult();
             }
+        }
+
+        private async Task SendResult()
+        {
+            var answers = new List<ResultQA>(Questions.Select(x => new ResultQA
+            {
+                AnswerId = x.Answers.FirstOrDefault(a => a.IsSelected).AnswerId,
+                QuestionId = x.QuestionId
+            }));
+
+
+            var response = await
+                WebRequests.PostAsync<ApiResponse<ResultTest>>
+            ("https://localhost:5001/api/test/EndTest", content: new BaseResultQA
+                {
+                    ResultQas = answers,
+                    TestId = _testId,
+                    FullName = FullName
+                },
+                bearerToken: _loginResponseService.LoginResponse.Token);
+
+            var res = response.DisplayErrorIfFailedAsync();
+            if (!res.SuccessFul)
+            {
+                MessageBox.Show(res.Message);
+                return;
+            }
+
+            _pageService.NavigateWithAnimation(new ResultTestPage());
+
+            await _eventBus.Publish(new OnResultTest(response.ServerResponse.Response));
         }
 
         private Task LoadTest(OnStartTest test)
