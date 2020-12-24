@@ -10,14 +10,14 @@ namespace GetStat.Services
 {
     public class PageService
     {
-        private readonly Stack<Page> history;
+        private readonly Stack<BasePage> history;
         public PageService()
         {
-            history = new Stack<Page>();
+            history = new Stack<BasePage>();
         }
 
         public bool CanGoToBack => history.Skip(1).Any();
-        public event Action<Page> OnPageChanged;
+        public event Action<BasePage> OnPageChanged;
 
         public void Navigate(BasePage page)
         {

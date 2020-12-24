@@ -17,16 +17,19 @@
                         <Border Margin="150 2" Padding="7 5" Background="White" CornerRadius="5" BorderThickness="0.5"
                                 BorderBrush="Gray">
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                     <ColumnDefinition Width="*"/>
+                                     <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Row="0" Grid.Column="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
@@ -39,12 +42,14 @@
                                                FontSize="16"
                                                Grid.Column="0"
                                                Grid.Row="0"
+                                               TextWrapping="Wrap"
                                                Text="Название теста:" />
                                     <TextBlock Foreground="#3a55d8" 
                                                VerticalAlignment="Center"
                                                FontSize="16"
                                                Grid.Column="1"
                                                Grid.Row="0"
+                                               TextWrapping="Wrap"
                                                Text="{Binding Settings.TestName}" />
 
                                     <TextBlock Foreground="#364C59"
@@ -53,25 +58,54 @@
                                                FontSize="16"
                                                Grid.Column="0"
                                                Grid.Row="1"
-                                               Text="Дата начала:" />
+                                               Text="Количество вопросов:" />
                                     <TextBlock Foreground="#3a55d8" 
                                                VerticalAlignment="Center"
                                                FontSize="16"
                                                Grid.Column="1"
                                                Grid.Row="1"
-                                               Text="{Binding Settings.StartDay,StringFormat='{}{0:dd.MM.yyyy}'}" />
+                                               Text="{Binding Questions.Count}" />
+
                                     <TextBlock Foreground="#364C59"
                                                VerticalAlignment="Center"
                                                FontWeight="DemiBold"
                                                FontSize="16"
                                                Grid.Column="0"
                                                Grid.Row="2"
+                                               Text="Макс. кол-во вопросов:" Margin="0 0 10 0"/>
+                                    <TextBlock Foreground="#3a55d8" 
+                                               VerticalAlignment="Center"
+                                               FontSize="16"
+                                               Grid.Column="2"
+                                               Grid.Row="2"
+                                               Text="{Binding Settings.MaxQuestion}" />
+
+                                    <TextBlock Foreground="#364C59"
+                                               VerticalAlignment="Center"
+                                               FontWeight="DemiBold"
+                                               FontSize="16"
+                                               Grid.Column="0"
+                                               Grid.Row="3"
+                                               Text="Дата начала:" />
+                                    <TextBlock Foreground="#3a55d8" 
+                                               VerticalAlignment="Center"
+                                               FontSize="16"
+                                               Grid.Column="1"
+                                               Grid.Row="3"
+                                               Text="{Binding Settings.StartDay,StringFormat='{}{0:dd.MM.yyyy}'}" />
+
+                                    <TextBlock Foreground="#364C59"
+                                               VerticalAlignment="Center"
+                                               FontWeight="DemiBold"
+                                               FontSize="16"
+                                               Grid.Column="0"
+                                               Grid.Row="4"
                                                Text="Время начала:" />
                                     <TextBlock Foreground="#3a55d8" 
                                                VerticalAlignment="Center"
                                                FontSize="16"
                                                Grid.Column="1"
-                                               Grid.Row="2"
+                                               Grid.Row="4"
                                                Text="{Binding Settings.StartTime,StringFormat=hh\\:mm}" />
 
                                     <TextBlock Foreground="#364C59"
@@ -79,31 +113,63 @@
                                                FontWeight="DemiBold"
                                                FontSize="16"
                                                Grid.Column="0"
-                                               Grid.Row="3"
+                                               Grid.Row="5"
                                                Text="Время конца:" />
                                     <TextBlock Foreground="#3a55d8" 
                                                VerticalAlignment="Center"
                                                FontSize="16"
                                                Grid.Column="1"
-                                               Grid.Row="3"
+                                               Grid.Row="5"
                                                Text="{Binding Settings.EndTime,StringFormat=hh\\:mm}" />
+
                                     <TextBlock Foreground="#364C59"
                                                VerticalAlignment="Center"
                                                FontWeight="DemiBold"
                                                FontSize="16"
                                                Grid.Column="0"
-                                               Grid.Row="4"
-                                               Text="Код:" />
+                                               Grid.Row="6"
+                                               Text="Время конца:" />
                                     <TextBlock Foreground="#3a55d8" 
                                                VerticalAlignment="Center"
                                                FontSize="16"
                                                Grid.Column="1"
-                                               Grid.Row="4"
-                                               Text="{Binding Settings.Code}" />
+                                               Grid.Row="6"
+                                               Text="{Binding Settings.EndTime,StringFormat=hh\\:mm}" />
+
+                                    <TextBlock Foreground="#364C59"
+                                               VerticalAlignment="Center"
+                                               FontWeight="DemiBold"
+                                               FontSize="16"
+                                               Grid.Column="0"
+                                               Grid.Row="7"
+                                               Text="Общее время:" />
+                                    <StackPanel Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
+                                        <TextBlock Name="code"  Foreground="#3a55d8" 
+                                                   VerticalAlignment="Center"
+                                                   FontSize="16"
+                                                   Text="{Binding Settings.Code}" />
+
+                                        <Button Content="Copy"
+                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.CopyCode}"
+                                                CommandParameter="{Binding ElementName=code,Path=Text}"
+                                                />
+                                    </StackPanel>
 
                                 </Grid>
 
-                                <Canvas Canvas.ZIndex="1000" Grid.Row="0">
+                               <StackPanel Grid.Column="1">
+                                   <Button Content="Edit"
+                                           Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.EditTest}"
+                                           CommandParameter="{Binding}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                   <Button Content="Result"
+                                           Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.GetResultTest}"
+                                           CommandParameter="{Binding}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Canvas Grid.ColumnSpan="2" Canvas.ZIndex="1000" Grid.Row="0">
                                     <Border Background="#FFDAD4" Canvas.Right="-8.5" CornerRadius="2 5 2 50"
                                             Canvas.Top="-5.5" Width="20" Height="20">
                                         <TextBlock Foreground="#FF5B44" Name="img" Text="&#xf00d;"
@@ -113,7 +179,7 @@
 
                                         <Border.InputBindings>
                                             <MouseBinding
-                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.RemoveQuestion}"
+                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.DeleteTest}"
                                                 CommandParameter="{Binding}" Gesture="LeftClick" />
                                         </Border.InputBindings>
 

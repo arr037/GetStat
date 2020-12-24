@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace GetStat.Domain.Models
@@ -15,7 +16,7 @@ namespace GetStat.Domain.Models
         public string MiddleName { get; set; }
 
         public override string PasswordHash { get; set; }
+        public List<Test.Test> Tests { get; set; }
 
-        
     }
 }

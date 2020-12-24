@@ -17,12 +17,9 @@ namespace GetStat.ViewModels.PagesViewModels.Tests.StartTest
             Tests = new List<Test>();
         }
 
-        private async void LoadTests()
+        private  void LoadTests()
         {
-            await Task.Run(async () =>
-            {
-
-            });
+           
         }
     }
 }

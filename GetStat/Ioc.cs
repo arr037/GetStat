@@ -1,9 +1,11 @@
 ﻿using System;
+using GetStat.Domain.Services;
 using GetStat.Services;
 using GetStat.ViewModels;
 using GetStat.ViewModels.PagesViewModels;
 using GetStat.ViewModels.PagesViewModels.Authorization;
 using GetStat.ViewModels.PagesViewModels.Tests;
+using GetStat.ViewModels.PagesViewModels.Tests.StartTest;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GetStat
@@ -21,14 +23,20 @@ namespace GetStat
             services.AddTransient<SignUpViewModel>();
             services.AddTransient<EnterCodePageViewModel>();
             services.AddTransient<ConfirmEmailViewModel>();
-            services.AddTransient<AboutUserViewModel>();
             services.AddTransient<MainPageViewModel>();
             services.AddTransient<CreateTestViewModel>();
+            services.AddTransient<MyTestViewModel>();
+            services.AddTransient<JoinWithCodeViewModel>();
+            services.AddTransient<StartTestViewModel>();
+            services.AddTransient<GetResultViewModel>();
+            services.AddTransient<GetResultPageViewModel>();
 
 
             services.AddSingleton<PageService>();
             services.AddSingleton<ModalService>();
             services.AddSingleton<AuthorizationService>();
+            services.AddSingleton<LoginResponseService>();
+            services.AddSingleton<EventBus>();
             _provider = services.BuildServiceProvider();
         }
 

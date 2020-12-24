@@ -107,7 +107,7 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl ItemsSource="{Binding Questions,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <ItemsControl AlternationCount="{Binding Questions.Count,FallbackValue=100}" ItemsSource="{Binding Questions,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="150 2" Padding="7 5" Background="White" CornerRadius="5" BorderThickness="0.5"
@@ -130,7 +130,10 @@
                                                FontWeight="DemiBold"
                                                FontSize="16"
                                                Grid.Column="0"
-                                               Text="{Binding QuestionNum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat={}{0}.}" />
+                                               Text="{Binding 
+            Path=(ItemsControl.AlternationIndex), 
+    RelativeSource={RelativeSource Mode=TemplatedParent}, 
+    StringFormat={}{0}. }" />
                                     <TextBox
                                         TextWrapping="Wrap"
                                         Margin="2 2 20 0"
@@ -152,7 +155,7 @@
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
-                                                <RadioButton IsChecked="{Binding IsCorrect}" VerticalAlignment="Center"
+                                                <RadioButton IsChecked="{Binding IsSelected}" VerticalAlignment="Center"
                                                              GroupName="{Binding ElementName=qNum,Path=Text}"
                                                              Grid.Column="0" />
                                                 <TextBox Padding="3 5"

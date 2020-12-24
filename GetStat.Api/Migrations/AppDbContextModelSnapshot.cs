@@ -15,9 +15,12 @@ namespace GetStat.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseHiLo("EntityFrameworkHiLoSequence")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.1");
+
+            modelBuilder.HasSequence("EntityFrameworkHiLoSequence")
+                .IncrementsBy(10);
 
             modelBuilder.Entity("GetStat.Domain.Models.Account", b =>
                 {
@@ -32,8 +35,8 @@ namespace GetStat.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -53,12 +56,12 @@ namespace GetStat.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -80,17 +83,17 @@ namespace GetStat.Api.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
+                        .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
@@ -101,12 +104,12 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("AnswerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseHiLo();
 
                     b.Property<string>("Ans")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("QuestionId")
+                    b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
                     b.HasKey("AnswerId");
@@ -121,12 +124,17 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("QuestionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseHiLo();
+
+                    b.Property<int>("CorrectAnswer")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(-1);
 
                     b.Property<string>("Quest")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TestId")
+                    b.Property<int>("TestId")
                         .HasColumnType("int");
 
                     b.HasKey("QuestionId");
@@ -136,12 +144,82 @@ namespace GetStat.Api.Migrations
                     b.ToTable("Questions");
                 });
 
+            modelBuilder.Entity("GetStat.Domain.Models.Test.ResultAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseHiLo();
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUserCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ResultQuestonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResultQuestonId");
+
+                    b.ToTable("ResultAnswer");
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Test.ResultQueston", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseHiLo();
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ResultTestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResultTestId");
+
+                    b.ToTable("ResultQueston");
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Test.ResultTest", b =>
+                {
+                    b.Property<int>("ResultTestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseHiLo();
+
+                    b.Property<int>("AllCountQuestion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CorrectCountQuestion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ResultTestId");
+
+                    b.ToTable("ResultTests");
+                });
+
             modelBuilder.Entity("GetStat.Domain.Models.Test.Setting", b =>
                 {
                     b.Property<int>("SettingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseHiLo();
 
                     b.Property<string>("Code")
                         .ValueGeneratedOnAdd()
@@ -163,10 +241,16 @@ namespace GetStat.Api.Migrations
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("time");
 
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
                     b.Property<string>("TestName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SettingId");
+
+                    b.HasIndex("TestId")
+                        .IsUnique();
 
                     b.ToTable("Settings");
                 });
@@ -176,19 +260,14 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("TestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseHiLo();
 
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("SettingsId")
-                        .HasColumnType("int");
-
                     b.HasKey("TestId");
 
                     b.HasIndex("AccountId");
-
-                    b.HasIndex("SettingsId");
 
                     b.ToTable("Tests");
                 });
@@ -203,44 +282,21 @@ namespace GetStat.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
+                        .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "D3FCF42A-22C1-455E-825B-2BF65AA877FE",
-                            ConcurrencyStamp = "65c70bef-57b9-4d08-a14e-e2eca0ce3d84",
-                            Name = "Moderator",
-                            NormalizedName = "MODERATOR"
-                        },
-                        new
-                        {
-                            Id = "B0BAB2ED-F61E-4E83-81D7-7B96267D473B",
-                            ConcurrencyStamp = "178ffc1a-0a64-431b-849b-089f10b3a1b7",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "D9CBECB0-5A1E-41A7-A122-D3E1B0B73D94",
-                            ConcurrencyStamp = "0516870c-3eaf-45bc-8983-746856265332",
-                            Name = "MainAdmin",
-                            NormalizedName = "MAINADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -248,7 +304,7 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseHiLo();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -272,7 +328,7 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseHiLo();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -349,16 +405,49 @@ namespace GetStat.Api.Migrations
 
             modelBuilder.Entity("GetStat.Domain.Models.Test.Answer", b =>
                 {
-                    b.HasOne("GetStat.Domain.Models.Test.Question", null)
+                    b.HasOne("GetStat.Domain.Models.Test.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("GetStat.Domain.Models.Test.Question", b =>
                 {
-                    b.HasOne("GetStat.Domain.Models.Test.Test", null)
+                    b.HasOne("GetStat.Domain.Models.Test.Test", "Test")
                         .WithMany("Questions")
-                        .HasForeignKey("TestId");
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Test");
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Test.ResultAnswer", b =>
+                {
+                    b.HasOne("GetStat.Domain.Models.Test.ResultQueston", null)
+                        .WithMany("ResultAnswers")
+                        .HasForeignKey("ResultQuestonId");
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Test.ResultQueston", b =>
+                {
+                    b.HasOne("GetStat.Domain.Models.Test.ResultTest", null)
+                        .WithMany("ResultQuestons")
+                        .HasForeignKey("ResultTestId");
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Test.Setting", b =>
+                {
+                    b.HasOne("GetStat.Domain.Models.Test.Test", "Test")
+                        .WithOne("Settings")
+                        .HasForeignKey("GetStat.Domain.Models.Test.Setting", "TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("GetStat.Domain.Models.Test.Test", b =>
@@ -366,12 +455,6 @@ namespace GetStat.Api.Migrations
                     b.HasOne("GetStat.Domain.Models.Account", null)
                         .WithMany("Tests")
                         .HasForeignKey("AccountId");
-
-                    b.HasOne("GetStat.Domain.Models.Test.Setting", "Settings")
-                        .WithMany()
-                        .HasForeignKey("SettingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -423,6 +506,33 @@ namespace GetStat.Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Account", b =>
+                {
+                    b.Navigation("Tests");
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Test.Question", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Test.ResultQueston", b =>
+                {
+                    b.Navigation("ResultAnswers");
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Test.ResultTest", b =>
+                {
+                    b.Navigation("ResultQuestons");
+                });
+
+            modelBuilder.Entity("GetStat.Domain.Models.Test.Test", b =>
+                {
+                    b.Navigation("Questions");
+
+                    b.Navigation("Settings");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,6 +5,7 @@ using GetStat.Models;
 using GetStat.Pages;
 using GetStat.Pages.Authorization;
 using GetStat.Pages.Main;
+using GetStat.Pages.Main.Test;
 using GetStat.Services;
 
 namespace GetStat.ViewModels

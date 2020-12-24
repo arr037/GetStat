@@ -9,10 +9,10 @@ namespace GetStat.Domain.Models.Test
     public class ResultTest
     {
         public int ResultTestId { get; set; }
+        public string FullName { get; set; }
         public int AllCountQuestion { get; set; }
         public int CorrectCountQuestion { get; set; }
         public List<ResultQueston> ResultQuestons { get; set; }
-
-        public virtual int TestId { get; set; }
+        public int TestId { get; set; }
     }
 }
