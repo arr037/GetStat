@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using GetStat.Commands;
 using GetStat.Models;
-using GetStat.Pages.Main;
 using GetStat.Services;
 
 namespace GetStat.ViewModels.PagesViewModels
@@ -9,25 +8,23 @@ namespace GetStat.ViewModels.PagesViewModels
     public class ConfirmEmailViewModel : BaseVM
     {
         private readonly AuthorizationService _authorizationService;
-        private readonly ModalService _modalService;
         private readonly PageService _pageService;
 
-        public ConfirmEmailViewModel(PageService pageService, 
-            AuthorizationService authorizationService,
-            ModalService modalService)
+        public ConfirmEmailViewModel(PageService pageService, AuthorizationService authorizationService)
         {
             _pageService = pageService;
             _authorizationService = authorizationService;
-            _modalService = modalService;
         }
+
+        public string Code { get; set; }
 
         public DelegateCommand CheckCode => new DelegateCommand(async () =>
         {
             var res = await _authorizationService.ConfirmEmail();
             if (res)
-                _pageService.NavigateWithAnimation(new MainPage());
+                MessageBox.Show("okay");
             else
-                _modalService.ShowModalWindow("Ошибка","Потдвердите свой email");
+                MessageBox.Show("no");
         });
 
         public DelegateCommand GoBack =>

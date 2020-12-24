@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using Dna;
 using GetStat.Commands;
 using GetStat.Domain.Base;
@@ -14,38 +13,24 @@ using GetStat.Domain.Services;
 using GetStat.Models;
 using GetStat.Services;
 
-namespace GetStat.ViewModels.PagesViewModels.Tests
+namespace GetStat.ViewModels.PagesViewModels.Tests.StartTest
 {
     public class JoinWithCodeViewModel:BaseVM
     {
         private readonly LoginResponseService _loginResponseService;
         private readonly ModalService _modalService;
-        private readonly PageService _pageService;
-        private readonly EventBus _eventBus;
 
-
-        public string Code { get; set; }
-        public string FullName { get; set; }
-
-        public JoinWithCodeViewModel(
-            LoginResponseService loginResponseService,
-            ModalService modalService,
-            PageService pageService,
-            EventBus eventBus)
+        public JoinWithCodeViewModel(LoginResponseService loginResponseService,
+            ModalService modalService)
         {
             _loginResponseService = loginResponseService;
             _modalService = modalService;
-            _pageService = pageService;
-            _eventBus = eventBus;
         }
 
-        public ICommand JoinInTest=> new DelegateCommand(async () =>
+        public ICommand JoinInTest=> new DelegateCommand<string>(async code =>
         {
-            var log = _loginResponseService.LoginResponse;
-            string fullName = log.Surname + " " + log.Name + " " + log.MiddleName;
-
             var response = await WebRequests.PostAsync<ApiResponse<Test>>
-            ("https://localhost:5001/api/test/JoinTest", new[]{Code,fullName},
+            ("https://localhost:5001/api/test/JoinTest", code,
                 bearerToken: _loginResponseService.LoginResponse.Token);
 
             var res = response.DisplayErrorIfFailedAsync();
@@ -56,42 +41,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
                 return;
             }
 
-            var result = response.ServerResponse.Response;
-
-            _pageService.NavigateWithAnimation(new Pages.Main.Test.StartTest());
-          
-            
-            await _eventBus.Publish(
-                new OnStartTest(
-                    result.Questions, 
-                    result.Settings.TestName,
-                    result.Settings.MaxQuestion,
-                    result.Settings.DeadLine,
-                    fullName,
-                    result.TestId)
-                );
-
-
-        },code=>!string.IsNullOrWhiteSpace(Code));
-    }
-
-    public class OnStartTest:IEvent
-    {
-        internal string QuestionName { get;  }
-        internal string QuestionCount { get;  }
-        internal TimeSpan Time { get; }
-        internal List<Question> Questions { get; }
-        internal string FullName { get; }
-        internal int  TestId { get; }
-        public OnStartTest(List<Question> questions,string questionName
-            ,string questionCount,TimeSpan time,string fullName,int testId)
-        {
-            Questions = questions;
-            QuestionName = questionName;
-            QuestionCount = questionCount;
-            Time = time;
-            FullName = fullName;
-            TestId = testId;
-        }
+            _modalService.ShowModalWindow("Good","Все гуд тест найден\n"+response.ServerResponse.Response.Settings.StartDay);
+        },code=>!string.IsNullOrWhiteSpace(code));
     }
 }

@@ -5,10 +5,6 @@
 	<s:String x:Key="/Default/RunConfigs/Config/=8A15FF84ABB3D745BB64B1B47E93D9A9/Name/@EntryValue">GetStat</s:String>
 	<s:String x:Key="/Default/RunConfigs/Config/=8A15FF84ABB3D745BB64B1B47E93D9A9/ProjectGuid/@EntryValue">40FA37108C9A524AA390672CE1F4312F</s:String>
 	<s:String x:Key="/Default/RunConfigs/Config/=8A15FF84ABB3D745BB64B1B47E93D9A9/Type/@EntryValue">project</s:String>
-	<s:Boolean x:Key="/Default/RunConfigs/Config/=F43624DEC88E64478BAB28F202449F4B/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/RunConfigs/Config/=F43624DEC88E64478BAB28F202449F4B/Name/@EntryValue">WebServer</s:String>
-	<s:String x:Key="/Default/RunConfigs/Config/=F43624DEC88E64478BAB28F202449F4B/ProjectGuid/@EntryValue">86AB50F3A7FF80429FFE426DA21B3110</s:String>
-	<s:String x:Key="/Default/RunConfigs/Config/=F43624DEC88E64478BAB28F202449F4B/Type/@EntryValue">project</s:String>
 	
 	
 	

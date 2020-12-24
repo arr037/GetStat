@@ -81,7 +81,7 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <RadioButton Margin="0 5 0 0"
-                                                    IsChecked="{Binding IsSelected}" VerticalAlignment="Center"
+                                                    IsChecked="{Binding IsCorrect}" VerticalAlignment="Center"
                                                              GroupName="{Binding ElementName=qName,Path=Text}"
                                                              Grid.Column="0" 
                                                              FontSize="16"

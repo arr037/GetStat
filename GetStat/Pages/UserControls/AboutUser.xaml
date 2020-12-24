@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="GetStat.Pages.UserControls.AboutUser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GetStat.Pages.UserControls">
+    <StackPanel Orientation="Vertical" Margin="5">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Width="50" Height="50" Background="DodgerBlue" CornerRadius="25">
+                <TextBlock Text="{Binding ShortName,FallbackValue=RA}"
+                           Foreground="#fff" FontFamily="{StaticResource GothamProMedium}"
+                           FontWeight="DemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Padding="5"
+                           FontSize="20"/>
+            </Border>
+            <Grid Margin="5 0 0 0" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock FontSize="16" Grid.Row="0" Text="{Binding Surname,FallbackValue=Akhmetov}" TextTrimming="WordEllipsis" FontFamily="{StaticResource GothamPro}" FontWeight="Regular"/>
+                <TextBlock FontSize="16"  Grid.Row="1" Text="{Binding Name,FallbackValue=Ruslan}" TextTrimming="WordEllipsis" FontFamily="{StaticResource GothamPro}" FontWeight="Regular"/>
+                <TextBlock FontSize="16"  Grid.Row="2" Text="{Binding MiddleName,FallbackValue=Ravilevich}" TextTrimming="WordEllipsis" FontFamily="{StaticResource GothamPro}" FontWeight="Regular"/>
+            </Grid>
+        </Grid>
+        <Border Grid.Column="0"
+                Background="LightGray"
+                Grid.ColumnSpan="2" 
+                Height="1.2" 
+                VerticalAlignment="Bottom" />
+    </StackPanel>
+    
+</UserControl>

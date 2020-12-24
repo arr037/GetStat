@@ -10,6 +10,5 @@ namespace GetStat.Domain.Models.Test
     {
         public List<ResultQA> ResultQas { get; set; }
         public int TestId { get; set; }
-        public string FullName { get; set; }
     }
 }

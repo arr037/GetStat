@@ -8,7 +8,7 @@ namespace GetStat.Domain.Models.Test
 {
     public class ResultQueston
     {
-        public int Id { get; set; }
+
         public string Question { get; set; }
         public List<ResultAnswer> ResultAnswers { get; set; }
     }

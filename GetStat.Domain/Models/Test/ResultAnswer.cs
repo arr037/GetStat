@@ -8,7 +8,6 @@ namespace GetStat.Domain.Models.Test
 {
     public class ResultAnswer
     {
-        public int Id { get; set; }
         public string Answer { get; set; }
         public bool IsCorrect { get; set; } = false;
         public bool IsUserCorrect { get; set; } = false;

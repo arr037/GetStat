@@ -13,51 +13,45 @@ using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models.Menu;
 using GetStat.Domain.Models.Tabs;
-using GetStat.Domain.Services;
 using GetStat.Models;
 using GetStat.Pages;
 using GetStat.Pages.Authorization;
-using GetStat.Pages.Main.Test;
+using GetStat.Pages.Main.Pages;
 using GetStat.Services;
 
 namespace GetStat.ViewModels.PagesViewModels
 {
     public class MainPageViewModel:BaseVM
     {
-        private readonly LoginResponseService _loginResponseService;
+
+
+
+        private readonly AuthorizationService _authorizationService;
         private readonly PageService _pageService;
         private readonly ModalService _modalService;
-        private readonly EventBus _eventBus;
         public ObservableCollection<ItemText> MenuCollection { get; private set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        public string MiddleName { get; set; }
         public string ShortName { get; set; }
+        public Page CurrentPage { get; set; }
         public ITab SelectedTab { get; set; }
         public ObservableCollection<ITab> Tabs { get; set; }
 
-        public MainPageViewModel(LoginResponseService loginResponseService,
-            PageService pageService,
-            ModalService modalService,
-            EventBus eventBus)
+        public MainPageViewModel(AuthorizationService authorizationService,PageService pageService,ModalService modalService)
         {
-            _loginResponseService = loginResponseService;
+            _authorizationService = authorizationService;
             _pageService = pageService;
             _modalService = modalService;
-            _eventBus = eventBus;
 
-            Name = loginResponseService.LoginResponse?.Name;
-            Surname = loginResponseService.LoginResponse?.Surname;
+            Name = authorizationService.LoginResponse?.Name;
+            Surname = authorizationService.LoginResponse?.Surname;
+            MiddleName = authorizationService.LoginResponse?.MiddleName;
 
-            ShortName = Name?.FirstOrDefault().ToString();
+            ShortName = Name?.FirstOrDefault() + Surname?.FirstOrDefault().ToString();
 
             MenuCollection = new ObservableCollection<ItemText>
             {
-                new ItemText()
-                {
-                    Name = "К Тесту",
-                    IconImage = "\uf067",
-                    Page = new JoinWithCode()
-                },
                 new ItemText()
                 {
                     Name = "Создать тест",
@@ -66,21 +60,33 @@ namespace GetStat.ViewModels.PagesViewModels
                 },
                 new ItemText()
                 {
+                    Name = "Редактировать тест",
+                    IconImage = "\uf040"
+                },
+                new ItemText()
+                {
+                    Name = "Удалить тест",
+                    IconImage = "\uf1f8"
+                },
+                new ItemText()
+                {
                     Name = "Мои тесты",
-                    IconImage = "\uf16c",
-                    Page = new MyTestsPage()
+                    IconImage = "\uf16c"
+                },
+                new ItemText()
+                {
+                    Name = "Запросы",
+                    IconImage = "\uf1e9"
                 },
                 new ItemText()
                 {
                     Name = "Результаты",
-                    IconImage = "\uf201",
-                    Page = new GetResultPage()
+                    IconImage = "\uf201"
                 },
                 new ItemText()
                 {
                     Name = "Претензии",
-                    IconImage = "\uf296",
-                    Page = new ClaimsPage()
+                    IconImage = "\uf296"
                 },
 
             };
@@ -93,23 +99,22 @@ namespace GetStat.ViewModels.PagesViewModels
         {
             Tabs.Remove(item);
         });
+
         public ICommand LogOutCommand => new DelegateCommand( () =>
          {
-              _loginResponseService.Clear();
+              _authorizationService.LogOut();
              _pageService.Navigate(new SignIn());
          });
-        public ICommand AddItemToTabs=> new DelegateCommand<ItemText>(async (item) =>
+
+        public ICommand AddItemToTabs=> new DelegateCommand<ItemText>((item) =>
         {
             SelectedTab = Tabs.AddUnique(new Tab
             {
                 Name = item.Name,
                 Page = item.Page
             });
-            if (SelectedTab.Name == "Мои тесты")
-                await _eventBus.Publish(new OnOpenMenu());
-            
-            
         });
+
         private void Tabs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             ITab tab;
@@ -125,14 +130,10 @@ namespace GetStat.ViewModels.PagesViewModels
                     break;
             }
         }
+
         private void Tab_CloseRequired(object sender, EventArgs e)
         {
             Tabs.Remove((ITab)sender);
         }
-    }
-
-    public class OnOpenMenu : IEvent
-    {
-
     }
 }

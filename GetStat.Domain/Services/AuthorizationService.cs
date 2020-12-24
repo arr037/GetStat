@@ -6,7 +6,6 @@ using Dna;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models;
-using GetStat.Domain.Services;
 using GetStat.Domain.ViewModels;
 
 namespace GetStat.Services
@@ -14,13 +13,13 @@ namespace GetStat.Services
     public class AuthorizationService
     {
         private readonly ModalService _modalService;
-        private readonly LoginResponseService _loginResponseService;
 
-        public AuthorizationService(ModalService modalService,
-            LoginResponseService loginResponseService)
+        public string AccountId { get; private set; }
+        public LoginResponse LoginResponse { get; private set; }
+
+        public AuthorizationService(ModalService modalService)
         {
             _modalService = modalService;
-            _loginResponseService = loginResponseService;
         }
 
         public async Task<bool> Register(Account account)
@@ -33,7 +32,8 @@ namespace GetStat.Services
                 return false;
             }
 
-            var response = await WebRequests.PostAsync<ApiResponse<LoginResponse>>(
+
+            var response = await WebRequests.PostAsync<ApiResponse<string>>(
                 "https://localhost:5001/api/register", account);
 
             var res = response.DisplayErrorIfFailedAsync();
@@ -43,24 +43,18 @@ namespace GetStat.Services
                 return false;
             }
 
-            _loginResponseService.LoginResponse = response.ServerResponse.Response;
+            AccountId = response.ServerResponse.Response;
             return true;
         }
 
         public async Task<bool> ConfirmEmail()
         {
-            var response = await WebRequests.
-                PostAsync<ApiResponse<bool>>(
-                "https://localhost:5001/api/IsConfirm", bearerToken:_loginResponseService.LoginResponse.Token);
+            var data = $"https://localhost:5001/api/Confirm?id={AccountId}";
+            var response = await WebRequests.PostAsync<bool>(data);
 
-            var res = response.DisplayErrorIfFailedAsync();
-            if (res.SuccessFul == false)
-            {
-                _modalService.ShowModalWindow("Ошибка", res.Message);
-                return false;
-            }
+            if (response?.ServerResponse != null) return response.ServerResponse;
 
-            return true;
+            return false;
         }
 
 
@@ -75,8 +69,15 @@ namespace GetStat.Services
                 return false;
             }
 
-            _loginResponseService.LoginResponse = response.ServerResponse.Response;
+            LoginResponse = response.ServerResponse.Response;
             return true;
+        }
+
+        public  void LogOut()
+        {
+            AccountId= String.Empty;
+            LoginResponse = null;
+
         }
 
         private string CheckError(Account account)

@@ -44,10 +44,10 @@ namespace GetStat.Api.Controllers
 
         [Route("api/register")]
         [HttpPost]
-        public async Task<ApiResponse<LoginResponse>> Register(Account account)
+        public async Task<ApiResponse<string>> Register(Account account)
         {
             if (account == null)
-                return new ApiResponse<LoginResponse> {Error = "Сервер не отвечает"};
+                return new ApiResponse<string> {Error = "Сервер не отвечает"};
 
             if (ModelState.IsValid)
             {
@@ -55,22 +55,25 @@ namespace GetStat.Api.Controllers
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByNameAsync(account.UserName);
-                    
-                    var isSendEmail = await SendEmailCode(user);
+                    var code = (await _userManager.GenerateEmailConfirmationTokenAsync(user)).Base64ForUrlEncode();
+                    var emailuri = "https://" + HttpContext.Request.Host.Value +
+                                   $"/api/Confirm?id={user.Id}&token={code}";
+
+                   var isSendEmail = await _emailService.SendEmailAsync(account.Email, "Подтвердите email", emailuri);
 
                    if (!isSendEmail)
-                       return new ApiResponse<LoginResponse>
+                       return new ApiResponse<string>
                        {
                            Error = "При отправке email, произошла ошибка"
                        };
 
-                    return new ApiResponse<LoginResponse>
+                    return new ApiResponse<string>
                     {
-                        Response = await GenerateToken(user.UserName)
+                        Response = account.Id
                     };
                 }
 
-                return new ApiResponse<LoginResponse>
+                return new ApiResponse<string>
                 {
                     Error = string.Join('\n',
                         result.Errors.Select(x => "Код ошибки: " + x.Code + "\n\t" + x.Description))
@@ -79,7 +82,7 @@ namespace GetStat.Api.Controllers
 
             var allErrors = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
 
-            return new ApiResponse<LoginResponse>
+            return new ApiResponse<string>
             {
                 Error = string.Join('\n', allErrors)
             };
@@ -135,17 +138,9 @@ namespace GetStat.Api.Controllers
                 if (confirmed)
                     return new BaseError();
 
-                var isSend=  await SendEmailCode(user);
-               
-                if(!isSend)
-                    return new BaseError
-                    {
-                        Message = "При отправке email, произошла ошибка"
-                    };
-
                 return new BaseError
                 {
-                    Message = "Подтверите свой email!\nНа вашу почту повторно был отправлен код"
+                    Message = "Подтверите свой email"
                 };
             }
 
@@ -192,18 +187,7 @@ namespace GetStat.Api.Controllers
             };
         }
 
-        private async Task<bool> SendEmailCode(Account user)
-        {
-            var code = (await _userManager.GenerateEmailConfirmationTokenAsync(user))
-                .Base64ForUrlEncode();
-
-            var emailuri = "https://" + HttpContext.Request.Host.Value +
-                           $"/api/ConfirmEmail?token={code}&id={user.Id}";
-
-            var isSendEmail = await _emailService.SendEmailAsync(user.Email, "Подтвердите email", emailuri);
-
-            return isSendEmail;
-        }
+    
 }
     
 }
