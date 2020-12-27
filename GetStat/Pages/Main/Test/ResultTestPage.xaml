@@ -22,23 +22,29 @@
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
 
-            <ItemsControl ItemsSource="{Binding ResultQuestons,Mode=TwoWay,
+            <StackPanel Orientation="Vertical">
+                <ItemsControl ItemsSource="{Binding ResultQuestons,Mode=TwoWay,
                     UpdateSourceTrigger=PropertyChanged}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="150 2"
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="150 2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0"
                                     Padding="7 5"
                                     Background="White"
                                     CornerRadius="5"
                                     BorderThickness="0.5"
                                 BorderBrush="Gray">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
 
-                                <TextBlock
+                                        <TextBlock
                                     FontWeight="Medium"
                                     TextWrapping="Wrap"
                                         Margin="2 2 20 0"
@@ -49,11 +55,11 @@
                                         Text="{Binding Question}" />
 
 
-                                <ItemsControl Margin="0 3 0 0" Grid.Row="1"
+                                        <ItemsControl Margin="0 3 0 0" Grid.Row="1"
                                               ItemsSource="{Binding ResultAnswers}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock
                                                 Name="ans"
                                                 TextWrapping="Wrap"
                                                 Margin="2 2 20 0"
@@ -62,30 +68,41 @@
                                                 VerticalAlignment="Center"
                                                 FontFamily="{StaticResource GothamPro}"
                                                 Text="{Binding Answer}">
-                                                    <TextBlock.Style>
-                                                        <Style TargetType="TextBlock">
-                                                            <Setter Property="Background" Value="Transparent"></Setter>
-                                                            <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsUserCorrect}" Value="True">
-                                                                <Setter Property="Background" Value="LightCoral" />
-                                                            </DataTrigger>
-                                                                <DataTrigger Binding="{Binding IsCorrect}" Value="True">
-                                                                    <Setter Property="Background" Value="LightGreen" />
-                                                                </DataTrigger>
-                                                               
-                                                        </Style.Triggers>
-                                                        </Style>
-                                                    </TextBlock.Style>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Background" Value="Transparent"></Setter>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsUserCorrect}" Value="True">
+                                                                        <Setter Property="Background" Value="LightCoral" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IsCorrect}" Value="True">
+                                                                        <Setter Property="Background" Value="LightGreen" />
+                                                                    </DataTrigger>
+                                                                    <MultiDataTrigger>
+                                                                        <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding IsCorrect}" Value="True"/>
+                                                                            <Condition Binding="{Binding IsUserCorrect}" Value="True"/>
+                                                                        </MultiDataTrigger.Conditions>
+                                                                        <MultiDataTrigger.Setters>
+                                                                            <Setter Property="Background" Value="LightSkyBlue" />
+                                                                        </MultiDataTrigger.Setters>
+                                                                    </MultiDataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </Border>
+                                <Button Grid.Column="1" Content="Non Correct" Margin="5 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
-                        </Border>
-
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Button Content="Главное меню" Command="{Binding BackPage}"/>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </getStat:BasePage>

@@ -42,10 +42,5 @@ namespace GetStat.ViewModels.PagesViewModels.Tests.StartTest
 
             Tests = response.ServerResponse.Response;
         }
-
-        private async void LoadTests()
-        {
-            
-        }
     }
 }

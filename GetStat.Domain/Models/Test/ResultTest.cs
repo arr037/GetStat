@@ -13,6 +13,7 @@ namespace GetStat.Domain.Models.Test
         public int AllCountQuestion { get; set; }
         public int CorrectCountQuestion { get; set; }
         public List<ResultQueston> ResultQuestons { get; set; }
+        public string TestName { get; set; }
         public int TestId { get; set; }
         public string AccountId { get; set; }
     }

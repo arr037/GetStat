@@ -20,39 +20,123 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Tests,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <ItemsControl 
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding Tests}"
+                      x:Name="MyItems" >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="150 2" Padding="7 5" Background="White" CornerRadius="5" BorderThickness="0.5"
-                                BorderBrush="Gray">
-                            <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Foreground="#364C59"
-                                               VerticalAlignment="Center"
-                                               FontWeight="DemiBold"
-                                               FontSize="16"
-                                               Grid.Column="0"
-                                               Grid.Row="0"
-                                               Text="Название теста:" />
-                                    <TextBlock Foreground="#3a55d8" 
-                                               VerticalAlignment="Center"
-                                               FontSize="16"
-                                               Grid.Column="1"
-                                               Grid.Row="0"
-                                               Text="{Binding CorrectCountQuestion}" />
+                        <Expander>
+                            <Expander.HeaderTemplate>
+                                <DataTemplate>
+                                    <UniformGrid
+                                        Columns="1" 
+                                        DataContext="{Binding RelativeSource={RelativeSource AncestorType=Expander, Mode=FindAncestor},Path=DataContext}">
+                                        <UniformGrid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontSize" Value="18"/>
+                                                <Setter Property="Margin" Value="5" />
+                                                <Setter Property="TextAlignment" Value="Center"/>
+                                                <Setter Property="FontFamily" Value="Comic Sans MS" />
+                                                <Setter Property="Foreground" Value="Black" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                        <Setter  Property="Foreground" Value="Red" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </UniformGrid.Resources>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} - {1}/{2}">
+                                                    <Binding Path="TestName"/>
+                                                    <Binding Path="CorrectCountQuestion"/>
+                                                    <Binding Path="AllCountQuestion"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </UniformGrid>
+                                </DataTemplate>
+                            </Expander.HeaderTemplate>
 
-                                </Grid>
-                        </Border>
+
+                            <ItemsControl ItemsSource="{Binding ResultQuestons,Mode=TwoWay,
+                    UpdateSourceTrigger=PropertyChanged}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="150 2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0"
+                                    Padding="7 5"
+                                    Background="White"
+                                    CornerRadius="5"
+                                    BorderThickness="0.5"
+                                BorderBrush="Gray">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <TextBlock
+                                    FontWeight="Medium"
+                                    TextWrapping="Wrap"
+                                        Margin="2 2 20 0"
+                                        Padding="3 5"
+                                        FontSize="16"
+                                        VerticalAlignment="Center"
+                                            FontFamily="{StaticResource GothamPro}"
+                                        Text="{Binding Question}" />
+                                                <ItemsControl Margin="0 3 0 0" Grid.Row="1"
+                                                              ItemsSource="{Binding ResultAnswers}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock
+                                                Name="ans"
+                                                TextWrapping="Wrap"
+                                                Margin="2 2 20 0"
+                                                Padding="3 5"
+                                                FontSize="16"
+                                                VerticalAlignment="Center"
+                                                FontFamily="{StaticResource GothamPro}"
+                                                Text="{Binding Answer}">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Background" Value="Transparent"></Setter>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsUserCorrect}" Value="True">
+                                                                                <Setter Property="Background" Value="LightCoral" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding IsCorrect}" Value="True">
+                                                                                <Setter Property="Background" Value="LightGreen" />
+                                                                            </DataTrigger>
+                                                                            <MultiDataTrigger>
+                                                                                <MultiDataTrigger.Conditions>
+                                                                                    <Condition Binding="{Binding IsCorrect}" Value="True"/>
+                                                                                    <Condition Binding="{Binding IsUserCorrect}" Value="True"/>
+                                                                                </MultiDataTrigger.Conditions>
+                                                                                <MultiDataTrigger.Setters>
+                                                                                    <Setter Property="Background" Value="LightSkyBlue" />
+                                                                                </MultiDataTrigger.Setters>
+                                                                            </MultiDataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            </Expander>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

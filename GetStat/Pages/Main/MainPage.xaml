@@ -81,7 +81,12 @@
             </ListBox>
         </Border>
 
-        <TabControl Name="TabControl"   Padding="0 0 0 0"  SelectedItem="{Binding SelectedTab}" ItemsSource="{Binding Tabs}" OverridesDefaultStyle="True" TabStripPlacement="Top"  Margin="10 10 0 0" Grid.Row="1" Grid.Column="1">
+        <TabControl Name="TabControl" 
+                    Padding="0 0 0 0"  
+                    SelectedItem="{Binding SelectedTab}" 
+                    ItemsSource="{Binding Tabs}" 
+                    OverridesDefaultStyle="True" TabStripPlacement="Top"
+                    Margin="10 10 0 0" Grid.Row="1" Grid.Column="1">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
@@ -132,8 +137,12 @@
                             <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
                             <RowDefinition x:Name="RowDefinition1" Height="*"/>
                         </Grid.RowDefinitions>
-                        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
-                            <StackPanel x:Name="HeaderPanel" Grid.Column="0"  IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" Orientation="Horizontal" />
+                        <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                                      HorizontalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="HeaderPanel" Grid.Column="0"  
+                                        IsItemsHost="true" Margin="2,2,2,0" 
+                                        Grid.Row="0" KeyboardNavigation.TabIndex="1" 
+                                        Panel.ZIndex="1" Orientation="Horizontal" />
                         </ScrollViewer>
                         <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                             <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>

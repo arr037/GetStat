@@ -23,7 +23,7 @@ namespace GetStat.Api.Controllers
     public class TestController : ControllerBase
     {
         private readonly AppDbContext _dbContext;
-        private string UserId => User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        private string UserId => User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
         public TestController(AppDbContext dbContext)
         {
@@ -62,6 +62,7 @@ namespace GetStat.Api.Controllers
                 .Where(f => f.AccountId == UserId).ToListAsync();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ApiResponse<Test>> JoinTest([FromBody] string[] param)
         {
@@ -132,7 +133,7 @@ namespace GetStat.Api.Controllers
                 Error = $"Что то не так: startTime {setting.StartTime} ; endTime {setting.EndTime}"
             };
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ApiResponse<ResultTest>> EndTest(BaseResultQA baseResult)
         {
@@ -178,7 +179,8 @@ namespace GetStat.Api.Controllers
                 CorrectCountQuestion = res,
                 ResultQuestons = answers,
                 TestId = baseResult.TestId,
-                AccountId = UserId
+                AccountId = !string.IsNullOrEmpty(UserId)?UserId:null,
+                TestName = baseResult.TestName
             });
 
             await _dbContext.SaveChangesAsync();
@@ -192,24 +194,6 @@ namespace GetStat.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveTest([FromBody] int testId)
         {
-            //var test = await _dbContext.Tests
-            //    .Include(x => x.Settings)
-            //    .Include(x => x.Questions)
-            //        .ThenInclude(x => x.Answers)
-            //    .FirstOrDefaultAsync(x => x.TestId == testId);
-
-            //var ts = await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Id == UserId);
-
-            //if (test == null)
-            //{
-            //    return Forbid();
-            //}
-
-            //ts?.Tests.Remove(test);
-
-
-
-
             var res = _dbContext.Tests.Remove(new Test
             {
                 TestId = testId
@@ -294,7 +278,10 @@ namespace GetStat.Api.Controllers
         [HttpPost]
         public async Task<ApiResponse<List<ResultTest>>> GetResultTest()
         {
-            var res = await _dbContext.ResultTests.Where(x => x.AccountId == UserId)
+            var res = await _dbContext.ResultTests
+                .Include(x=>x.ResultQuestons)
+                    .ThenInclude(a=>a.ResultAnswers)
+                .Where(x => x.AccountId == UserId)
                 .ToListAsync();
 
             return new ApiResponse<List<ResultTest>>

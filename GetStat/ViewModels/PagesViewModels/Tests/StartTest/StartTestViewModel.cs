@@ -92,8 +92,8 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
             if (RemarkingTime == TimeSpan.Zero)
             {
-                timer.Stop();
                 await SendResult();
+                timer.Stop();
             }
         }
 
@@ -101,7 +101,8 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         {
             var answers = new List<ResultQA>(Questions.Select(x => new ResultQA
             {
-                AnswerId = x.Answers.FirstOrDefault(a => a.IsSelected).AnswerId,
+                AnswerId = x.Answers.FirstOrDefault(a => a.IsSelected)==null?-1
+                                :x.Answers.First(a=>a.IsSelected).AnswerId,
                 QuestionId = x.QuestionId
             }));
 
@@ -112,9 +113,9 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
                 {
                     ResultQas = answers,
                     TestId = _testId,
-                    FullName = FullName
-                },
-                bearerToken: _loginResponseService.LoginResponse.Token);
+                    FullName = FullName,
+                    TestName = TestName
+                },bearerToken: _loginResponseService.LoginResponse?.Token);
 
             var res = response.DisplayErrorIfFailedAsync();
             if (!res.SuccessFul)
