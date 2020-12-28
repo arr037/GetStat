@@ -6,6 +6,7 @@ using GetStat.ViewModels.PagesViewModels;
 using GetStat.ViewModels.PagesViewModels.Authorization;
 using GetStat.ViewModels.PagesViewModels.Tests;
 using GetStat.ViewModels.PagesViewModels.Tests.StartTest;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GetStat
@@ -38,6 +39,7 @@ namespace GetStat
             services.AddSingleton<AuthorizationService>();
             services.AddSingleton<LoginResponseService>();
             services.AddSingleton<EventBus>();
+            services.AddSingleton<SignalRTestService>();
             _provider = services.BuildServiceProvider();
         }
 

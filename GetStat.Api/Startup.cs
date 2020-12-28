@@ -1,7 +1,9 @@
 using System;
 using System.Text;
 using GetStat.Api.Domain;
+using GetStat.Api.Hubs;
 using GetStat.Domain.Models;
+using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +28,7 @@ namespace GetStat.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
             services.AddControllers().AddNewtonsoftJson(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -83,6 +86,7 @@ namespace GetStat.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<TestHub>("/testHub");
             });
         }
     }

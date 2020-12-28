@@ -23,6 +23,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         private readonly ModalService _modalService;
         private readonly PageService _pageService;
         private readonly EventBus _eventBus;
+        private readonly SignalRTestService _testService;
 
 
         public string Code { get; set; }
@@ -32,12 +33,14 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             LoginResponseService loginResponseService,
             ModalService modalService,
             PageService pageService,
-            EventBus eventBus)
+            EventBus eventBus,
+            SignalRTestService testService)
         {
             _loginResponseService = loginResponseService;
             _modalService = modalService;
             _pageService = pageService;
             _eventBus = eventBus;
+            _testService = testService;
         }
 
         public ICommand JoinInTest=> new DelegateCommand(async () =>
@@ -57,20 +60,22 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
                 return;
             }
 
-            var result = response.ServerResponse.Response;
 
-            _pageService.NavigateWithAnimation(new Pages.Main.Test.StartTest());
-          
-            
-            await _eventBus.Publish(
-                new OnStartTest(
-                    result.Questions, 
-                    result.Settings.TestName,
-                    result.Settings.MaxQuestion,
-                    result.Settings.DeadLine,
-                    fullName,
-                    result.TestId)
-                );
+            await _testService.SendPermissionToEnterTheTest(response.ServerResponse.Response.TestId, fullName);
+            //var result = response.ServerResponse.Response;
+
+            //_pageService.NavigateWithAnimation(new Pages.Main.Test.StartTest());
+
+
+            //await _eventBus.Publish(
+            //    new OnStartTest(
+            //        result.Questions, 
+            //        result.Settings.TestName,
+            //        result.Settings.MaxQuestion,
+            //        result.Settings.DeadLine,
+            //        fullName,
+            //        result.TestId)
+            //    );
 
 
         },code=>!string.IsNullOrWhiteSpace(Code));

@@ -7,6 +7,7 @@ using GetStat.Pages.Authorization;
 using GetStat.Pages.Main;
 using GetStat.Pages.Main.Test;
 using GetStat.Services;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace GetStat.ViewModels
 {
