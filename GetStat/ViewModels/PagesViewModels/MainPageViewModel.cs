@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Dna;
@@ -41,7 +42,8 @@ namespace GetStat.ViewModels.PagesViewModels
         public MainPageViewModel(LoginResponseService loginResponseService,
             PageService pageService,
             ModalService modalService,
-            EventBus eventBus)
+            EventBus eventBus,
+            SignalRTestService testService)
         {
             _loginResponseService = loginResponseService;
             _pageService = pageService;
@@ -87,10 +89,21 @@ namespace GetStat.ViewModels.PagesViewModels
                     IconImage = "\uf296",
                     Page = new ClaimsPage()
                 },
-
+                new ItemText()
+                {
+                    Name = "Запросы",
+                    IconImage = "\uf296",
+                    Page = new AllowDenyPage()
+                },
             };
             Tabs = new ObservableCollection<ITab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
+            testService.AddedTest += TestService_AddedTest;
+        }
+
+        private void TestService_AddedTest(string obj)
+        {
+            MessageBox.Show("Добавлен новый тест: " + obj);
         }
 
         private Task ClsTab(OnCloseTab arg)
@@ -184,6 +197,10 @@ namespace GetStat.ViewModels.PagesViewModels
                     break;
             }
         }
+
+        public bool IsShowPopup { get; set; } = false;
+        public ICommand ShowPopup => new DelegateCommand(() => { IsShowPopup = !IsShowPopup; });
+
         private void Tab_CloseRequired(object sender, EventArgs e)
         {
             Tabs.Remove((ITab)sender);

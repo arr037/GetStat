@@ -99,12 +99,19 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             if(arg.MenuType!=MenuType.MyTest)
                 return;
 
-            var res = await WebRequests.PostAsync<List<Test>>
+            var res = await WebRequests.PostAsync<ApiResponse<List<Test>>>
             ("https://localhost:5001/api/test/GetMyTests",
                 bearerToken:_loginResponseService.LoginResponse.Token
                 
             );
-            Tests = new ObservableCollection<Test>(res.ServerResponse);
+
+            if (!res.DisplayErrorIfFailedAsync().SuccessFul)
+            {
+                _modalService.ShowModalWindow("Ошибка",res.ErrorMessage);
+                return;
+            }
+
+            Tests = new ObservableCollection<Test>(res.ServerResponse.Response);
         }
 
     }

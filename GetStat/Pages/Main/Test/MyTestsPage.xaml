@@ -142,7 +142,7 @@
                                                FontSize="16"
                                                Grid.Column="0"
                                                Grid.Row="7"
-                                               Text="Общее время:" />
+                                               Text="Код:" />
                                     <StackPanel Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
                                         <TextBlock Name="code"  Foreground="#3a55d8" 
                                                    VerticalAlignment="Center"

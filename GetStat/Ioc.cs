@@ -32,6 +32,7 @@ namespace GetStat
             services.AddTransient<GetResultViewModel>();
             services.AddTransient<GetResultPageViewModel>();
             services.AddTransient<TeacherResultViewModel>();
+            services.AddTransient<AllowDenyViewModel>();
 
 
             services.AddSingleton<PageService>();

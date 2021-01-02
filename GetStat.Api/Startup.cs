@@ -1,7 +1,9 @@
 using System;
 using System.Text;
 using GetStat.Api.Domain;
+using GetStat.Api.Domain.Abstact;
 using GetStat.Api.Hubs;
+using GetStat.Api.Services;
 using GetStat.Domain.Models;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
@@ -37,6 +39,8 @@ namespace GetStat.Api
             //var connection = Environment.GetEnvironmentVariable("DbContext");
 
             services.AddTransient<EmailService>();
+            services.AddScoped<ITestService,TestSerivce>();
+            services.AddScoped<TestHub>();
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
             services.AddIdentity<Account, IdentityRole>(opts =>

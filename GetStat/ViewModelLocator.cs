@@ -22,6 +22,7 @@ namespace GetStat
         public GetResultViewModel GetResultViewModel => Ioc.Resolve<GetResultViewModel>();
         public GetResultPageViewModel GetResultPageViewModel => Ioc.Resolve<GetResultPageViewModel>();
         public TeacherResultViewModel TeacherResultViewModel => Ioc.Resolve<TeacherResultViewModel>();
+        public AllowDenyViewModel AllowDenyViewModel => Ioc.Resolve<AllowDenyViewModel>();
 
     }
 }

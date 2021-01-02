@@ -29,8 +29,8 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         private readonly ModalService _modalService;
         private readonly LoginResponseService _loginResponseService;
         private readonly EventBus _eventBus;
+        private readonly SignalRTestService _testService;
         internal Test Test { get; set; }
-        public bool IsShowPreview { get; private set; } = false;
         public bool IsShowSettings { get; private set; } = false;
         public ObservableCollection<Question> Questions { get; set; }
         public TimeSpan StartTime { get; set; }
@@ -41,11 +41,14 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         };
 
         public CreateTestViewModel(ModalService modalService,
-            LoginResponseService loginResponseService,EventBus eventBus)
+            LoginResponseService loginResponseService,
+            EventBus eventBus,
+            SignalRTestService testService)
         {
             _modalService = modalService;
             _loginResponseService = loginResponseService;
             _eventBus = eventBus;
+            _testService = testService;
             Questions = new ObservableCollection<Question>();
         }
 
@@ -68,22 +71,24 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
                    Questions = Questions.ToList(),
                    Settings = TestSettings
                };
+               
+               await _testService.CreateTest(newTest,_loginResponseService.LoginResponse.Token);
 
-               var response = await WebRequests.PostAsync<ApiResponse<int>>
-               ("https://localhost:5001/api/test/CreateTest", newTest,
-                   bearerToken:_loginResponseService.LoginResponse.Token);
+               //var response = await WebRequests.PostAsync<ApiResponse<int>>
+               //("https://localhost:5001/api/test/CreateTest", newTest,
+               //    bearerToken:_loginResponseService.LoginResponse.Token);
 
-               var res = response.DisplayErrorIfFailedAsync();
+               //var res = response.DisplayErrorIfFailedAsync();
 
-               if (!res.SuccessFul)
-               {
-                   _modalService.ShowModalWindow("Ошибка",res.Message);
-                   return;
-               }
-               Questions.Clear();
-               TestSettings = new Setting();
-               _modalService.ShowModalWindow("Новый тест", "Тест успешно добавлен в базу.\nПосмотреть можете в разделе Мои Тесты");
-               GC.Collect();
+               //if (!res.SuccessFul)
+               //{
+               //    _modalService.ShowModalWindow("Ошибка",res.Message);
+               //    return;
+               //}
+               //Questions.Clear();
+               //TestSettings = new Setting();
+               //_modalService.ShowModalWindow("Новый тест", "Тест успешно добавлен в базу.\nПосмотреть можете в разделе Мои Тесты");
+               //GC.Collect();
            }
            else
            {
@@ -111,6 +116,11 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         });
         public DelegateCommand CreateQuestion=> new DelegateCommand(() =>
         {
+            TestSettings ??= new Setting
+            {
+                StartDay = DateTime.Now
+            };
+
             var q = new Question
             {
                 Answers = new ObservableCollection<Answer>(Enumerable.Range(0, 4)

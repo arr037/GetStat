@@ -27,5 +27,10 @@
     <ProjectReference Include="..\GetStat.Domain\GetStat.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Domain\Abstact\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 
 </Project>

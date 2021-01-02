@@ -17,12 +17,13 @@ namespace GetStat.ViewModels
         private readonly ModalService _modalService;
         private readonly PageService _pageService;
 
-        public MainViewModel(PageService pageService, ModalService modalService)
+        public MainViewModel(PageService pageService, ModalService modalService,SignalRTestService testService)
         {
+            testService.Connect();
             _pageService = pageService;
             _modalService = modalService;
             pageService.OnPageChanged += page => CurrentPage = page;
-            pageService.Navigate( new EnterCodePage());
+            pageService.Navigate( new MainPage());
 
             modalService.OnModalWindowChanged += (title, text) =>
             {
