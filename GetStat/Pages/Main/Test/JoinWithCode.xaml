@@ -24,7 +24,7 @@
 
                         <StackPanel Background="#fff">
                             <TextBox Margin="0 10"
-                                     Text="{Binding Code}"
+                                     Text="{Binding Code,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                      FontFamily="{StaticResource GothamProLight}"
                                      Style="{StaticResource PlaceholderTextBoxStyle}" 
                                      Tag="Введите код:"/>

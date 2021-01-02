@@ -60,7 +60,7 @@ namespace GetStat.ViewModels.PagesViewModels
                 new ItemText()
                 {
                     Name = "К Тесту",
-                    IconImage = "\uf067",
+                    IconImage = "\uf05b",
                     Page = new JoinWithCode()
                 },
                 new ItemText()
@@ -81,12 +81,7 @@ namespace GetStat.ViewModels.PagesViewModels
                     IconImage = "\uf201",
                     Page = new GetResultPage()
                 },
-                new ItemText()
-                {
-                    Name = "Претензии",
-                    IconImage = "\uf296",
-                    Page = new ClaimsPage()
-                },
+
 
             };
             Tabs = new ObservableCollection<ITab>();

@@ -10,15 +10,9 @@
       Title="ResultTestPage"
       DataContext="{Binding Source={StaticResource ViewModelLocator},Path=GetResultPageViewModel}">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    
 
-        
-
-        <ScrollViewer Grid.Row="1"
+        <ScrollViewer Margin="0 10"
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
 
@@ -96,13 +90,19 @@
                                         </ItemsControl>
                                     </Grid>
                                 </Border>
-                                <Button Grid.Column="1" Content="Non Correct" Margin="5 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Button Content="Главное меню" Command="{Binding BackPage}"/>
+                <Button Margin="0 10" 
+                        FontSize="16"
+                        FontFamily="{StaticResource GothamPro}"
+                        Padding="10 7"
+                        Background="LightSkyBlue"
+                        BorderThickness="0"
+                        FontWeight="DemiBold"
+                        HorizontalAlignment="Center" Content="Главное меню" Command="{Binding BackPage}"/>
             </StackPanel>
         </ScrollViewer>
-    </Grid>
+
 </getStat:BasePage>

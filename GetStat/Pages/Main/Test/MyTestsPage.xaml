@@ -149,7 +149,12 @@
                                                    FontSize="16"
                                                    Text="{Binding Settings.Code}" />
 
-                                        <Button Content="Copy"
+                                        <Button Content="&#xf0c5;" 
+                                                ToolTip="Копировать код"
+                                                FontFamily="{StaticResource IcoMood}" 
+                                                FontSize="25" Background="Transparent" 
+                                                BorderThickness="0" Margin="5 7 5 5" 
+                                                VerticalAlignment="Center"
                                                 Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.CopyCode}"
                                                 CommandParameter="{Binding ElementName=code,Path=Text}"
                                                 />
@@ -157,17 +162,28 @@
 
                                 </Grid>
 
-                               <StackPanel Grid.Column="1">
-                                   <Button Content="Edit"
-                                           Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.EditTest}"
+                               <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Button Content="&#xf040;"
+                                            FontSize="30"
+                                            ToolTip="Редактировать"
+                                            FontFamily="{StaticResource IcoMood}"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.EditTest}"
                                            CommandParameter="{Binding}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
-                                   <Button Content="Result"
-                                           Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.GetResultTest}"
-                                           CommandParameter="{Binding}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
+                                            Margin="5 0"/>
+
+                                    <Button Content="&#xf0ce;"
+                                            ToolTip="Результат"
+                                            FontSize="30"
+                                            FontFamily="{StaticResource IcoMood}"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.GetResultTest}"
+                                            CommandParameter="{Binding}"
+                                            VerticalAlignment="Center"
+                                            />
                                 </StackPanel>
                                 <Canvas Grid.ColumnSpan="2" Canvas.ZIndex="1000" Grid.Row="0">
                                     <Border Background="#FFDAD4" Canvas.Right="-8.5" CornerRadius="2 5 2 50"

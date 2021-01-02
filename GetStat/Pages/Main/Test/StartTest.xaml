@@ -20,7 +20,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -31,24 +31,24 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Название теста: " Grid.Column="0" Grid.Row="0"/>
-            <TextBlock Text="Всего вопросов: " Grid.Column="0" Grid.Row="1"/>
-            <TextBlock Text="Тестируемый: " Grid.Column="0" Grid.Row="2"/>
-            <TextBlock Text="{Binding TestName}" Grid.Column="1" Grid.Row="0"/>
-            <TextBlock Text="{Binding QuestionCount}" Grid.Column="1" Grid.Row="1"/>
-            <TextBlock Text="{Binding FullName}" Grid.Column="1" Grid.Row="2"/>
+            <TextBlock Text="Название теста: " FontFamily="{StaticResource GothamPro}" FontSize="16" Grid.Column="0" Grid.Row="0"/>
+                <TextBlock Text="Всего вопросов: " FontFamily="{StaticResource GothamPro}" FontSize="16" Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="Тестируемый: " FontFamily="{StaticResource GothamPro}" FontSize="16" Grid.Column="0" Grid.Row="2"/>
+                <TextBlock Text="{Binding TestName}" FontWeight="Medium" FontFamily="{StaticResource GothamPro}" FontSize="16" Grid.Column="1" Grid.Row="0"/>
+                <TextBlock Text="{Binding QuestionCount}" FontWeight="Medium" FontFamily="{StaticResource GothamPro}" FontSize="16" Grid.Column="1" Grid.Row="1"/>
+                <TextBlock Text="{Binding FullName}" FontWeight="Medium" FontFamily="{StaticResource GothamPro}" FontSize="16" Grid.Column="1" Grid.Row="2"/>
 
-            <StackPanel Orientation="Horizontal" Grid.RowSpan="2" Grid.Column="2">
-                <TextBlock VerticalAlignment="Center" Text="Оставшее время"/>
-                <TextBlock VerticalAlignment="Center" Text="{Binding RemarkingTime}"/>
-                <Button Content="Завершить" Command="{Binding EndTest}"/>
+            <StackPanel Orientation="Horizontal" Grid.RowSpan="2" Grid.Column="2" TextBlock.FontSize="16" TextBlock.FontFamily="{StaticResource GothamPro}">
+                <TextBlock VerticalAlignment="Center" Text="Оставшее время: "/>
+                <TextBlock VerticalAlignment="Center" Text="{Binding RemarkingTime}" FontWeight="Medium" Padding="0 0 5 0"/>
+                <Button  Content="Завершить" Command="{Binding EndTest}"/>
             </StackPanel>
         </Grid>
 
             <ScrollViewer Grid.Row="1" 
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl ItemsSource="{Binding Questions,Mode=TwoWay,
+                <ItemsControl  ItemsSource="{Binding Questions,Mode=TwoWay,
                     UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -95,11 +95,21 @@
 
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+
+                    <ItemsControl.Style>
+                       <Style TargetType="ItemsControl">
+                           <Style.Triggers>
+                               <DataTrigger Binding="{Binding ElementName=ModalGrid,Path=Visibility}" Value="Visible">
+                                   <Setter Property="Visibility" Value="Collapsed"/>
+                               </DataTrigger>
+                            </Style.Triggers>
+                       </Style>
+                    </ItemsControl.Style>
                 </ItemsControl>
             </ScrollViewer>
 
         </Grid>
-        <Grid Visibility="{Binding IsStartTest,
+        <Grid  Visibility="{Binding IsStartTest,
             Converter={StaticResource BooleanToVisibilityConverter}}" 
               Background="#D8000000" Name="ModalGrid">
         <Border CornerRadius="5" Width="330" Margin="35" Background="#fff" HorizontalAlignment="Center"
