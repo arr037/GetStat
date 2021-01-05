@@ -128,28 +128,15 @@
                                                FontSize="16"
                                                Grid.Column="0"
                                                Grid.Row="6"
-                                               Text="Время конца:" />
-                                    <TextBlock Foreground="#3a55d8" 
-                                               VerticalAlignment="Center"
-                                               FontSize="16"
-                                               Grid.Column="1"
-                                               Grid.Row="6"
-                                               Text="{Binding Settings.EndTime,StringFormat=hh\\:mm}" />
-
-                                    <TextBlock Foreground="#364C59"
-                                               VerticalAlignment="Center"
-                                               FontWeight="DemiBold"
-                                               FontSize="16"
-                                               Grid.Column="0"
-                                               Grid.Row="7"
-                                               Text="Общее время:" />
-                                    <StackPanel Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
+                                               Text="Код:" />
+                                    <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal">
                                         <TextBlock Name="code"  Foreground="#3a55d8" 
                                                    VerticalAlignment="Center"
                                                    FontSize="16"
                                                    Text="{Binding Settings.Code}" />
 
                                         <Button Content="&#xf0c5;" 
+                                                Style="{StaticResource HoverButtonStyle}"
                                                 ToolTip="Копировать код"
                                                 FontFamily="{StaticResource IcoMood}" 
                                                 FontSize="25" Background="Transparent" 
@@ -163,7 +150,8 @@
                                 </Grid>
 
                                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                    <Button Content="&#xf040;"
+                                    <Button Style="{StaticResource HoverButtonStyle}"
+                                            Content="&#xf040;"
                                             FontSize="30"
                                             ToolTip="Редактировать"
                                             FontFamily="{StaticResource IcoMood}"
@@ -171,10 +159,11 @@
                                             BorderThickness="0"
                                             VerticalAlignment="Center"
                                             Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.EditTest}"
-                                           CommandParameter="{Binding}"
+                                            CommandParameter="{Binding}"
                                             Margin="5 0"/>
 
-                                    <Button Content="&#xf0ce;"
+                                    <Button Style="{StaticResource HoverButtonStyle}"
+                                        Content="&#xf0ce;"
                                             ToolTip="Результат"
                                             FontSize="30"
                                             FontFamily="{StaticResource IcoMood}"

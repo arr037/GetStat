@@ -35,10 +35,10 @@
                                                 <Setter Property="TextAlignment" Value="Center"/>
                                                 <Setter Property="FontFamily" Value="{StaticResource GothamPro}" />
                                                 <Setter Property="FontWeight" Value="Medium" />
-                                                <Setter Property="Foreground" Value="Black" />
+                                                <Setter Property="Foreground" Value="#364C59" />
                                                 <Style.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="true">
-                                                        <Setter  Property="Foreground" Value="Red" />
+                                                        <Setter  Property="Foreground" Value="#3a55d8" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>

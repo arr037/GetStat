@@ -6,7 +6,7 @@
 
     <Style TargetType="{x:Type Button}" x:Key="SignButtonLoadingStyle">
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Background" Value="{StaticResource BackgroundBlueBrush}" />
+        <Setter Property="Background" Value="#5A6CCE" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontFamily" Value="{StaticResource GothamProLight}" />
@@ -49,7 +49,7 @@
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation To="{StaticResource BackgroundOrange}" Duration="0:0:0.3"
+                                    <ColorAnimation To="#4C5BAE" Duration="0:0:0.3"
                                                     Storyboard.TargetName="border"
                                                     Storyboard.TargetProperty="Background.Color" />
                                 </Storyboard>
@@ -58,7 +58,7 @@
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation To="{StaticResource BackgroundBlue}" Duration="0:0:0.3"
+                                    <ColorAnimation To="#5A6CCE" Duration="0:0:0.3"
                                                     Storyboard.TargetName="border"
                                                     Storyboard.TargetProperty="Background.Color" />
                                 </Storyboard>
@@ -106,7 +106,7 @@
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation To="{StaticResource BackgroundOrange}" Duration="0:0:0.3"
+                                    <ColorAnimation To="#4C5BAE" Duration="0:0:0.3"
                                                     Storyboard.TargetName="border"
                                                     Storyboard.TargetProperty="Background.Color" />
                                 </Storyboard>
@@ -115,7 +115,7 @@
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation To="{StaticResource BackgroundBlue}" Duration="0:0:0.3"
+                                    <ColorAnimation To="#5A6CCE" Duration="0:0:0.3"
                                                     Storyboard.TargetName="border"
                                                     Storyboard.TargetProperty="Background.Color" />
                                 </Storyboard>
@@ -132,27 +132,22 @@
 
     <Style TargetType="Button" x:Key="BtnWithIcon">
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Background" Value="{StaticResource BackgroundLightGrayBrush}" />
-        <Setter Property="Foreground" Value="Gray" />
-        <Setter Property="BorderThickness" Value="0 1 0 0" />
-        <Setter Property="BorderBrush" Value="Gray"></Setter>
-        <Setter Property="FontFamily" Value="{StaticResource GothamProLight}" />
-        <Setter Property="Padding" Value="50 10" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontFamily" Value="{StaticResource GothamPro}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Setter Property="Foreground" Value="#364C59" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ButtonBase}">
                     <Border x:Name="border"
-                            HorizontalAlignment="Stretch"
+                            CornerRadius="2"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
+                            BorderThickness="0"
+                            Background="Transparent"
                             SnapsToDevicePixels="True">
 
-
                         <StackPanel Orientation="Horizontal" >
-                            <TextBlock Name="txt" Text="{StaticResource CloseIcon}"
+                            <TextBlock Name="txt" Text="{TemplateBinding Tag}"
                                        Focusable="False"
                                        FontSize="25"
                                        FontFamily="{StaticResource IcoMood}"
@@ -178,13 +173,10 @@
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation To="LightGray" Duration="0:0:0.3"
-                                                    Storyboard.TargetName="border"
-                                                    Storyboard.TargetProperty="Background.Color" />
-                                    <ColorAnimation To="White" Duration="0:0:0.3"
+                                    <ColorAnimation To="#3a55d8" Duration="0:0:0.3"
                                                     Storyboard.TargetName="txt"
                                                     Storyboard.TargetProperty="Foreground.Color" />
-                                    <ColorAnimation To="White" Duration="0:0:0.3"
+                                    <ColorAnimation To="#3a55d8" Duration="0:0:0.3"
                                                     Storyboard.TargetName="txt1"
                                                     Storyboard.TargetProperty="Foreground.Color" />
 
@@ -194,21 +186,73 @@
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation To="{StaticResource BackgroundLightGray}" Duration="0:0:0.3"
-                                                    Storyboard.TargetName="border"
-                                                    Storyboard.TargetProperty="Background.Color" />
-
-                                    <ColorAnimation To="LightGray" Duration="0:0:0.3"
+                                    <ColorAnimation To="#364C59" Duration="0:0:0.3"
                                                     Storyboard.TargetName="txt"
                                                     Storyboard.TargetProperty="Foreground.Color" />
-                                    <ColorAnimation To="LightGray" Duration="0:0:0.3"
+                                    <ColorAnimation To="#364C59" Duration="0:0:0.3"
                                                     Storyboard.TargetName="txt1"
                                                     Storyboard.TargetProperty="Foreground.Color" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" TargetName="border" Value="#E0F2F1" />
+                            <Setter Property="Foreground" TargetName="txt" Value="#E0F2F1" />
+                            <Setter Property="Foreground" TargetName="txt1" Value="#E0F2F1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="{x:Type Button}" x:Key="HoverButtonStyle">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontFamily" Value="{StaticResource GothamProLight}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border x:Name="border"
+                            CornerRadius="2"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <TextBlock Name="txt"  Text="{TemplateBinding Content}"
+                                   Focusable="False"
+                                   Foreground="#364C59"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   Margin="{TemplateBinding Padding}"
+                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="#3a55d8" Duration="0:0:0.3"
+                                                    Storyboard.TargetName="txt"
+                                                    Storyboard.TargetProperty="Foreground.Color" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="#364C59" Duration="0:0:0.3"
+                                                    Storyboard.TargetName="txt"
+                                                    Storyboard.TargetProperty="Foreground.Color" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" TargetName="txt" Value="#E0F2F1" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

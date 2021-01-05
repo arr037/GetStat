@@ -25,9 +25,9 @@
                             Margin="50 50 50 5">
 
                         <StackPanel Background="#fff">
-                            <TextBlock Foreground="{StaticResource ForegroundGreenBrush}" FontWeight="Bold"
+                            <TextBlock Foreground="#364C59" FontWeight="Bold"
                                        FontFamily="{StaticResource GothamPro}" HorizontalAlignment="Center"
-                                       FontSize="26" Text="Авторизация" />
+                                       FontSize="26" Text="Подтвеждение" />
 
                             <ContentControl HorizontalAlignment="Center" Height="120"
                                             Content="{StaticResource EmailImage}" />
@@ -35,13 +35,15 @@
 
                             <TextBlock
                                 Text="На вашу почту был отправлена ссылка, перейдите по ссылке чтоб подтверить email: "
-                                Margin="0 10" TextAlignment="Center" FontFamily="{StaticResource GothamProLight}"
+                                Margin="0 10" TextAlignment="Center"
+                                Foreground="#364C59"
+                                FontFamily="{StaticResource GothamProLight}"
                                 FontSize="18" TextWrapping="Wrap" HorizontalAlignment="Center" />
 
 
                             <Button Style="{StaticResource SignButtonStyle}" Content="Проверить"
                                     Command="{Binding CheckCode}" />
-                            <Button Style="{StaticResource SignButtonStyle}" Content="Назад" Command="{Binding GoBack}" />
+                            <Button Style="{StaticResource SignButtonStyle}" Content="Главное меню" Command="{Binding GoBack}" />
 
                         </StackPanel>
 

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using GetStat.Commands;
 using GetStat.Models;
+using GetStat.Pages.Authorization;
 using GetStat.Pages.Main;
 using GetStat.Services;
 
@@ -33,7 +34,7 @@ namespace GetStat.ViewModels.PagesViewModels
         public DelegateCommand GoBack =>
             new DelegateCommand(() =>
             {
-                _pageService.GoToBack();
-            }, o => _pageService.CanGoToBack);
+                _pageService.NavigateWithAnimation(new SignIn());
+            });
     }
 }

@@ -41,12 +41,15 @@
                             <Border Grid.Row="2" Width="1" Margin="5 0" Background="LightGray" Grid.RowSpan="4"
                                     Grid.Column="1" />
                             <TextBlock Grid.ColumnSpan="3" Grid.Row="0"
-                                       Foreground="{StaticResource ForegroundGreenBrush}" FontWeight="Bold"
+                                       Foreground="#364C59" FontWeight="Bold"
                                        FontFamily="{StaticResource GothamPro}" HorizontalAlignment="Center"
                                        FontSize="26" Text="Регистрация" />
 
-                            <ContentControl Grid.ColumnSpan="3" Grid.Row="1" Margin="0 20" HorizontalAlignment="Center" FontSize="60" Foreground="{StaticResource BackgroundDarkBlueBrush}"
-                                            FontFamily="{StaticResource IcoMood}" Content="{StaticResource RegisterIcon}" />
+                            <ContentControl Grid.ColumnSpan="3" Grid.Row="1"
+                                            Margin="0 20" HorizontalAlignment="Center" FontSize="70" 
+                                            Foreground="#5A6CCE"
+                                            FontFamily="{StaticResource IcoMood}" 
+                                            Content="&#xf0c0;" />
 
 
                             <TextBox Grid.Column="0" Grid.Row="2" Margin="0 25 0 12"
@@ -110,7 +113,7 @@
                                                 <BeginStoryboard>
                                                     <Storyboard>
                                                         <ColorAnimation Duration="0:0:.5"
-                                                                        To="{StaticResource ForegroundBlue}"
+                                                                        To="#5A6CCE"
                                                                         Storyboard.TargetProperty="Foreground.Color" />
                                                     </Storyboard>
                                                 </BeginStoryboard>

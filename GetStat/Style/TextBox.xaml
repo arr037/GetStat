@@ -13,11 +13,11 @@
         <DoubleAnimation Duration="0:0:.4" Storyboard.TargetName="textBlock" To="17"
                          Storyboard.TargetProperty="FontSize" />
 
-        <ColorAnimation Duration="0:0:.4" To="{StaticResource ForegroundBlue}"
+        <ColorAnimation Duration="0:0:.4" To="#5A6CCE"
                         Storyboard.TargetName="border"
                         Storyboard.TargetProperty="BorderBrush.Color" />
 
-        <ColorAnimation Duration="0:0:.4" To="{StaticResource ForegroundBlue}"
+        <ColorAnimation Duration="0:0:.4" To="#5A6CCE"
                         Storyboard.TargetName="textBlock"
                         Storyboard.TargetProperty="Foreground.Color" />
     </Storyboard>
@@ -30,11 +30,11 @@
         </DoubleAnimation>
         <DoubleAnimation Duration="0:0:.4" Storyboard.TargetName="textBlock" To="20"
                          Storyboard.TargetProperty="FontSize" />
-        <ColorAnimation Duration="0:0:.4" To="{StaticResource ForegroundDarkGray}"
+        <ColorAnimation Duration="0:0:.4" To="#364C59"
                         Storyboard.TargetName="border"
                         Storyboard.TargetProperty="BorderBrush.Color" />
 
-        <ColorAnimation Duration="0:0:.4" To="{StaticResource ForegroundDarkGray}"
+        <ColorAnimation Duration="0:0:.4" To="#364C59"
                         Storyboard.TargetName="textBlock"
                         Storyboard.TargetProperty="Foreground.Color" />
 
@@ -43,7 +43,7 @@
 
 
     <Style x:Key="PlaceholderTextBoxStyle" TargetType="{x:Type TextBox}">
-        <Setter Property="BorderBrush" Value="{StaticResource ForegroundDarkGrayBrush}" />
+        <Setter Property="BorderBrush" Value="#364C59" />
         <Setter Property="BorderThickness" Value="0 0 0 2" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="FontFamily" Value="{StaticResource GothamProMedium}" />
@@ -141,7 +141,7 @@
     <Style TargetType="{x:Type TextBlock}" x:Key="SpinningText">
 
         <Setter Property="FontFamily" Value="{StaticResource IcoMood}" />
-        <Setter Property="Text" Value="&#xe97f;" />
+        <Setter Property="Text" Value="&#xf110;" />
         <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
         <Setter Property="RenderTransform">
             <Setter.Value>

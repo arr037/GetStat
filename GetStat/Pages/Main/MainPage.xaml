@@ -39,13 +39,10 @@
                     <Run Text="{Binding Surname}"/>
                 </TextBlock>
 
-                <Button Command="{Binding LogOutCommand}"  VerticalAlignment="Center" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Padding="10" Margin="0 0 10 0">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xf08b;" Foreground="#364C59" FontSize="25" FontFamily="{StaticResource IcoMood}" VerticalAlignment="Center"/>
-                            <TextBlock Text="Выйти" FontWeight="DemiBold" Padding="15 0" Foreground="#364C59" FontSize="16"/>
-                        </StackPanel>
-                    </Button.Content>
+                <Button Style="{StaticResource BtnWithIcon}"
+                    Command="{Binding LogOutCommand}" Tag="&#xf08b;"
+                         VerticalAlignment="Center" 
+                         Padding="10" Margin="0 0 10 0" Content="Выйти">
                 </Button>
 
             </StackPanel>
@@ -187,8 +184,8 @@
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="tabs:ITab">
                     <StackPanel Orientation="Horizontal" TextBlock.FontSize="16" Margin="2 0" Background="Transparent">
-                            <TextBlock Padding="5 7" FontSize="16" FontFamily="{StaticResource GothamProMedium}" FontWeight="Medium" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <Button Command="{Binding CloseCommand}" CommandParameter="{Binding }" Content="&#xf00d;" FontFamily="{StaticResource IcoMood}" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Margin="15 0 0 0" HorizontalAlignment="Center" Padding="5"   VerticalAlignment="Center"/>
+                        <TextBlock Foreground="#364C59" Padding="5 7" FontSize="16" FontFamily="{StaticResource GothamProMedium}" FontWeight="Medium" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Button Style="{StaticResource HoverButtonStyle}" Command="{Binding CloseCommand}" CommandParameter="{Binding }" Content="&#xf00d;" FontFamily="{StaticResource IcoMood}" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Margin="15 0 0 0" HorizontalAlignment="Center" Padding="5"   VerticalAlignment="Center"/>
                         </StackPanel>
                 </DataTemplate>
                 </TabControl.ItemTemplate>

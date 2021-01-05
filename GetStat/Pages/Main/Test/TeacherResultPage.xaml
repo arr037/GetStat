@@ -12,12 +12,26 @@
 
 <Page.Resources>
     <converters:MultiValueConverter x:Key="MultiValueConverter"/>
+    
 </Page.Resources>
 
     <Grid>
-        <DataGrid Margin="10" BorderThickness="0" Background="Transparent" ItemsSource="{Binding ResultTests}" HorizontalGridLinesBrush="DarkGray"
-                  RowBackground="LightGray"
-                  AlternatingRowBackground="White"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button
+            FontWeight="DemiBold" Content="Печать" 
+            Style="{StaticResource BtnWithIcon}" 
+            Tag="&#xf02f;"
+            Padding="15 0"
+            VerticalContentAlignment="Bottom"
+            FontSize="18"
+            HorizontalAlignment="Center"/>
+        <DataGrid
+            Grid.Row="1" Margin="10"
+            ItemsSource="{Binding ResultTests}" 
+            
                   AutoGenerateColumns="False" IsReadOnly="True">
 
             <DataGrid.Columns>
@@ -32,33 +46,20 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-               <DataGridHyperlinkColumn Header="Подробнее" Width="*" />
+                <DataGridTemplateColumn Header="Подробнее" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button BorderThickness="0" Background="Transparent" FontWeight="Medium" 
+                                 Content="Просмотр" 
+                                 HorizontalAlignment="Left"
+                                Command="{Binding DataContext.ShowStudentTest,RelativeSource={RelativeSource Mode=FindAncestor,
+                                AncestorType=Page}}"
+                                 Style="{StaticResource HoverButtonStyle}"
+                                CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
-
-
-
-            <DataGrid.Resources>
-                <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="Background" Value="#3a55d8"/>
-                    <Setter Property="Foreground" Value="#fff"/>
-                    <Setter Property="FontSize" Value="16"/>
-                    <Setter Property="FontWeight" Value="Medium"/>
-                    <Setter Property="FontFamily" Value="{StaticResource GothamProMedium}"/>
-                    <Setter Property="Padding" Value="5 7"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                </Style>
-
-                <Style TargetType="DataGridRow">
-                    <Setter Property="Background" Value="Lavender"/>
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="FontSize" Value="16"/>
-                    <Setter Property="FontWeight" Value="Regular"/>
-                    <Setter Property="FontFamily" Value="{StaticResource GothamProMedium}"/>
-                    <Setter Property="Padding" Value="5 7"/>
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="BorderThickness" Value="0"></Setter>
-                </Style>
-            </DataGrid.Resources>
         </DataGrid>
     </Grid>
 </Page>

@@ -20,6 +20,8 @@ namespace GetStat.ViewModels.PagesViewModels.Tests.StartTest
     {
         private readonly LoginResponseService _loginResponseService;
         private readonly PageService _pageService;
+        public string AllCountQuestion { get; set; }
+        public string CorrectCountQuestion { get; set; }
         public List<ResultQueston> ResultQuestons { get; set; }
         public GetResultPageViewModel(EventBus eventBus,LoginResponseService loginResponseService,PageService pageService)
         {
@@ -43,7 +45,8 @@ namespace GetStat.ViewModels.PagesViewModels.Tests.StartTest
         private Task LoadResultTests(OnResultTest arg)
         {
             ResultQuestons = arg.List.ResultQuestons;
-
+            AllCountQuestion = arg.List.AllCountQuestion.ToString();
+            CorrectCountQuestion = arg.List.CorrectCountQuestion.ToString();
             return Task.CompletedTask;
         }
 
