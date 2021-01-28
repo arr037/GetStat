@@ -3,14 +3,18 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:GetStat.Pages.Main.Test"
+      xmlns:local="clr-namespace:GetStat.Pages.Main.Test" xmlns:res="clr-namespace:GetStat.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MyTestsPage"
       DataContext="{Binding Source={StaticResource ViewModelLocator},Path=MyTestViewModel}">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
+    
     <Grid>
-        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <ScrollViewer Margin="0 10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <ItemsControl ItemsSource="{Binding Tests,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -107,7 +111,13 @@
                                                Grid.Column="1"
                                                Grid.Row="4"
                                                Text="{Binding Settings.StartTime,StringFormat=hh\\:mm}" />
-
+                                    
+                                    <TextBlock Foreground="#3a55d8" 
+                                               VerticalAlignment="Center"
+                                               FontSize="16"
+                                               Grid.Column="1"
+                                               Grid.Row="6"
+                                               Text="{Binding Settings.DeadLine,StringFormat=hh\\:mm}" />
                                     <TextBlock Foreground="#364C59"
                                                VerticalAlignment="Center"
                                                FontWeight="DemiBold"
@@ -127,9 +137,16 @@
                                                FontWeight="DemiBold"
                                                FontSize="16"
                                                Grid.Column="0"
-                                               Grid.Row="6"
+                                               Grid.Row="7"
                                                Text="Код:" />
-                                    <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal">
+                                    <TextBlock Foreground="#364C59"
+                                               VerticalAlignment="Center"
+                                               FontWeight="DemiBold"
+                                               FontSize="16"
+                                               Grid.Column="0"
+                                               Grid.Row="6"
+                                               Text="Время прохождения:" />
+                                    <StackPanel Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
                                         <TextBlock Name="code"  Foreground="#3a55d8" 
                                                    VerticalAlignment="Center"
                                                    FontSize="16"
@@ -267,5 +284,20 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+      
+        <res:LoadingControl Visibility="{Binding IsLoading,Converter={StaticResource BooleanToVisibilityConverter}}" Width="200" Height="200" VerticalAlignment="Stretch"
+					HorizontalAlignment="Stretch"
+					Color1="Gray"
+					Color2="DarkGray"
+					SquareAnimationDuration="0:0:1"
+                            FontSize="6"
+					Message="Идет загрузка...">
+            <res:LoadingControl.ColorEasing>
+                <SineEase EasingMode="EaseInOut" />
+            </res:LoadingControl.ColorEasing>
+            <res:LoadingControl.SizeEasing>
+                <QuadraticEase EasingMode="EaseIn" />
+            </res:LoadingControl.SizeEasing>
+        </res:LoadingControl>
     </Grid>
 </Page>

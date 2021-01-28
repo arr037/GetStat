@@ -126,7 +126,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
             _pageService.NavigateWithAnimation(new ResultTestPage());
 
-            await _eventBus.Publish(new OnResultTest(response.ServerResponse.Response));
+            await _eventBus.Publish(new OnResultTest(response.ServerResponse.Response,response.ServerResponse.Response.FullName));
         }
 
         private Task LoadTest(OnStartTest test)
@@ -139,5 +139,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             _testId = test.TestId;
             return Task.CompletedTask;
         }
+
+
     }
 }

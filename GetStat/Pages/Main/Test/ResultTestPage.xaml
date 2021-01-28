@@ -17,7 +17,15 @@
                           HorizontalScrollBarVisibility="Disabled">
 
             <StackPanel Orientation="Vertical">
-                <ItemsControl ItemsSource="{Binding ResultQuestons,Mode=TwoWay,
+            <TextBlock FontSize="16"
+                       Text="{Binding FullName}"
+                       FontFamily="{StaticResource GothamPro}"
+                       Padding="10 7"
+                       FontWeight="DemiBold"
+                       HorizontalAlignment="Center">
+                
+            </TextBlock>
+            <ItemsControl ItemsSource="{Binding ResultQuestons,Mode=TwoWay,
                     UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -107,13 +115,10 @@
                     </TextBlock.Text>
                 </TextBlock>
                 <Button Margin="0 10" 
-                        FontSize="16"
-                        FontFamily="{StaticResource GothamPro}"
-                        Padding="10 7"
-                        Background="LightSkyBlue"
+                        Style="{StaticResource SignButtonStyle}"
                         BorderThickness="0"
                         FontWeight="DemiBold"
-                        HorizontalAlignment="Center" Content="Главное меню" Command="{Binding BackPage}"/>
+                        HorizontalAlignment="Center" Content="Вернуться назад" Command="{Binding BackPage}"/>
             </StackPanel>
         </ScrollViewer>
 

@@ -21,7 +21,7 @@ namespace GetStat.ViewModels
             _pageService = pageService;
             _modalService = modalService;
             pageService.OnPageChanged += page => CurrentPage = page;
-            pageService.Navigate( new EnterCodePage());
+            pageService.Navigate( new SignIn());
 
             modalService.OnModalWindowChanged += (title, text) =>
             {

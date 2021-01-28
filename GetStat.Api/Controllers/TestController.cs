@@ -53,13 +53,16 @@ namespace GetStat.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<List<Test>> GetMyTests()
+        public async Task<ApiResponse<List<Test>>> GetMyTests()
         {
-            return await _dbContext.Tests.AsNoTracking()
+            return new ApiResponse<List<Test>>
+            {
+                Response = await _dbContext.Tests.AsNoTracking()
                 .Include(x => x.Settings)
                 .Include(x => x.Questions)
                 .ThenInclude(ar => ar.Answers)
-                .Where(f => f.AccountId == UserId).ToListAsync();
+                .Where(f => f.AccountId == UserId).ToListAsync()
+            };
         }
 
         [AllowAnonymous]
@@ -214,7 +217,8 @@ namespace GetStat.Api.Controllers
                     TestId = x.TestId,
                     FullName = x.FullName,
                     AllCountQuestion = x.AllCountQuestion,
-                    CorrectCountQuestion = x.CorrectCountQuestion
+                    CorrectCountQuestion = x.CorrectCountQuestion,
+                    ResultTestId = x.ResultTestId
                 })
                 .Where(x => x.TestId == testId).ToListAsync();
             return new ApiResponse<List<ResultTest>>
@@ -231,7 +235,6 @@ namespace GetStat.Api.Controllers
                 .ThenInclude(x => x.Answers)
                 .Include(x => x.Settings)
                 .FirstOrDefaultAsync(x => x.TestId == testId);
-
 
             if (test == null)
             {
@@ -256,18 +259,22 @@ namespace GetStat.Api.Controllers
         [HttpPost]
         public async Task<ApiResponse<int>> UpdateTest([FromBody]Test test)
         {
-           _dbContext.Tests.Update(test);
-          
-           foreach (var question in test.Questions)
-           {
-               if (question.CorrectAnswer!=-1)
-                   continue;
 
-               var first = question.Answers.FirstOrDefault(x => x.IsSelected);
+            var questions = _dbContext.Questions.Include(x=>x.Answers)
+                .Where(x => x.TestId == test.TestId);
 
-               if (first != null) question.CorrectAnswer = first.AnswerId;
-           }
-           await _dbContext.SaveChangesAsync();
+            _dbContext.Questions.RemoveRange(questions);
+
+            _dbContext.Tests.Update(test);
+
+            foreach (var question in test.Questions)
+            {
+                var first = question.Answers.FirstOrDefault(x => x.IsSelected);
+
+                if (first != null) question.CorrectAnswer = first.AnswerId;
+            }
+
+            await _dbContext.SaveChangesAsync();
 
             return new ApiResponse<int>
             {
@@ -288,6 +295,27 @@ namespace GetStat.Api.Controllers
             {
                 Response = res
             };
+        }
+
+        [HttpPost]
+        public async Task<ApiResponse<ResultTest>>GetResultQuestions([FromBody]int resultTestId)
+        {
+            var res = await _dbContext.ResultTests
+                .Include(x=>x.ResultQuestons)
+                .ThenInclude(a=>a.ResultAnswers).
+                FirstOrDefaultAsync(x => x.ResultTestId == resultTestId);
+
+            if (res == null)            
+                return new ApiResponse<ResultTest>
+                {
+                    Error = "Произошла ошибка"
+                };
+
+            return new ApiResponse<ResultTest>
+            {
+                Response = res
+            };
+
         }
     }
 }

@@ -22,6 +22,7 @@ using GetStat.Pages.Authorization;
 using GetStat.Pages.Main.Test;
 using GetStat.Services;
 using GetStat.ViewModels.PagesViewModels.Tests;
+using GetStat.ViewModels.PagesViewModels.Tests.StartTest;
 
 namespace GetStat.ViewModels.PagesViewModels
 {
@@ -50,6 +51,7 @@ namespace GetStat.ViewModels.PagesViewModels
             _eventBus.Subscribe<OnTeacherResult>(TeacherResult);
             _eventBus.Subscribe<OnEditTest>(EditTest);
             _eventBus.Subscribe<OnCloseTab>(ClsTab);
+            _eventBus.Subscribe<OnUserResult>(UserResult);
             Name = loginResponseService.LoginResponse?.Name;
             Surname = loginResponseService.LoginResponse?.Surname;
 
@@ -86,6 +88,28 @@ namespace GetStat.ViewModels.PagesViewModels
             };
             Tabs = new ObservableCollection<ITab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
+        }
+
+        private Task UserResult(OnUserResult arg)
+        {
+            var datacontext = Ioc.Resolve<GetResultPageViewModel>();
+            datacontext.FullName = arg.FullName;
+            datacontext.ResultQuestons = arg.ResultQuestons;
+            datacontext.IsUserResult = true;
+            datacontext.AllCountQuestion = arg.All.ToString();
+            datacontext.CorrectCountQuestion = arg.Correct.ToString();
+
+            var pg = new ResultTestPage
+            {
+                DataContext = datacontext
+            };
+
+            SelectedTab = Tabs.AddUnique(new Tab
+            {
+                Name = $"Ответы: {arg.FullName}",
+                Page = pg
+            });
+            return Task.CompletedTask;
         }
 
         private Task ClsTab(OnCloseTab arg)
@@ -150,13 +174,14 @@ namespace GetStat.ViewModels.PagesViewModels
                 Name = item.Name,
                 Page = item.Page
             });
-            if (SelectedTab.Name == "Мои тесты")
+
+            if (SelectedTab?.Name == "Мои тесты")
                 await _eventBus.Publish(new OnOpenMenu
                 {
                     MenuType = MenuType.MyTest
                 });
 
-            if (SelectedTab.Name == "Результаты")
+            if (SelectedTab?.Name == "Результаты")
                 await _eventBus.Publish(new OnOpenMenu
                 {
                     MenuType = MenuType.ResultTest

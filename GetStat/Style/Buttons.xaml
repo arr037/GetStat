@@ -75,7 +75,7 @@
 
     <Style TargetType="{x:Type Button}" x:Key="SignButtonStyle">
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Background" Value="{StaticResource BackgroundBlueBrush}" />
+        <Setter Property="Background" Value="#5A6CCE" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontFamily" Value="{StaticResource GothamProLight}" />

@@ -25,7 +25,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         private readonly LoginResponseService _loginResponseService;
         private readonly ModalService _modalService;
         public ObservableCollection<Test> Tests { get; set; }
-
+        public bool IsLoading { get; set; }
         public MyTestViewModel(EventBus eventBus,LoginResponseService loginResponseService,ModalService modalService)
         {
             _eventBus = eventBus;
@@ -99,12 +99,28 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             if(arg.MenuType!=MenuType.MyTest)
                 return;
 
-            var res = await WebRequests.PostAsync<List<Test>>
-            ("https://localhost:5001/api/test/GetMyTests",
-                bearerToken:_loginResponseService.LoginResponse.Token
-                
-            );
-            Tests = new ObservableCollection<Test>(res.ServerResponse);
+
+            if (!IsLoading)
+            {
+                await RunCommandAsync(() => IsLoading, async () =>
+                {
+                    var res = await WebRequests.PostAsync<ApiResponse<List<Test>>>
+                        ("https://localhost:5001/api/test/GetMyTests",
+                            bearerToken: _loginResponseService.LoginResponse?.Token
+                        );
+                    var r = res.DisplayErrorIfFailedAsync();
+                    if (r.SuccessFul==false)
+                    {
+                        _modalService.ShowModalWindow("Ошибка", r.Message);
+                        await _eventBus.Publish(new OnCloseTab());
+                        return;
+                    }
+
+                    Tests = new ObservableCollection<Test>(res.ServerResponse.Response);
+                });
+            }
+
+            
         }
 
     }

@@ -41,7 +41,7 @@
             <StackPanel Orientation="Horizontal" Grid.RowSpan="2" Grid.Column="2" TextBlock.FontSize="16" TextBlock.FontFamily="{StaticResource GothamPro}">
                 <TextBlock VerticalAlignment="Center" Text="Оставшее время: "/>
                 <TextBlock VerticalAlignment="Center" Text="{Binding RemarkingTime}" FontWeight="Medium" Padding="0 0 5 0"/>
-                <Button  Content="Завершить" Command="{Binding EndTest}"/>
+                <Button  Content="Завершить" Command="{Binding EndTest}" Style="{StaticResource SignButtonStyle}"/>
             </StackPanel>
         </Grid>
 

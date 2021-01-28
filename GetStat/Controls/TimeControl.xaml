@@ -14,11 +14,10 @@
         </Grid.ColumnDefinitions>
 
         <ComboBox Name="hour" Grid.Column="0" 
-                  Text="{Binding ElementName=root,Path=HourText,UpdateSourceTrigger=PropertyChanged}" 
-                  IsEditable="True" IsTextSearchEnabled="True"/>
+                 IsTextSearchEnabled="False" SelectionChanged="hour_SelectionChanged" />
             <TextBlock Grid.Column="1" Text=":"/>
         <ComboBox Name="min" Grid.Column="2" 
-                  Text="{Binding ElementName=root,Path=MinutText,UpdateSourceTrigger=PropertyChanged}" 
-                   IsEditable="True" IsTextSearchEnabled="True"/>
+                  SelectionChanged="hour_SelectionChanged"
+                  IsTextSearchEnabled="False" />
     </Grid>
 </UserControl>

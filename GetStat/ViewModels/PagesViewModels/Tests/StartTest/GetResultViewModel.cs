@@ -7,20 +7,27 @@ using System.Windows;
 using Dna;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
+using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
 using GetStat.Models;
+using GetStat.Services;
 
 namespace GetStat.ViewModels.PagesViewModels.Tests.StartTest
 {
     public class GetResultViewModel:BaseVM
     {
         private readonly LoginResponseService _loginResponseService;
-        public List<ResultTest> Tests { get; set; }
+        private readonly EventBus eventBus;
+        private readonly ModalService modalService;
 
-        public GetResultViewModel(LoginResponseService loginResponseService,EventBus eventBus)
+        public List<ResultTest> Tests { get; set; }
+        public bool IsLoading { get; set; }
+        public GetResultViewModel(LoginResponseService loginResponseService,EventBus eventBus,ModalService modalService)
         {
             _loginResponseService = loginResponseService;
+            this.eventBus = eventBus;
+            this.modalService = modalService;
             eventBus.Subscribe<OnOpenMenu>(LoadTest);
         }
 
@@ -29,18 +36,25 @@ namespace GetStat.ViewModels.PagesViewModels.Tests.StartTest
             if (arg.MenuType != MenuType.ResultTest)
                 return;
 
-            var response = await WebRequests.PostAsync<ApiResponse<List<ResultTest>>>
-            ("https://localhost:5001/api/test/GetResultTest",
-                bearerToken: _loginResponseService.LoginResponse.Token);
-
-            var res = response.DisplayErrorIfFailedAsync();
-            if (!res.SuccessFul)
+            if (!IsLoading)
             {
-                MessageBox.Show(res.Message);
-                return;
-            }
+                await RunCommandAsync(() => IsLoading, async () =>
+                {
+                    var response = await WebRequests.PostAsync<ApiResponse<List<ResultTest>>>
+                                 ("https://localhost:5001/api/test/GetResultTest",
+                bearerToken: _loginResponseService.LoginResponse?.Token);
 
-            Tests = response.ServerResponse.Response;
+                    var res = response.DisplayErrorIfFailedAsync();
+                    if (!res.SuccessFul)
+                    {
+                        modalService.ShowModalWindow("Ошибка", res.Message);
+                       await eventBus.Publish(new OnCloseTab());
+                        return;
+                    }
+
+                    Tests = response.ServerResponse.Response;
+                });
+            }
         }
     }
 }
