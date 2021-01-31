@@ -71,7 +71,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
                var response = await WebRequests.PostAsync<ApiResponse<int>>
                ("https://localhost:5001/api/test/CreateTest", newTest,
-                   bearerToken:_loginResponseService.LoginResponse.Token);
+                   bearerToken:_loginResponseService.LoginResponse?.Token);
 
                var res = response.DisplayErrorIfFailedAsync();
 
@@ -119,7 +119,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
             };
             Questions.Add(q);
-        });
+        },(test)=>TestType==TestType.Create);
         public DelegateCommand<Answer> DeleteAnswerCommand => new DelegateCommand<Answer>((item) =>
         {
             var b =Questions.FirstOrDefault(x => x.Answers.Contains(item));
@@ -185,10 +185,10 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         private bool NotCorrectQuestion()
         {
             var errors = new List<string>();
-            
+            #region Question Error
             if (Questions.Count == 0)
             {
-                errors.Add("Создайте первый вопрос!\nПовторите попытку...");
+                errors.Add("Создайте первый вопрос!");
                
             }
 
@@ -197,10 +197,38 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             if (quest.Any())
             {
                 var bs = string.Join(",", quest.Select(x => Questions.IndexOf(x)));
-                errors.Add($"В {bs} вопросах не выбран правильный ответ!\nИсправьте и повторите попытку");
+                errors.Add($"В {bs} вопрос(e / ах) не выбран правильный ответ!"+Environment.NewLine);
 
             }
 
+            var dublicatesQuestions = Questions.Duplicates(x => x.Quest).ToList();
+
+            if (dublicatesQuestions.Count != 0)
+            {
+                string bs = string.Join(",", dublicatesQuestions.Select(x => Questions.IndexOf(x)));
+                errors.Add($"В {bs} одинаковые вопросы");
+            }
+            var dubAns = new List<int>();
+            foreach (var item in Questions)
+            {
+                var ds = item.Answers.Duplicates(x => x.Ans).ToList();
+                if (ds.Count != 0)
+                {
+                    dubAns.Add(Questions.IndexOf(item));
+                }
+            
+            }
+
+            if (dubAns.Count != 0)
+            {
+                string bs = string.Join(",", dubAns);
+                errors.Add($"В {bs} вопрос (e/ах) есть одинаковые ответы");
+            }
+
+
+
+            #endregion
+            #region Settings Errors
             if (string.IsNullOrWhiteSpace(TestSettings.TestName))
             {
                 errors.Add("Введите название теста");
@@ -215,10 +243,11 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             {
                 errors.Add("Введите дату превышаюший сегодняшний день");
             }
+            #endregion
 
             if (errors.Count > 0)
             {
-                _modalService.ShowModalWindow("Ошибка",string.Join(@"\n",errors));
+                _modalService.ShowModalWindow("Ошибка",string.Join(Environment.NewLine,errors));
                 return false;
             }
 

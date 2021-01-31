@@ -47,6 +47,7 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </TextBlock.Triggers>
+                        
                 </TextBlock>
             </Button>
             <Button Grid.Column="1" Style="{StaticResource TranperamentButton1}"
@@ -65,15 +66,16 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger RoutedEvent="Mouse.MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation To="#364C59" Duration="0:0:.3"
+                            <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="#364C59" Duration="0:0:.3"
                                                     Storyboard.TargetProperty="Foreground.Color" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </TextBlock.Triggers>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    
                 </TextBlock>
             </Button>
             <Button Grid.Column="2" Style="{StaticResource TranperamentButton1}"
