@@ -4,16 +4,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Dna;
 using GetStat.Commands;
+using GetStat.Domain;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
+using GetStat.Domain.Web;
 using GetStat.Models;
 using GetStat.Services;
 
@@ -42,7 +44,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
            if (val == MessageBoxResult.Yes)
            {
                var response = await WebRequests.PostAsync(
-                   "https://localhost:5001/api/test/RemoveTest",test.TestId,bearerToken:_loginResponseService.LoginResponse.Token);
+                   Config.UrlAddress+"api/test/RemoveTest",test.TestId,bearerToken:_loginResponseService.LoginResponse.Token);
 
                if (response.StatusCode == HttpStatusCode.OK)
                {
@@ -60,7 +62,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             test =>
         {
             var response = await WebRequests.PostAsync<ApiResponse<Test>>
-            ("https://localhost:5001/api/test/EditTest", test.TestId,
+            (Config.UrlAddress+"api/test/EditTest", test.TestId,
                 bearerToken: _loginResponseService.LoginResponse.Token);
 
             var res = response.DisplayErrorIfFailedAsync();
@@ -77,7 +79,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         public ICommand GetResultTest => new DelegateCommand<Test>(async test =>
         {
             var response = await WebRequests.PostAsync<ApiResponse<List<ResultTest>>>
-            ("https://localhost:5001/api/test/GetResult", test.TestId,
+            (Config.UrlAddress+"api/test/GetResult", test.TestId,
                 bearerToken: _loginResponseService.LoginResponse.Token);
 
             var res = response.DisplayErrorIfFailedAsync();
@@ -105,9 +107,13 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
                 await RunCommandAsync(() => IsLoading, async () =>
                 {
                     var res = await WebRequests.PostAsync<ApiResponse<List<Test>>>
-                        ("https://localhost:5001/api/test/GetMyTests",
-                            bearerToken: _loginResponseService.LoginResponse?.Token
+                        (Config.UrlAddress+"api/test/GetMyTests",
+                            bearerToken: _loginResponseService.LoginResponse?.Token,
+                            cancelToken:arg.cancellationToken.Token
                         );
+                    if(res.IsCanceled)
+                        return;
+
                     var r = res.DisplayErrorIfFailedAsync();
                     if (r.SuccessFul==false)
                     {
@@ -116,6 +122,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
                         return;
                     }
 
+                    
                     Tests = new ObservableCollection<Test>(res.ServerResponse.Response);
                 });
             }

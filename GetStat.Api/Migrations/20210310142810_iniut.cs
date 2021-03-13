@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GetStat.Api.Migrations
 {
-    public partial class init : Migration
+    public partial class iniut : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,7 +61,10 @@ namespace GetStat.Api.Migrations
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AllCountQuestion = table.Column<int>(type: "int", nullable: false),
                     CorrectCountQuestion = table.Column<int>(type: "int", nullable: false),
-                    TestId = table.Column<int>(type: "int", nullable: false)
+                    TestName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    TestId = table.Column<int>(type: "int", nullable: false),
+                    AccountId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,6 +199,7 @@ namespace GetStat.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     Question = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     ResultTestId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -216,6 +220,7 @@ namespace GetStat.Api.Migrations
                     QuestionId = table.Column<int>(type: "int", nullable: false),
                     Quest = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CorrectAnswer = table.Column<int>(type: "int", nullable: false, defaultValue: -1),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     TestId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -241,6 +246,7 @@ namespace GetStat.Api.Migrations
                     EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     DeadLine = table.Column<TimeSpan>(type: "time", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValueSql: "SUBSTRING(CONVERT(varchar(40), NEWID()),0,9)"),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     TestId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -260,6 +266,7 @@ namespace GetStat.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     Answer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     IsCorrect = table.Column<bool>(type: "bit", nullable: false),
                     IsUserCorrect = table.Column<bool>(type: "bit", nullable: false),
                     ResultQuestonId = table.Column<int>(type: "int", nullable: true)
@@ -281,6 +288,7 @@ namespace GetStat.Api.Migrations
                 {
                     AnswerId = table.Column<int>(type: "int", nullable: false),
                     Ans = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     QuestionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

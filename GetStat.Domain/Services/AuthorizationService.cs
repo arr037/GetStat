@@ -4,12 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Dna;
+using GetStat.Domain;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models;
 using GetStat.Domain.Services;
 using GetStat.Domain.ViewModels;
+using GetStat.Domain.Web;
 
 namespace GetStat.Services
 {
@@ -36,7 +37,7 @@ namespace GetStat.Services
             }
 
             var response = await WebRequests.PostAsync<ApiResponse<LoginResponse>>(
-                "https://localhost:5001/api/register", account);
+                Config.UrlAddress+"api/register", account);
 
             var res = response.DisplayErrorIfFailedAsync();
             if (res.SuccessFul == false)
@@ -53,7 +54,7 @@ namespace GetStat.Services
         {
             var response = await WebRequests.
                 PostAsync<ApiResponse<bool>>(
-                "https://localhost:5001/api/IsConfirm", bearerToken:_loginResponseService.LoginResponse.Token);
+                Config.UrlAddress + "api/IsConfirm", bearerToken:_loginResponseService.LoginResponse.Token);
 
             var res = response.DisplayErrorIfFailedAsync();
             if (res.SuccessFul == false)
@@ -62,13 +63,13 @@ namespace GetStat.Services
                 return false;
             }
 
-            return true;
+            return response.ServerResponse.Response;
         }
 
 
         public async Task<bool> Login(LoginViewModel model)
         {
-            var response = await WebRequests.PostAsync<ApiResponse<LoginResponse>>("https://localhost:5001/api/login", model);
+            var response = await WebRequests.PostAsync<ApiResponse<LoginResponse>>(Config.UrlAddress+"api/login", model);
 
             var res = response.DisplayErrorIfFailedAsync();
             if (res.SuccessFul == false)

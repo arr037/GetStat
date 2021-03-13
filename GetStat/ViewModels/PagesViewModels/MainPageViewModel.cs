@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Dna;
 using GetStat.Commands;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
@@ -26,7 +26,7 @@ using GetStat.ViewModels.PagesViewModels.Tests.StartTest;
 
 namespace GetStat.ViewModels.PagesViewModels
 {
-    public class MainPageViewModel:BaseVM
+    public class MainPageViewModel : BaseVM
     {
         private readonly LoginResponseService _loginResponseService;
         private readonly PageService _pageService;
@@ -83,8 +83,6 @@ namespace GetStat.ViewModels.PagesViewModels
                     IconImage = "\uf201",
                     Page = new GetResultPage()
                 },
-
-
             };
             Tabs = new ObservableCollection<ITab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
@@ -149,7 +147,7 @@ namespace GetStat.ViewModels.PagesViewModels
                 DataContext = datacontext
             };
 
-           SelectedTab = Tabs.AddUnique(new Tab
+            SelectedTab = Tabs.AddUnique(new Tab
             {
                 Name = "Ответы",
                 Page = pg
@@ -157,38 +155,49 @@ namespace GetStat.ViewModels.PagesViewModels
             return Task.CompletedTask;
         }
 
-
-        public ICommand CloseTab=> new DelegateCommand<ITab>(item =>
-        {
-            Tabs.Remove(item);
-        });
-        public ICommand LogOutCommand => new DelegateCommand( () =>
+        public ICommand CloseTab => new DelegateCommand<ITab>(item =>
          {
-              _loginResponseService.Clear();
-             _pageService.Navigate(new SignIn());
+             item.cancellationToken.Cancel();
+             Tabs.Remove(item);
          });
-        public ICommand AddItemToTabs=> new DelegateCommand<ItemText>(async (item) =>
+
+        public ICommand LogOutCommand => new DelegateCommand(() =>
         {
-            SelectedTab = Tabs.AddUnique(new Tab
-            {
-                Name = item.Name,
-                Page = item.Page
-            });
-
-            if (SelectedTab?.Name == "Мои тесты")
-                await _eventBus.Publish(new OnOpenMenu
-                {
-                    MenuType = MenuType.MyTest
-                });
-
-            if (SelectedTab?.Name == "Результаты")
-                await _eventBus.Publish(new OnOpenMenu
-                {
-                    MenuType = MenuType.ResultTest
-                });
-
-
+            LoginResponseService.Clear();
+            PageService.Navigate(new SignIn());
         });
+
+        public ICommand AddItemToTabs => new DelegateCommand<ItemText>(async (item) =>
+         {
+             SelectedTab = Tabs.AddUnique(new Tab
+             {
+                 Name = item.Name,
+                 Page = item.Page
+             });
+
+             if (SelectedTab?.Name == "Мои тесты")
+                 await EventBus.Publish(new OnOpenMenu
+                 {
+                     MenuType = MenuType.MyTest,
+                     cancellationToken = SelectedTab.cancellationToken
+                 });
+
+             if (SelectedTab?.Name == "Результаты")
+                 await EventBus.Publish(new OnOpenMenu
+                 {
+                     MenuType = MenuType.ResultTest,
+                     cancellationToken = SelectedTab.cancellationToken
+                 });
+         });
+
+        public LoginResponseService LoginResponseService => _loginResponseService;
+
+        public PageService PageService => _pageService;
+
+        public ModalService ModalService => _modalService;
+
+        public EventBus EventBus => _eventBus;
+
         private void Tabs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             ITab tab;
@@ -198,21 +207,28 @@ namespace GetStat.ViewModels.PagesViewModels
                     tab = (ITab)e.NewItems[0];
                     tab.CloseRequired += Tab_CloseRequired;
                     break;
+
                 case NotifyCollectionChangedAction.Remove:
                     tab = (ITab)e.OldItems[0];
                     tab.CloseRequired -= Tab_CloseRequired;
                     break;
             }
         }
+
         private void Tab_CloseRequired(object sender, EventArgs e)
         {
-            Tabs.Remove((ITab)sender);
+            var s = (ITab)sender;
+            s.cancellationToken.Cancel();
+            s.Page = null;
+            Tabs.Remove(s);
+            GC.Collect();
         }
     }
 
     public class OnOpenMenu : IEvent
     {
         public MenuType MenuType { get; set; }
+        public CancellationTokenSource cancellationToken { get; set; }
     }
 
     public enum MenuType

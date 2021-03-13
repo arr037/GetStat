@@ -1,6 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System.IO;
+using System.Windows.Controls;
 using System.Windows.Input;
 using GetStat.Commands;
+using GetStat.Domain;
 using GetStat.Models;
 using GetStat.Pages;
 using GetStat.Pages.Authorization;
@@ -18,10 +20,11 @@ namespace GetStat.ViewModels
 
         public MainViewModel(PageService pageService, ModalService modalService)
         {
+            ReadJson();
             _pageService = pageService;
             _modalService = modalService;
             pageService.OnPageChanged += page => CurrentPage = page;
-            pageService.Navigate( new MainPage());
+            pageService.Navigate(new EnterCodePage());
 
             modalService.OnModalWindowChanged += (title, text) =>
             {
@@ -36,6 +39,18 @@ namespace GetStat.ViewModels
         public string ModalText { get; set; }
 
         public ICommand CloseModalWindowCommand => new DelegateCommand(() => { _modalService.HideModalWindow(); });
+
+
+        private void ReadJson()
+        {
+            var str = File.ReadAllText("Config.txt");
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                throw new System.Exception("Пожалуйста введите url адрес сервера");
+            }
+
+            Config.UrlAddress = str;
+        }
 
     }
 }

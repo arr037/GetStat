@@ -12,7 +12,7 @@ namespace GetStat.Domain.Models.Test
         public string Quest { get; set; }
         public int CorrectAnswer { get; set; }
         public ObservableCollection<Answer> Answers { get; set; }
-
+        public byte[] Image { get; set; }
         public int TestId { get; set; }
         public Test Test { get; set; }
 

@@ -10,6 +10,7 @@ namespace GetStat.Domain.Models.Test
     {
         public int Id { get; set; }
         public string Question { get; set; }
+        public byte[] Image { get; set; }
         public List<ResultAnswer> ResultAnswers { get; set; }
     }
 }

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Dna;
+using GetStat.Domain;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
+using GetStat.Domain.Web;
 using GetStat.Models;
 using GetStat.Services;
 
@@ -41,8 +42,12 @@ namespace GetStat.ViewModels.PagesViewModels.Tests.StartTest
                 await RunCommandAsync(() => IsLoading, async () =>
                 {
                     var response = await WebRequests.PostAsync<ApiResponse<List<ResultTest>>>
-                                 ("https://localhost:5001/api/test/GetResultTest",
-                bearerToken: _loginResponseService.LoginResponse?.Token);
+                                 (Config.UrlAddress+"api/test/GetResultTest",
+                bearerToken: _loginResponseService.LoginResponse?.Token,
+                cancelToken:arg.cancellationToken.Token);
+                   
+                    if (response.IsCanceled)
+                        return;
 
                     var res = response.DisplayErrorIfFailedAsync();
                     if (!res.SuccessFul)

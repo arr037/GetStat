@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Navigation;
-using Dna;
 using GetStat.Commands;
+using GetStat.Domain;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
+using GetStat.Domain.Web;
 using GetStat.Models;
 using GetStat.Services;
 
@@ -46,7 +47,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             string fullName = log.Surname + " " + log.Name + " " + log.MiddleName;
 
             var response = await WebRequests.PostAsync<ApiResponse<Test>>
-            ("https://localhost:5001/api/test/JoinTest", new[]{Code,fullName},
+            (Config.UrlAddress+"api/test/JoinTest", new[]{Code,fullName},
                 bearerToken: _loginResponseService.LoginResponse.Token);
 
             var res = response.DisplayErrorIfFailedAsync();

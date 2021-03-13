@@ -25,7 +25,7 @@ namespace GetStat.ViewModels.PagesViewModels
         public DelegateCommand CheckCode => new DelegateCommand(async () =>
         {
             var res = await _authorizationService.ConfirmEmail();
-            if (res)
+            if (res==true)
                 _pageService.NavigateWithAnimation(new MainPage());
             else
                 _modalService.ShowModalWindow("Ошибка","Потдвердите свой email");

@@ -1,5 +1,5 @@
-﻿using Dna;
-using GetStat.Domain.Base;
+﻿using GetStat.Domain.Base;
+using GetStat.Domain.Web;
 
 namespace GetStat.Domain.Extetrions
 {
@@ -25,7 +25,7 @@ namespace GetStat.Domain.Extetrions
                 // Если у нас есть результат, но нет никаких подробностей ответа сервера вообще...
                 else if (response != null)
                     message =
-                        $"Не удалось связаться с сервером. Код состояния: {response.StatusCode}. {response.StatusDescription}";
+                        $"Не удалось связаться с сервером. Код состояния: {response.StatusCode}. {response.StatusDescription};{response.ErrorMessage}";
 
 
                 return new BaseError {Message = message};

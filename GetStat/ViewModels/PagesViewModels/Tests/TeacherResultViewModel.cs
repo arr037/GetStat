@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Dna;
 using GetStat.Commands;
+using GetStat.Domain;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
+using GetStat.Domain.Web;
 using GetStat.Models;
 using GetStat.Services;
 
@@ -36,7 +37,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         public ICommand ShowStudentTest=> new DelegateCommand<ResultTest>(async test =>
         {
             var response = await WebRequests.PostAsync<ApiResponse<ResultTest>>
-               ("https://localhost:5001/api/test/GetResultQuestions", test.ResultTestId,
+               (Config.UrlAddress+"api/test/GetResultQuestions", test.ResultTestId,
                    bearerToken: loginResponseService.LoginResponse?.Token);
 
             var res = response.DisplayErrorIfFailedAsync();

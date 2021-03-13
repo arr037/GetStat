@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetStat.Api", "GetStat.Api\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetStat.Domain", "GetStat.Domain\GetStat.Domain.csproj", "{C6E35FBE-47F0-46CE-A63E-F2F29473C617}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Print", "Print", "{5484DEFC-F413-45C6-9404-CCF450E6F6EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

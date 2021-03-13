@@ -18,8 +18,9 @@ namespace GetStat.Api.Domain
         public DbSet<Test> Tests { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public DbSet<Setting> Settings{ get; set; }
-        public DbSet<ResultTest> ResultTests{ get; set; }
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<ResultTest> ResultTests { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -37,7 +38,6 @@ namespace GetStat.Api.Domain
                 .WithOne(ad => ad.Test)
                 .HasForeignKey<Setting>(ad => ad.TestId);
 
-
             modelBuilder.Entity<Test>()
                 .HasMany<Question>(g => g.Questions)
                 .WithOne(s => s.Test)
@@ -50,13 +50,11 @@ namespace GetStat.Api.Domain
                 .HasForeignKey(s => s.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Setting>().Property(x => x.Code)
-                .HasDefaultValueSql("SUBSTRING(CONVERT(varchar(40), NEWID()),0,9)");
+            modelBuilder.Entity<Setting>().Property(x => x.Code).HasDefaultValueSql("SUBSTRING(CONVERT(varchar(40), NEWID()),0,9)");
 
             modelBuilder.Entity<Question>()
                 .Property(x => x.CorrectAnswer)
                     .HasDefaultValue(-1);
-
         }
     }
 }

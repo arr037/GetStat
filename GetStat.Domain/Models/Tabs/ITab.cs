@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,7 +14,7 @@ namespace GetStat.Domain.Models.Tabs
     {
         public string Name { get; set; }
         public Page Page { get; set; }
-
+        public CancellationTokenSource cancellationToken { get; set; }
         ICommand CloseCommand { get; }
         event EventHandler CloseRequired;
     }
@@ -28,6 +29,8 @@ namespace GetStat.Domain.Models.Tabs
         public string Name { get; set; }
         public Page Page { get; set; }
         public ICommand CloseCommand { get; }
+        public CancellationTokenSource cancellationToken { get; set; } = new CancellationTokenSource();
+
         public event EventHandler CloseRequired;
     }
 }

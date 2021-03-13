@@ -10,6 +10,7 @@ namespace GetStat.Domain.Models.Test
         [NotMapped]
         public bool IsSelected { get; set; }
 
+        public byte[] Image { get; set; }
         public int QuestionId { get; set; }
         public Question Question { get; set; }
     }

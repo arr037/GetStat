@@ -10,16 +10,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetStat.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201227121011_addTestName")]
-    partial class addTestName
+    [Migration("20210310142810_iniut")]
+    partial class iniut
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseHiLo("EntityFrameworkHiLoSequence")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("SqlServer:HiLoSequenceName", "EntityFrameworkHiLoSequence")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
 
             modelBuilder.HasSequence("EntityFrameworkHiLoSequence")
                 .IncrementsBy(10);
@@ -106,10 +107,13 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("AnswerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseHiLo();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
 
                     b.Property<string>("Ans")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
@@ -126,12 +130,15 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("QuestionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseHiLo();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
 
                     b.Property<int>("CorrectAnswer")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(-1);
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Quest")
                         .HasColumnType("nvarchar(max)");
@@ -151,10 +158,13 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseHiLo();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
 
                     b.Property<string>("Answer")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
@@ -177,7 +187,10 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseHiLo();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Question")
                         .HasColumnType("nvarchar(max)");
@@ -197,7 +210,7 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("ResultTestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseHiLo();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
 
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(max)");
@@ -210,6 +223,9 @@ namespace GetStat.Api.Migrations
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("TestId")
                         .HasColumnType("int");
@@ -227,7 +243,7 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("SettingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseHiLo();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
 
                     b.Property<string>("Code")
                         .ValueGeneratedOnAdd()
@@ -239,6 +255,9 @@ namespace GetStat.Api.Migrations
 
                     b.Property<TimeSpan>("EndTime")
                         .HasColumnType("time");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("MaxQuestion")
                         .HasColumnType("nvarchar(max)");
@@ -268,7 +287,7 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("TestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseHiLo();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
 
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)");
@@ -312,7 +331,7 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseHiLo();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -336,7 +355,7 @@ namespace GetStat.Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseHiLo();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");

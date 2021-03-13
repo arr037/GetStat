@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Dna;
 using GetStat.Commands;
+using GetStat.Domain;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
+using GetStat.Domain.Web;
 using GetStat.Models;
 using GetStat.Pages.Authorization;
 using GetStat.Pages.Main;
@@ -109,7 +110,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
             var response = await
                 WebRequests.PostAsync<ApiResponse<ResultTest>>
-            ("https://localhost:5001/api/test/EndTest", content: new BaseResultQA
+            (Config.UrlAddress+"api/test/EndTest", content: new BaseResultQA
                 {
                     ResultQas = answers,
                     TestId = _testId,

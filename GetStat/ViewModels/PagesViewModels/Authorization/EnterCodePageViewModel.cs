@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Dna;
 using GetStat.Commands;
+using GetStat.Domain;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
 using GetStat.Domain.ViewModels;
+using GetStat.Domain.Web;
 using GetStat.Models;
 using GetStat.Pages.Authorization;
 using GetStat.Pages.Main;
@@ -43,7 +44,7 @@ namespace GetStat.ViewModels.PagesViewModels.Authorization
                 await RunCommandAsync(() => IsLogging, async () =>
                 {
                     var response = await WebRequests.PostAsync<ApiResponse<Test>>
-                        ("https://localhost:5001/api/test/JoinTest", new[] { Code, FullName });
+                        (Config.UrlAddress+"api/test/JoinTest", new[] { Code, FullName });
 
                     var res = response.DisplayErrorIfFailedAsync();
 

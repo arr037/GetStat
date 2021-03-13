@@ -18,7 +18,7 @@ namespace GetStat.Domain.Models.Test
         public TimeSpan EndTime { get; set; }
         public TimeSpan DeadLine { get; set; }
         public string Code { get; set; }
-
+        public byte[] Image { get; set; }
         public int TestId { get; set; }
         public Test Test { get; set; }
 

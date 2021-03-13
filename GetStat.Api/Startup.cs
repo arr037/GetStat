@@ -53,7 +53,6 @@ namespace GetStat.Api
             {
                 opt.DefaultAuthenticateScheme = "JwtBearer";
                 opt.DefaultChallengeScheme = "JwtBearer";
-
             }).AddJwtBearer("JwtBearer", jwtbeaereOpt =>
             {
                 jwtbeaereOpt.TokenValidationParameters = new TokenValidationParameters
@@ -66,7 +65,6 @@ namespace GetStat.Api
                     ClockSkew = TimeSpan.FromMinutes(5)
                 };
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,339 +1,445 @@
-﻿<Page x:Class="GetStat.Pages.Main.Test.CreateTestPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:GetStat.Pages.Main.Test"
-      xmlns:getStat="clr-namespace:GetStat"
-      xmlns:controls="clr-namespace:GetStat.Controls"
-      mc:Ignorable="d"
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="CreateTestPage"
-      DataContext="{Binding Source={StaticResource ViewModelLocator},Path=CreateTestViewModel}">
+﻿<Page
+    x:Class="GetStat.Pages.Main.Test.CreateTestPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:GetStat.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:getStat="clr-namespace:GetStat"
+    xmlns:local="clr-namespace:GetStat.Pages.Main.Test"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="CreateTestPage"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=CreateTestViewModel}"
+    mc:Ignorable="d">
     <Grid>
         <Grid Background="{StaticResource BackgroundLightGrayBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{StaticResource TranperamentButton1}"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="0"
                     Background="Transparent"
-                    Cursor="Hand" FontFamily="{StaticResource IcoMood}"
-                    Grid.Row="0" Command="{Binding CreateQuestion}">
+                    Command="{Binding CreateQuestion}"
+                    Cursor="Hand"
+                    FontFamily="{StaticResource IcoMood}"
+                    Style="{StaticResource TranperamentButton1}">
 
-                <TextBlock Foreground="#364C59" Padding="5 7">
-                    <Run Text="&#xf067;" FontFamily="{StaticResource IcoMood}" FontSize="26" />
-                    <TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="Mouse.MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation To="#3a55d8" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Mouse.MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation To="#364C59" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </TextBlock.Triggers>
-                        
-                </TextBlock>
-            </Button>
-            <Button Grid.Column="1" Style="{StaticResource TranperamentButton1}"
-                    Background="Transparent"
-                    Cursor="Hand" FontFamily="{StaticResource IcoMood}"
-                    Grid.Row="0" Command="{Binding SettingsCommand}">
-
-                <TextBlock Foreground="#364C59" Padding="5 7">
-                    <Run Text="&#xf013;" FontFamily="{StaticResource IcoMood}" FontSize="26" />
-                    <TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="Mouse.MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation To="#3a55d8" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
+                    <TextBlock Padding="5,7" Foreground="#364C59">
+                        <Run
+                            FontFamily="{StaticResource IcoMood}"
+                            FontSize="26"
+                            Text="&#xf067;" />
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetProperty="Foreground.Color"
+                                            To="#3a55d8"
+                                            Duration="0:0:.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
                             <EventTrigger RoutedEvent="Mouse.MouseLeave">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation To="#364C59" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
+                                        <ColorAnimation
+                                            Storyboard.TargetProperty="Foreground.Color"
+                                            To="#364C59"
+                                            Duration="0:0:.3" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
                         </TextBlock.Triggers>
-                    
-                </TextBlock>
-            </Button>
-            <Button Grid.Column="2" Style="{StaticResource TranperamentButton1}"
+                    </TextBlock>
+                </Button>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
                     Background="Transparent"
-                    Cursor="Hand" FontFamily="{StaticResource IcoMood}"
-                    Grid.Row="0" Command="{Binding SaveCommand}">
+                    Command="{Binding SettingsCommand}"
+                    Cursor="Hand"
+                    FontFamily="{StaticResource IcoMood}"
+                    Style="{StaticResource TranperamentButton1}">
 
-                <TextBlock Foreground="#364C59" Padding="5 7">
-                    <Run Text="&#xf0c7;" FontFamily="{StaticResource IcoMood}" FontSize="26" />
-                    <TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="Mouse.MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation To="#3a55d8" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Mouse.MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation To="#364C59" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </TextBlock.Triggers>
-                </TextBlock>
-            </Button>
+                    <TextBlock Padding="5,7" Foreground="#364C59">
+                        <Run
+                            FontFamily="{StaticResource IcoMood}"
+                            FontSize="26"
+                            Text="&#xf013;" />
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetProperty="Foreground.Color"
+                                            To="#3a55d8"
+                                            Duration="0:0:.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetProperty="Foreground.Color"
+                                            To="#364C59"
+                                            Duration="0:0:.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                </Button>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Background="Transparent"
+                    Command="{Binding SaveCommand}"
+                    Cursor="Hand"
+                    FontFamily="{StaticResource IcoMood}"
+                    Style="{StaticResource TranperamentButton1}">
 
-        </Grid>
+                    <TextBlock Padding="5,7" Foreground="#364C59">
+                        <Run
+                            FontFamily="{StaticResource IcoMood}"
+                            FontSize="26"
+                            Text="&#xf0c7;" />
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetProperty="Foreground.Color"
+                                            To="#3a55d8"
+                                            Duration="0:0:.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetProperty="Foreground.Color"
+                                            To="#364C59"
+                                            Duration="0:0:.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                </Button>
+            </Grid>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl AlternationCount="{Binding Questions.Count,FallbackValue=100}" ItemsSource="{Binding Questions,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="150 2" Padding="7 5" Background="White" CornerRadius="5" BorderThickness="0.5"
-                                BorderBrush="Gray">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+            <ScrollViewer
+                Grid.Row="1"
+                HorizontalScrollBarVisibility="Disabled"
+                ScrollViewer.IsDeferredScrollingEnabled="True"
+                VerticalScrollBarVisibility="Auto"
+                VirtualizingStackPanel.IsVirtualizing="True"
+                VirtualizingStackPanel.ScrollUnit="Pixel">
+                <ItemsControl
+                    AlternationCount="{Binding Questions.Count, FallbackValue=100}"
+                    ItemsSource="{Binding Questions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    VirtualizingStackPanel.IsVirtualizing="True">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="150,2"
+                                Padding="7,5"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0.5"
+                                CornerRadius="5">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Foreground="#3a55d8" Name="qNum"
-                                               VerticalAlignment="Center"
-                                               FontWeight="DemiBold"
-                                               FontSize="16"
-                                               Grid.Column="0"
-                                               Text="{Binding 
-            Path=(ItemsControl.AlternationIndex), 
-    RelativeSource={RelativeSource Mode=TemplatedParent}, 
-    StringFormat={}{0}. }" />
-                                    <TextBox
-                                        TextWrapping="Wrap"
-                                        Margin="2 2 20 0"
-                                        Padding="3 5"
-                                        FontSize="16"
-                                        VerticalAlignment="Center"
-                                        Grid.Column="1"
-                                        FontFamily="{StaticResource GothamPro}"
-                                        Text="{Binding Quest}" />
-                                </Grid>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Name="qNum"
+                                            Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            FontSize="16"
+                                            FontWeight="DemiBold"
+                                            Foreground="#3a55d8"
+                                            Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource Mode=TemplatedParent}, StringFormat={}{0}.}" />
+                                        <Grid Grid.Column="1" Margin="2,2,40,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox
+                                                Grid.Column="0"
+                                                Padding="3,5"
+                                                VerticalAlignment="Center"
+                                                FontFamily="{StaticResource GothamPro}"
+                                                FontSize="16"
+                                                Text="{Binding Quest}"
+                                                TextWrapping="Wrap" />
+                                            <Button Grid.Column="1" Content="+" />
+                                        </Grid>
+                                    </Grid>
 
-                                <ItemsControl Margin="0 3 0 0" Panel.ZIndex="0" Grid.Row="1"
-                                              ItemsSource="{Binding Answers}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Margin="0 2 0 0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <RadioButton IsChecked="{Binding IsSelected}" VerticalAlignment="Center"
-                                                             GroupName="{Binding ElementName=qNum,Path=Text}"
-                                                             Grid.Column="0" />
-                                                <TextBox Padding="3 5"
-                                                         FontFamily="{StaticResource GothamPro}"
-                                                         FontSize="16"
-                                                         Grid.Column="1"
-                                                         TextWrapping="Wrap"
-                                                         Text="{Binding Ans}" />
-                                                <Button Style="{StaticResource TranperamentButton}"
+                                    <ItemsControl
+                                        Grid.Row="1"
+                                        Margin="0,3,0,0"
+                                        Panel.ZIndex="0"
+                                        ItemsSource="{Binding Answers}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,2,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <RadioButton
+                                                        Grid.Column="0"
+                                                        VerticalAlignment="Center"
+                                                        GroupName="{Binding ElementName=qNum, Path=Text}"
+                                                        IsChecked="{Binding IsSelected}" />
+                                                    <TextBox
+                                                        Grid.Column="1"
+                                                        Padding="3,5"
+                                                        FontFamily="{StaticResource GothamPro}"
+                                                        FontSize="16"
+                                                        Text="{Binding Ans}"
+                                                        TextWrapping="Wrap" />
+                                                    <Button
+                                                        Grid.Column="2"
+                                                        Margin="5,0,0,0"
                                                         HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center
-                                                        "
-                                                        Margin="5 0 0 0"
-                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.DeleteAnswerCommand}"
+                                                        VerticalAlignment="Center                                                         "
+                                                        Background="#FFDAD4"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.DeleteAnswerCommand}"
                                                         CommandParameter="{Binding}"
-                                                        Foreground="#FF5B44"
                                                         Content="&#xf1f8;"
-                                                        Background="#FFDAD4" Grid.Column="2"
-                                                        FontFamily="{StaticResource IcoMood}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <Border
-                                    Grid.Row="2"
-                                    HorizontalAlignment="Left"
-                                    Margin="0 5">
-                                    <Border.InputBindings>
-                                        <MouseBinding
-                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.AddNewAnswer}"
-                                            CommandParameter="{Binding}" Gesture="LeftClick" />
-                                    </Border.InputBindings>
-                                    <TextBlock Foreground="#364C59" Padding="5 7" Name="txt">
-                                        <Run Text="&#xf067;" FontFamily="{StaticResource IcoMood}" FontSize="26" />
-                                        <Run Text=" Новый вариант" FontSize="18"
-                                             FontFamily="{StaticResource GothamProMedium}" FontWeight="DemiBold"
-                                             BaselineAlignment="Center" />
-                                        <TextBlock.Triggers>
-                                            <EventTrigger RoutedEvent="Mouse.MouseEnter">
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <ColorAnimation To="#3a55d8" Duration="0:0:.3"
-                                                                        Storyboard.TargetProperty="Foreground.Color" />
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                            <EventTrigger RoutedEvent="Mouse.MouseLeave">
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <ColorAnimation To="#364C59" Duration="0:0:.3"
-                                                                        Storyboard.TargetProperty="Foreground.Color" />
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                        </TextBlock.Triggers>
-                                    </TextBlock>
-                                </Border>
-                                <Canvas Canvas.ZIndex="1000" Grid.Row="0">
-                                    <Border Background="#FFDAD4" Canvas.Right="-8.5" CornerRadius="2 5 2 50"
-                                            Canvas.Top="-5.5" Width="20" Height="20">
-                                        <TextBlock Foreground="#FF5B44" Name="img" Text="&#xf00d;"
-                                                   Padding="3 0 0 3"
-                                                   FontFamily="{StaticResource IcoMood}"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
-
+                                                        FontFamily="{StaticResource IcoMood}"
+                                                        Foreground="#FF5B44"
+                                                        Style="{StaticResource TranperamentButton}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Border
+                                        Grid.Row="2"
+                                        Margin="0,5"
+                                        HorizontalAlignment="Left">
                                         <Border.InputBindings>
                                             <MouseBinding
-                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}},Path=DataContext.RemoveQuestion}"
-                                                CommandParameter="{Binding}" Gesture="LeftClick" />
+                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.AddNewAnswer}"
+                                                CommandParameter="{Binding}"
+                                                Gesture="LeftClick" />
                                         </Border.InputBindings>
-
-                                        <Border.Triggers>
-                                            <EventTrigger RoutedEvent="Mouse.MouseLeave">
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <DoubleAnimation
-                                                            Storyboard.TargetProperty="(Border.Width)"
-                                                            To="20" Duration="0:0:0.3">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <QuarticEase EasingMode="EaseInOut" />
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                        <DoubleAnimation
-                                                            Storyboard.TargetProperty="(Border.Height)"
-                                                            To="20" Duration="0:0:0.3">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <QuarticEase EasingMode="EaseInOut" />
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-
-                                                        <DoubleAnimation
-                                                            Storyboard.TargetName="img"
-                                                            Storyboard.TargetProperty="(TextBlock.FontSize)"
-                                                            To="14" Duration="0:0:0.3">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <QuarticEase EasingMode="EaseInOut" />
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                        <ThicknessAnimation To="3 0 0 3"
-                                                                            Duration="0:0:0.3"
-                                                                            Storyboard.TargetName="img"
-                                                                            Storyboard.TargetProperty="(TextBlock.Padding)" />
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                            <EventTrigger RoutedEvent="Mouse.MouseEnter">
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <ThicknessAnimation To="6 0 0 6"
-                                                                            Duration="0:0:0.3"
-                                                                            Storyboard.TargetName="img"
-                                                                            Storyboard.TargetProperty="(TextBlock.Padding)" />
-
-
-                                                        <DoubleAnimation
-                                                            Storyboard.TargetName="img"
-                                                            Storyboard.TargetProperty="(TextBlock.FontSize)"
-                                                            To="20" Duration="0:0:0.3">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <QuarticEase EasingMode="EaseInOut" />
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-
-
-                                                        <DoubleAnimation
-                                                            Storyboard.TargetProperty="(Border.Width)"
-                                                            To="30" Duration="0:0:0.3">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <QuarticEase EasingMode="EaseInOut" />
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                        <DoubleAnimation
-                                                            Storyboard.TargetProperty="(Border.Height)"
-                                                            To="30" Duration="0:0:0.3">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <QuarticEase EasingMode="EaseInOut" />
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                        </Border.Triggers>
+                                        <TextBlock
+                                            Name="txt"
+                                            Padding="5,7"
+                                            Foreground="#364C59">
+                                            <Run
+                                                FontFamily="{StaticResource IcoMood}"
+                                                FontSize="26"
+                                                Text="&#xf067;" />
+                                            <Run
+                                                BaselineAlignment="Center"
+                                                FontFamily="{StaticResource GothamProMedium}"
+                                                FontSize="18"
+                                                FontWeight="DemiBold"
+                                                Text=" Новый вариант" />
+                                            <TextBlock.Triggers>
+                                                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <ColorAnimation
+                                                                Storyboard.TargetProperty="Foreground.Color"
+                                                                To="#3a55d8"
+                                                                Duration="0:0:.3" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <ColorAnimation
+                                                                Storyboard.TargetProperty="Foreground.Color"
+                                                                To="#364C59"
+                                                                Duration="0:0:.3" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </TextBlock.Triggers>
+                                        </TextBlock>
                                     </Border>
-                                </Canvas>
-                            </Grid>
-                        </Border>
+                                    <Canvas Grid.Row="0" Canvas.ZIndex="1000">
+                                        <Border
+                                            Canvas.Top="-5.5"
+                                            Canvas.Right="-8.5"
+                                            Width="20"
+                                            Height="20"
+                                            Background="#FFDAD4"
+                                            CornerRadius="2 5 2 50">
+                                            <TextBlock
+                                                Name="img"
+                                                Padding="3,0,0,3"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontFamily="{StaticResource IcoMood}"
+                                                Foreground="#FF5B44"
+                                                Text="&#xf00d;" />
 
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </Grid>
-        <Grid Background="#D8000000" Name="ModalGrid" Visibility="{Binding IsShowSettings,Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Border CornerRadius="5"   Margin="35" Background="#fff" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Padding="15 30">
+                                            <Border.InputBindings>
+                                                <MouseBinding
+                                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.RemoveQuestion}"
+                                                    CommandParameter="{Binding}"
+                                                    Gesture="LeftClick" />
+                                            </Border.InputBindings>
+
+                                            <Border.Triggers>
+                                                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation
+                                                                Storyboard.TargetProperty="(Border.Width)"
+                                                                To="20"
+                                                                Duration="0:0:0.3">
+                                                                <DoubleAnimation.EasingFunction>
+                                                                    <QuarticEase EasingMode="EaseInOut" />
+                                                                </DoubleAnimation.EasingFunction>
+                                                            </DoubleAnimation>
+                                                            <DoubleAnimation
+                                                                Storyboard.TargetProperty="(Border.Height)"
+                                                                To="20"
+                                                                Duration="0:0:0.3">
+                                                                <DoubleAnimation.EasingFunction>
+                                                                    <QuarticEase EasingMode="EaseInOut" />
+                                                                </DoubleAnimation.EasingFunction>
+                                                            </DoubleAnimation>
+
+                                                            <DoubleAnimation
+                                                                Storyboard.TargetName="img"
+                                                                Storyboard.TargetProperty="(TextBlock.FontSize)"
+                                                                To="14"
+                                                                Duration="0:0:0.3">
+                                                                <DoubleAnimation.EasingFunction>
+                                                                    <QuarticEase EasingMode="EaseInOut" />
+                                                                </DoubleAnimation.EasingFunction>
+                                                            </DoubleAnimation>
+                                                            <ThicknessAnimation
+                                                                Storyboard.TargetName="img"
+                                                                Storyboard.TargetProperty="(TextBlock.Padding)"
+                                                                To="3 0 0 3"
+                                                                Duration="0:0:0.3" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <ThicknessAnimation
+                                                                Storyboard.TargetName="img"
+                                                                Storyboard.TargetProperty="(TextBlock.Padding)"
+                                                                To="6 0 0 6"
+                                                                Duration="0:0:0.3" />
+
+                                                            <DoubleAnimation
+                                                                Storyboard.TargetName="img"
+                                                                Storyboard.TargetProperty="(TextBlock.FontSize)"
+                                                                To="20"
+                                                                Duration="0:0:0.3">
+                                                                <DoubleAnimation.EasingFunction>
+                                                                    <QuarticEase EasingMode="EaseInOut" />
+                                                                </DoubleAnimation.EasingFunction>
+                                                            </DoubleAnimation>
+
+                                                            <DoubleAnimation
+                                                                Storyboard.TargetProperty="(Border.Width)"
+                                                                To="30"
+                                                                Duration="0:0:0.3">
+                                                                <DoubleAnimation.EasingFunction>
+                                                                    <QuarticEase EasingMode="EaseInOut" />
+                                                                </DoubleAnimation.EasingFunction>
+                                                            </DoubleAnimation>
+                                                            <DoubleAnimation
+                                                                Storyboard.TargetProperty="(Border.Height)"
+                                                                To="30"
+                                                                Duration="0:0:0.3">
+                                                                <DoubleAnimation.EasingFunction>
+                                                                    <QuarticEase EasingMode="EaseInOut" />
+                                                                </DoubleAnimation.EasingFunction>
+                                                            </DoubleAnimation>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Border.Triggers>
+                                        </Border>
+                                    </Canvas>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+        <Grid
+            Name="ModalGrid"
+            Background="#D8000000"
+            Visibility="{Binding IsShowSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border
+                Margin="35"
+                Padding="15,30"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="#fff"
+                CornerRadius="5">
                 <StackPanel>
                     <Expander>
                         <Expander.Header>
-                            <TextBlock Foreground="#364C59" Padding="5 7">
-                    <Run Text="&#xf05b;" FontFamily="{StaticResource IcoMood}" FontSize="26" />
-                    <Run Text=" Экспорт &amp; Импорт" FontSize="18" FontFamily="{StaticResource GothamProMedium}"
-                         FontWeight="DemiBold" BaselineAlignment="Center" />
+                            <TextBlock Padding="5,7" Foreground="#364C59">
+                                <Run
+                                    FontFamily="{StaticResource IcoMood}"
+                                    FontSize="26"
+                                    Text="&#xf05b;" />
+                                <Run
+                                    BaselineAlignment="Center"
+                                    FontFamily="{StaticResource GothamProMedium}"
+                                    FontSize="18"
+                                    FontWeight="DemiBold"
+                                    Text=" Экспорт &amp; Импорт" />
                                 <TextBlock.Triggers>
                                     <EventTrigger RoutedEvent="Mouse.MouseEnter">
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <ColorAnimation To="#3a55d8" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
+                                                <ColorAnimation
+                                                    Storyboard.TargetProperty="Foreground.Color"
+                                                    To="#3a55d8"
+                                                    Duration="0:0:.3" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </EventTrigger>
                                     <EventTrigger RoutedEvent="Mouse.MouseLeave">
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <ColorAnimation To="#364C59" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
+                                                <ColorAnimation
+                                                    Storyboard.TargetProperty="Foreground.Color"
+                                                    To="#364C59"
+                                                    Duration="0:0:.3" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </EventTrigger>
@@ -342,58 +448,84 @@
                         </Expander.Header>
                         <Expander.Content>
                             <StackPanel Orientation="Vertical">
-                                <Button Style="{StaticResource TranperamentButton1}"
-                                Background="Transparent"
-                                Cursor="Hand" FontFamily="{StaticResource IcoMood}"
-                                Command="{Binding ExportQuestions}">
+                                <Button
+                                    Background="Transparent"
+                                    Command="{Binding ExportQuestions}"
+                                    Cursor="Hand"
+                                    FontFamily="{StaticResource IcoMood}"
+                                    Style="{StaticResource TranperamentButton1}">
 
-                                    <TextBlock Foreground="#364C59" Padding="5 7">
-                                <Run Text="&#xf064;" FontFamily="{StaticResource IcoMood}" FontSize="26" />
-                                <Run Text=" Экспорт" FontSize="18" FontFamily="{StaticResource GothamProMedium}"
-                                     FontWeight="DemiBold" BaselineAlignment="Center" />
+                                    <TextBlock Padding="5,7" Foreground="#364C59">
+                                        <Run
+                                            FontFamily="{StaticResource IcoMood}"
+                                            FontSize="26"
+                                            Text="&#xf064;" />
+                                        <Run
+                                            BaselineAlignment="Center"
+                                            FontFamily="{StaticResource GothamProMedium}"
+                                            FontSize="18"
+                                            FontWeight="DemiBold"
+                                            Text=" Экспорт" />
                                         <TextBlock.Triggers>
                                             <EventTrigger RoutedEvent="Mouse.MouseEnter">
                                                 <BeginStoryboard>
                                                     <Storyboard>
-                                                        <ColorAnimation To="#3a55d8" Duration="0:0:.3"
-                                                                Storyboard.TargetProperty="Foreground.Color" />
+                                                        <ColorAnimation
+                                                            Storyboard.TargetProperty="Foreground.Color"
+                                                            To="#3a55d8"
+                                                            Duration="0:0:.3" />
                                                     </Storyboard>
                                                 </BeginStoryboard>
                                             </EventTrigger>
                                             <EventTrigger RoutedEvent="Mouse.MouseLeave">
                                                 <BeginStoryboard>
                                                     <Storyboard>
-                                                        <ColorAnimation To="#364C59" Duration="0:0:.3"
-                                                                Storyboard.TargetProperty="Foreground.Color" />
+                                                        <ColorAnimation
+                                                            Storyboard.TargetProperty="Foreground.Color"
+                                                            To="#364C59"
+                                                            Duration="0:0:.3" />
                                                     </Storyboard>
                                                 </BeginStoryboard>
                                             </EventTrigger>
                                         </TextBlock.Triggers>
                                     </TextBlock>
                                 </Button>
-                                <Button Style="{StaticResource TranperamentButton1}"
-                                Background="Transparent"
-                                Cursor="Hand" FontFamily="{StaticResource IcoMood}"
-                                Command="{Binding ImportQuestions}">
+                                <Button
+                                    Background="Transparent"
+                                    Command="{Binding ImportQuestions}"
+                                    Cursor="Hand"
+                                    FontFamily="{StaticResource IcoMood}"
+                                    Style="{StaticResource TranperamentButton1}">
 
-                                    <TextBlock Foreground="#364C59" Padding="5 7" >
-                                <Run Text="&#xf122;" FontFamily="{StaticResource IcoMood}" FontSize="26" />
-                                <Run Text=" Импорт" FontSize="18" FontFamily="{StaticResource GothamProMedium}"
-                                     FontWeight="DemiBold" BaselineAlignment="Center" />
+                                    <TextBlock Padding="5,7" Foreground="#364C59">
+                                        <Run
+                                            FontFamily="{StaticResource IcoMood}"
+                                            FontSize="26"
+                                            Text="&#xf122;" />
+                                        <Run
+                                            BaselineAlignment="Center"
+                                            FontFamily="{StaticResource GothamProMedium}"
+                                            FontSize="18"
+                                            FontWeight="DemiBold"
+                                            Text=" Импорт" />
                                         <TextBlock.Triggers>
                                             <EventTrigger RoutedEvent="Mouse.MouseEnter">
                                                 <BeginStoryboard>
                                                     <Storyboard>
-                                                        <ColorAnimation To="#3a55d8" Duration="0:0:.3"
-                                                                Storyboard.TargetProperty="Foreground.Color" />
+                                                        <ColorAnimation
+                                                            Storyboard.TargetProperty="Foreground.Color"
+                                                            To="#3a55d8"
+                                                            Duration="0:0:.3" />
                                                     </Storyboard>
                                                 </BeginStoryboard>
                                             </EventTrigger>
                                             <EventTrigger RoutedEvent="Mouse.MouseLeave">
                                                 <BeginStoryboard>
                                                     <Storyboard>
-                                                        <ColorAnimation To="#364C59" Duration="0:0:.3"
-                                                                Storyboard.TargetProperty="Foreground.Color" />
+                                                        <ColorAnimation
+                                                            Storyboard.TargetProperty="Foreground.Color"
+                                                            To="#364C59"
+                                                            Duration="0:0:.3" />
                                                     </Storyboard>
                                                 </BeginStoryboard>
                                             </EventTrigger>
@@ -401,29 +533,39 @@
                                     </TextBlock>
                                 </Button>
                             </StackPanel>
-
                         </Expander.Content>
                     </Expander>
                     <Expander>
                         <Expander.Header>
-                            <TextBlock Foreground="#364C59" Padding="5 7">
-                    <Run Text="&#xf013;" FontFamily="{StaticResource IcoMood}" FontSize="26" />
-                    <Run Text=" Параметры теста" FontSize="18" FontFamily="{StaticResource GothamProMedium}"
-                         FontWeight="DemiBold" BaselineAlignment="Center" />
+                            <TextBlock Padding="5,7" Foreground="#364C59">
+                                <Run
+                                    FontFamily="{StaticResource IcoMood}"
+                                    FontSize="26"
+                                    Text="&#xf013;" />
+                                <Run
+                                    BaselineAlignment="Center"
+                                    FontFamily="{StaticResource GothamProMedium}"
+                                    FontSize="18"
+                                    FontWeight="DemiBold"
+                                    Text=" Параметры теста" />
                                 <TextBlock.Triggers>
                                     <EventTrigger RoutedEvent="Mouse.MouseEnter">
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <ColorAnimation To="#3a55d8" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
+                                                <ColorAnimation
+                                                    Storyboard.TargetProperty="Foreground.Color"
+                                                    To="#3a55d8"
+                                                    Duration="0:0:.3" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </EventTrigger>
                                     <EventTrigger RoutedEvent="Mouse.MouseLeave">
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <ColorAnimation To="#364C59" Duration="0:0:.3"
-                                                    Storyboard.TargetProperty="Foreground.Color" />
+                                                <ColorAnimation
+                                                    Storyboard.TargetProperty="Foreground.Color"
+                                                    To="#364C59"
+                                                    Duration="0:0:.3" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </EventTrigger>
@@ -433,64 +575,125 @@
                         <Expander.Content>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock VerticalAlignment="Center" FontFamily="{StaticResource GothamPro}" FontSize="16" Foreground="#364C59" FontWeight="Medium" Text="День экзамена: " Grid.Column="0" Grid.Row="1"/>
-                                <TextBlock VerticalAlignment="Center"  FontFamily="{StaticResource GothamPro}" FontSize="16" Foreground="#364C59" FontWeight="Medium" Text="Начало экзамена: " Grid.Column="0" Grid.Row="2"/>
-                                <TextBlock VerticalAlignment="Center"  FontFamily="{StaticResource GothamPro}" FontSize="16" Foreground="#364C59" FontWeight="Medium" Text="Конец экзамена: " Grid.Column="0" Grid.Row="3"/>
-                                <TextBlock VerticalAlignment="Center"  FontFamily="{StaticResource GothamPro}" FontSize="16" Foreground="#364C59" FontWeight="Medium" Text="Количество вопросов: " Grid.Column="0" Grid.Row="4"/>
-                                <TextBlock VerticalAlignment="Center"  FontFamily="{StaticResource GothamPro}" FontSize="16" Foreground="#364C59" FontWeight="Medium" Text="Время: " Grid.Column="0" Grid.Row="5"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource GothamPro}"
+                                    FontSize="16"
+                                    FontWeight="Medium"
+                                    Foreground="#364C59"
+                                    Text="День экзамена: " />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource GothamPro}"
+                                    FontSize="16"
+                                    FontWeight="Medium"
+                                    Foreground="#364C59"
+                                    Text="Начало экзамена: " />
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource GothamPro}"
+                                    FontSize="16"
+                                    FontWeight="Medium"
+                                    Foreground="#364C59"
+                                    Text="Конец экзамена: " />
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource GothamPro}"
+                                    FontSize="16"
+                                    FontWeight="Medium"
+                                    Foreground="#364C59"
+                                    Text="Количество вопросов: " />
+                                <TextBlock
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource GothamPro}"
+                                    FontSize="16"
+                                    FontWeight="Medium"
+                                    Foreground="#364C59"
+                                    Text="Время: " />
 
-                                <TextBox Margin="0 15 0 5"
-                             Foreground="#364C59"
-                             Width="290" 
-                             HorizontalAlignment="Left" 
-                             Style="{StaticResource PlaceholderTextBoxStyle}" 
-                             Text="{Binding TestSettings.TestName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                             Tag="Введите название теста: "
-                             Grid.Row="0"
-                             Grid.ColumnSpan="2"
-                             Grid.Column="0" />
-                                <DatePicker SelectedDate="{Binding TestSettings.StartDay}" 
-                                            Padding="0 2" FontSize="16" Grid.Column="1"
-                                            Grid.Row="1" Width="150"
-                                            HorizontalAlignment="Left"
-                                            />
-                                <controls:TimeControl Padding="0 2"
-                                          FontSize="16" Foreground="#364C59"
-                                          Grid.Column="1" Grid.Row="2"
-                                          Value="{Binding TestSettings.StartTime,Mode=TwoWay}" 
-                                          Width="150" HorizontalAlignment="Left"/>
-                                <controls:TimeControl  
-                        FontSize="16" Grid.Column="1"
-                        Grid.Row="3" Value="{Binding TestSettings.EndTime}"
-                        Width="150" HorizontalAlignment="Left"/>
- <controls:TimeControl  
-                        FontSize="16" Grid.Column="1"
-                        Grid.Row="5" Value="{Binding TestSettings.DeadLine}"
-                        Width="150" HorizontalAlignment="Left"/>
+                                <TextBox
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Width="290"
+                                    Margin="0,15,0,5"
+                                    HorizontalAlignment="Left"
+                                    Foreground="#364C59"
+                                    Style="{StaticResource PlaceholderTextBoxStyle}"
+                                    Tag="Введите название теста: "
+                                    Text="{Binding TestSettings.TestName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <DatePicker
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Width="150"
+                                    Padding="0,2"
+                                    HorizontalAlignment="Left"
+                                    FontSize="16"
+                                    SelectedDate="{Binding TestSettings.StartDay}" />
+                                <controls:TimeControl
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Width="150"
+                                    Padding="0,2"
+                                    HorizontalAlignment="Left"
+                                    FontSize="16"
+                                    Foreground="#364C59"
+                                    Value="{Binding TestSettings.StartTime, Mode=TwoWay}" />
+                                <controls:TimeControl
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    Width="150"
+                                    HorizontalAlignment="Left"
+                                    FontSize="16"
+                                    Value="{Binding TestSettings.EndTime}" />
+                                <controls:TimeControl
+                                    Grid.Row="5"
+                                    Grid.Column="1"
+                                    Width="150"
+                                    HorizontalAlignment="Left"
+                                    FontSize="16"
+                                    Value="{Binding TestSettings.DeadLine}" />
 
-                                <TextBox Text="{Binding TestSettings.MaxQuestion}" HorizontalAlignment="Left" Margin="0 2"
-                             Padding="2 5" FontSize="16"
-                             Grid.Column="1" Grid.Row="4" Width="150"/>
-
-
+                                <TextBox
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    Width="150"
+                                    Margin="0,2"
+                                    Padding="2,5"
+                                    HorizontalAlignment="Left"
+                                    FontSize="16"
+                                    Text="{Binding TestSettings.MaxQuestion}" />
                             </Grid>
                         </Expander.Content>
                     </Expander>
 
-                    <Button Content="ОК" Style="{StaticResource SignButtonStyle}"
-                            Command="{Binding CloseSettingsCommand}" Margin="0 10 0 0" />
+                    <Button
+                        Margin="0,10,0,0"
+                        Command="{Binding CloseSettingsCommand}"
+                        Content="ОК"
+                        Style="{StaticResource SignButtonStyle}" />
                 </StackPanel>
             </Border>
             <Grid.Style>
@@ -500,11 +703,17 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation From="0" To="1" Duration="0:0:0.4"
-                                                         Storyboard.TargetProperty="Opacity" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0"
+                                            To="1"
+                                            Duration="0:0:0.4" />
 
-                                        <ThicknessAnimation Duration="0:0:.2" Storyboard.TargetProperty="Margin"
-                                                            From="250" To="0">
+                                        <ThicknessAnimation
+                                            Storyboard.TargetProperty="Margin"
+                                            From="250"
+                                            To="0"
+                                            Duration="0:0:.2">
                                             <ThicknessAnimation.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" />
                                             </ThicknessAnimation.EasingFunction>
@@ -513,8 +722,6 @@
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
                         </Trigger>
-
-
                     </Style.Triggers>
                 </Style>
             </Grid.Style>

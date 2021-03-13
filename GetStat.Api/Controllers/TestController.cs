@@ -99,7 +99,6 @@ namespace GetStat.Api.Controllers
                 .FirstOrDefaultAsync(a => a.Settings.Code.ToLower()
                                           == param[0].ToLower());
 
-
             if (test == null)
                 return new ApiResponse<Test>
                 {
@@ -136,6 +135,7 @@ namespace GetStat.Api.Controllers
                 Error = $"Что то не так: startTime {setting.StartTime} ; endTime {setting.EndTime}"
             };
         }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<ApiResponse<ResultTest>> EndTest(BaseResultQA baseResult)
@@ -166,7 +166,6 @@ namespace GetStat.Api.Controllers
                         }))
                 };
 
-
                 if (question.CorrectAnswer == qa.AnswerId)
                 {
                     res++;
@@ -182,7 +181,7 @@ namespace GetStat.Api.Controllers
                 CorrectCountQuestion = res,
                 ResultQuestons = answers,
                 TestId = baseResult.TestId,
-                AccountId = !string.IsNullOrEmpty(UserId)?UserId:null,
+                AccountId = !string.IsNullOrEmpty(UserId) ? UserId : null,
                 TestName = baseResult.TestName
             });
 
@@ -213,13 +212,13 @@ namespace GetStat.Api.Controllers
         public async Task<ApiResponse<List<ResultTest>>> GetResult([FromBody] int testId)
         {
             var result = await _dbContext.ResultTests.Select(x => new ResultTest
-                {
-                    TestId = x.TestId,
-                    FullName = x.FullName,
-                    AllCountQuestion = x.AllCountQuestion,
-                    CorrectCountQuestion = x.CorrectCountQuestion,
-                    ResultTestId = x.ResultTestId
-                })
+            {
+                TestId = x.TestId,
+                FullName = x.FullName,
+                AllCountQuestion = x.AllCountQuestion,
+                CorrectCountQuestion = x.CorrectCountQuestion,
+                ResultTestId = x.ResultTestId
+            })
                 .Where(x => x.TestId == testId).ToListAsync();
             return new ApiResponse<List<ResultTest>>
             {
@@ -249,7 +248,6 @@ namespace GetStat.Api.Controllers
                 firstOrDefault.IsSelected = true;
             }
 
-
             return new ApiResponse<Test>
             {
                 Response = test
@@ -257,10 +255,9 @@ namespace GetStat.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResponse<int>> UpdateTest([FromBody]Test test)
+        public async Task<ApiResponse<int>> UpdateTest([FromBody] Test test)
         {
-
-            var questions = _dbContext.Questions.Include(x=>x.Answers)
+            var questions = _dbContext.Questions.Include(x => x.Answers)
                 .Where(x => x.TestId == test.TestId);
 
             _dbContext.Questions.RemoveRange(questions);
@@ -286,8 +283,8 @@ namespace GetStat.Api.Controllers
         public async Task<ApiResponse<List<ResultTest>>> GetResultTest()
         {
             var res = await _dbContext.ResultTests
-                .Include(x=>x.ResultQuestons)
-                    .ThenInclude(a=>a.ResultAnswers)
+                .Include(x => x.ResultQuestons)
+                    .ThenInclude(a => a.ResultAnswers)
                 .Where(x => x.AccountId == UserId)
                 .ToListAsync();
 
@@ -298,14 +295,14 @@ namespace GetStat.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResponse<ResultTest>>GetResultQuestions([FromBody]int resultTestId)
+        public async Task<ApiResponse<ResultTest>> GetResultQuestions([FromBody] int resultTestId)
         {
             var res = await _dbContext.ResultTests
-                .Include(x=>x.ResultQuestons)
-                .ThenInclude(a=>a.ResultAnswers).
+                .Include(x => x.ResultQuestons)
+                .ThenInclude(a => a.ResultAnswers).
                 FirstOrDefaultAsync(x => x.ResultTestId == resultTestId);
 
-            if (res == null)            
+            if (res == null)
                 return new ApiResponse<ResultTest>
                 {
                     Error = "Произошла ошибка"
@@ -315,7 +312,6 @@ namespace GetStat.Api.Controllers
             {
                 Response = res
             };
-
         }
     }
 }
