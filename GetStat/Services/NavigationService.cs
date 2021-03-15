@@ -33,6 +33,8 @@ namespace GetStat.Services
     {
         None = 0,
         SlideAndFadeInFromRight = 1,
-        SlideAndFadeOutToLeft = 2
+        SlideAndFadeOutToLeft = 2,
+        SlideAndFadeInFromTop = 3,
+        SlideAndFadeOutToBottom = 4,
     }
 }

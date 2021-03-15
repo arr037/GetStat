@@ -89,9 +89,13 @@ namespace GetStat
             switch (PageLoadAnimation)
             {
                 case PageAnimation.SlideAndFadeInFromRight:
-
                     // Start the animation
                     await this.SlideAndFadeInFromRight(SlideSeconds);
+
+                    break;
+                case PageAnimation.SlideAndFadeInFromTop:
+                    // Start the animation
+                    await this.SlideAndFadeInFromBottom(SlideSeconds);
 
                     break;
             }
@@ -113,10 +117,10 @@ namespace GetStat
             switch (PageUnloadAnimation)
             {
                 case PageAnimation.SlideAndFadeOutToLeft:
-
-                    // Start the animation
                     await this.SlideAndFadeOutToLeft(SlideSeconds);
-
+                    break;
+                case PageAnimation.SlideAndFadeOutToBottom:
+                    await this.SlideAndFadeOutToBottom(SlideSeconds);
                     break;
             }
         }

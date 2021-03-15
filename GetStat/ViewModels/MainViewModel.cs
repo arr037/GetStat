@@ -24,7 +24,7 @@ namespace GetStat.ViewModels
             _pageService = pageService;
             _modalService = modalService;
             pageService.OnPageChanged += page => CurrentPage = page;
-            pageService.Navigate(new EnterCodePage());
+            pageService.NavigateWithAnimation(new EnterCodePage(),PageAnimation.SlideAndFadeInFromTop,PageAnimation.SlideAndFadeOutToLeft);
 
             modalService.OnModalWindowChanged += (title, text) =>
             {

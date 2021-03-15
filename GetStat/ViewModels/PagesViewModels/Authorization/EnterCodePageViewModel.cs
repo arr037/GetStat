@@ -15,6 +15,7 @@ using GetStat.Domain.ViewModels;
 using GetStat.Domain.Web;
 using GetStat.Models;
 using GetStat.Pages.Authorization;
+using GetStat.Pages.Help;
 using GetStat.Pages.Main;
 using GetStat.Pages.Main.Test;
 using GetStat.Services;
@@ -44,7 +45,7 @@ namespace GetStat.ViewModels.PagesViewModels.Authorization
                 await RunCommandAsync(() => IsLogging, async () =>
                 {
                     var response = await WebRequests.PostAsync<ApiResponse<Test>>
-                        (Config.UrlAddress+"api/test/JoinTest", new[] { Code, FullName });
+                        (Config.UrlAddress + "api/test/JoinTest", new[] { Code, FullName });
 
                     var res = response.DisplayErrorIfFailedAsync();
 

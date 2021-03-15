@@ -19,6 +19,8 @@
 
                     <Border Name="brd" Background="{StaticResource BackgroundWhiteBrush}"
                             CornerRadius="10"
+                            BorderBrush="LightGray"
+                            BorderThickness="1.5"
                             Padding="15 50 15 15"
                             Width="330"
                             Margin="50 50 50 5">

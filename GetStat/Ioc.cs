@@ -4,6 +4,7 @@ using GetStat.Services;
 using GetStat.ViewModels;
 using GetStat.ViewModels.PagesViewModels;
 using GetStat.ViewModels.PagesViewModels.Authorization;
+using GetStat.ViewModels.PagesViewModels.Help;
 using GetStat.ViewModels.PagesViewModels.Tests;
 using GetStat.ViewModels.PagesViewModels.Tests.StartTest;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ namespace GetStat
             services.AddTransient<GetResultViewModel>();
             services.AddTransient<GetResultPageViewModel>();
             services.AddTransient<TeacherResultViewModel>();
+            services.AddTransient<HelperPageViewModel>();
 
 
             services.AddSingleton<PageService>();

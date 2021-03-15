@@ -20,6 +20,7 @@ using GetStat.Models;
 using GetStat.Pages;
 using GetStat.Pages.Authorization;
 using GetStat.Pages.Main.Test;
+using GetStat.Reporting;
 using GetStat.Services;
 using GetStat.ViewModels.PagesViewModels.Tests;
 using GetStat.ViewModels.PagesViewModels.Tests.StartTest;
@@ -52,6 +53,7 @@ namespace GetStat.ViewModels.PagesViewModels
             _eventBus.Subscribe<OnEditTest>(EditTest);
             _eventBus.Subscribe<OnCloseTab>(ClsTab);
             _eventBus.Subscribe<OnUserResult>(UserResult);
+            _eventBus.Subscribe<OnPrintResultTest>(PrintResultTest);
             Name = loginResponseService.LoginResponse?.Name;
             Surname = loginResponseService.LoginResponse?.Surname;
 
@@ -86,6 +88,19 @@ namespace GetStat.ViewModels.PagesViewModels
             };
             Tabs = new ObservableCollection<ITab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
+        }
+
+        private Task PrintResultTest(OnPrintResultTest arg)
+        {
+            var page = new SampleControl(arg.OrderFormHeader, arg.ResultTests);
+
+            SelectedTab = Tabs.AddUnique(new Tab
+            {
+                Name = "ПредПросмотр печати",
+                Page = page
+            });
+
+            return Task.CompletedTask;
         }
 
         private Task UserResult(OnUserResult arg)

@@ -2,6 +2,7 @@
 using GetStat.ViewModels;
 using GetStat.ViewModels.PagesViewModels;
 using GetStat.ViewModels.PagesViewModels.Authorization;
+using GetStat.ViewModels.PagesViewModels.Help;
 using GetStat.ViewModels.PagesViewModels.Tests;
 using GetStat.ViewModels.PagesViewModels.Tests.StartTest;
 
@@ -22,6 +23,7 @@ namespace GetStat
         public GetResultViewModel GetResultViewModel => Ioc.Resolve<GetResultViewModel>();
         public GetResultPageViewModel GetResultPageViewModel => Ioc.Resolve<GetResultPageViewModel>();
         public TeacherResultViewModel TeacherResultViewModel => Ioc.Resolve<TeacherResultViewModel>();
+        public HelperPageViewModel HelperPageViewModel => Ioc.Resolve<HelperPageViewModel>();
 
     }
 }

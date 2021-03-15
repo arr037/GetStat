@@ -313,5 +313,21 @@ namespace GetStat.Api.Controllers
                 Response = res
             };
         }
+        [HttpPost]
+        public async Task<ApiResponse<Setting>> GetTestHeader([FromBody]int testId)
+        {
+            Setting settings = await _dbContext.Settings.FirstOrDefaultAsync(x => x.TestId == testId);
+
+            if (settings == null)
+                return new ApiResponse<Setting>
+                {
+                    Error="Тест не найден"
+                };
+
+            return new ApiResponse<Setting>
+            {
+                Response = settings
+            };
+        }
     }
 }

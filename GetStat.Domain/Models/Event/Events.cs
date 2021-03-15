@@ -1,5 +1,6 @@
 ﻿using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
+using GetStat.Reporting;
 using System;
 using System.Collections.Generic;
 
@@ -72,5 +73,18 @@ namespace GetStat.Domain.Models.Event
         public string FullName { get; }
         public int Correct { get; }
         public int All { get; }
+    }
+
+    public class OnPrintResultTest:IEvent
+    {
+        public IReadOnlyList<ResultTest> ResultTests { get; }
+        public OrderFormHeader OrderFormHeader { get; }
+
+        public OnPrintResultTest(OrderFormHeader orderFormHeader,IReadOnlyList<ResultTest> resultTests)
+        {
+            OrderFormHeader = orderFormHeader;
+            ResultTests = resultTests;
+        }
+
     }
 }

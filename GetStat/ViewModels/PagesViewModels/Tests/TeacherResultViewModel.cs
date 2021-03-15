@@ -15,6 +15,7 @@ using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
 using GetStat.Domain.Web;
 using GetStat.Models;
+using GetStat.Reporting;
 using GetStat.Services;
 
 namespace GetStat.ViewModels.PagesViewModels.Tests
@@ -33,6 +34,38 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             this.modalService = modalService;
             this.eventBus = eventBus;
         }
+
+        public ICommand PrintCommand => new DelegateCommand(async() =>
+        {
+            if (ResultTests.Count > 0)
+            {
+                var response = await WebRequests.PostAsync<ApiResponse<Setting>>
+                  (Config.UrlAddress + "api/test/GetTestHeader", ResultTests.First().TestId,
+                      bearerToken: loginResponseService.LoginResponse?.Token);
+
+                var res = response.DisplayErrorIfFailedAsync();
+
+                if (!res.SuccessFul)
+                {
+                    modalService.ShowModalWindow("Ошибка", res.Message);
+                    return;
+                }
+
+                IReadOnlyList<ResultTest> s = ResultTests.ToList().AsReadOnly();
+                var st = response.ServerResponse.Response;
+                var header = new OrderFormHeader(st.TestName, 1, 1)
+                {
+                    MaxQuestion = st.MaxQuestion,
+                    StartTime = st.StartTime,
+                    EndTime = st.EndTime,
+                    DeadLine = st.DeadLine,
+                    StartDay = st.StartDay
+                };
+                await eventBus.Publish(new OnPrintResultTest(header, s));
+            }
+            
+        });
+
 
         public ICommand ShowStudentTest=> new DelegateCommand<ResultTest>(async test =>
         {
