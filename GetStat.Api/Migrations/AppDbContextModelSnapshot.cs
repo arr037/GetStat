@@ -100,6 +100,30 @@ namespace GetStat.Api.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("GetStat.Domain.Models.QueueTest", b =>
+                {
+                    b.Property<int>("QueueTestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
+
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TestName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("QueueTestId");
+
+                    b.ToTable("QueueTests");
+                });
+
             modelBuilder.Entity("GetStat.Domain.Models.Test.Answer", b =>
                 {
                     b.Property<int>("AnswerId")
@@ -289,6 +313,9 @@ namespace GetStat.Api.Migrations
 
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TestId");
 

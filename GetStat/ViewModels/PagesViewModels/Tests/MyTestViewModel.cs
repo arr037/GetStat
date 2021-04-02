@@ -28,13 +28,16 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         private readonly ModalService _modalService;
         public ObservableCollection<Test> Tests { get; set; }
         public bool IsLoading { get; set; }
-        public MyTestViewModel(EventBus eventBus,LoginResponseService loginResponseService,ModalService modalService)
+        public MyTestViewModel(EventBus eventBus,
+            LoginResponseService loginResponseService,
+            ModalService modalService)
         {
             _eventBus = eventBus;
             _loginResponseService = loginResponseService;
             _modalService = modalService;
             eventBus.Subscribe<OnOpenMenu>(LoadTest);
         }
+
 
         public ICommand DeleteTest => new DelegateCommand<Test>( async test =>
         {

@@ -20,6 +20,7 @@ namespace GetStat.Api.Domain
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<ResultTest> ResultTests { get; set; }
+        public DbSet<QueueTest> QueueTests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

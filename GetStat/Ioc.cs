@@ -33,13 +33,17 @@ namespace GetStat
             services.AddTransient<GetResultPageViewModel>();
             services.AddTransient<TeacherResultViewModel>();
             services.AddTransient<HelperPageViewModel>();
+            services.AddTransient<RequestPageViewModel>();
 
 
+            services.AddSingleton<HubService>();
+            services.AddSingleton<CodeHubService>();
             services.AddSingleton<PageService>();
             services.AddSingleton<ModalService>();
             services.AddSingleton<AuthorizationService>();
             services.AddSingleton<LoginResponseService>();
             services.AddSingleton<EventBus>();
+            services.AddSingleton<MediaPlayerService>();
             _provider = services.BuildServiceProvider();
         }
 

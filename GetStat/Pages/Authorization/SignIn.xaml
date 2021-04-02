@@ -56,9 +56,17 @@
                             <PasswordBox
                                 Name="PasswordText"
                                 Margin="0,15"
+                                getStat:IsBusyProperty.Value="{Binding IsLogging}"
                                 FontFamily="{StaticResource GothamProLight}"
                                 FontSize="20"
-                                Tag="Введите пароль:" />
+                                Tag="Введите пароль:">
+                                <PasswordBox.InputBindings>
+                                    <KeyBinding
+                                        Key="Enter"
+                                        Command="{Binding SignIn}"
+                                        CommandParameter="{Binding ElementName=Root}" />
+                                </PasswordBox.InputBindings>
+                            </PasswordBox>
 
                             <Button
                                 getStat:IsBusyProperty.Value="{Binding IsLogging}"

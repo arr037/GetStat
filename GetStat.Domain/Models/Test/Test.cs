@@ -14,6 +14,7 @@ namespace GetStat.Domain.Models.Test
         public List<Question> Questions { get; set; }
         public Setting Settings { get; set; }
         public string AccountId { get; set; }
+        public string ConnectionId { get; set; }
     }
 
 }

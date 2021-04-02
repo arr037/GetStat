@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GetStat.Domain.Extetrions;
 
 namespace GetStat.Domain.Models.Test
 {
@@ -21,11 +22,5 @@ namespace GetStat.Domain.Models.Test
         public byte[] Image { get; set; }
         public int TestId { get; set; }
         public Test Test { get; set; }
-
-
-        public void Clear()
-        {
-
-        }
     }
 }

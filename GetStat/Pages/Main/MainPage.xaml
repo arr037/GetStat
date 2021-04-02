@@ -1,298 +1,508 @@
-﻿<getStat:BasePage x:Class="GetStat.Pages.Main.MainPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:GetStat.Pages.Main"
-      xmlns:getStat="clr-namespace:GetStat"
-      xmlns:tabs="clr-namespace:GetStat.Domain.Models.Tabs;assembly=GetStat.Domain"
-      Title="MainPage"
-      x:Name="MpPage"
-      DataContext="{Binding Source={StaticResource ViewModelLocator},Path=MainPageViewModel}">
+﻿<getStat:BasePage
+    x:Class="GetStat.Pages.Main.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:getStat="clr-namespace:GetStat"
+    xmlns:local="clr-namespace:GetStat.Pages.Main"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tabs="clr-namespace:GetStat.Domain.Models.Tabs;assembly=GetStat.Domain"
+    x:Name="MpPage"
+    Title="MainPage"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainPageViewModel}">
+    <getStat:BasePage.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </getStat:BasePage.Resources>
 
+    <getStat:BasePage.ContextMenu>
+        <ContextMenu>
+            <ContextMenu.Items>
+                <MenuItem
+                    FontFamily="{StaticResource GothamPro}"
+                    FontSize="16"
+                    IsEnabled="False">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <TextBlock>
+                                <Run BaselineAlignment="Center" Text="Статус: " />
+                                <Border
+                                    Width="20"
+                                    Height="20"
+                                    Margin="0,2,0,0"
+                                    VerticalAlignment="Center"
+                                    CornerRadius="25">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ConnectionState}" Value="Disconnected">
+                                                    <Setter Property="Background" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ConnectionState}" Value="Connected">
+                                                    <Setter Property="Background" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ConnectionState}" Value="Connecting">
+                                                    <Setter Property="Background" Value="Yellow" />
+                                                </DataTrigger>
 
-    <Grid Background="{StaticResource BackgroundLightGrayBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-
-        <Border BorderThickness="0 0 0 0.5" BorderBrush="Gray" Height="75" Grid.Column="1" Grid.Row="0" Background="White" >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <ContentControl Content="">
-                    
-                </ContentControl>
-                <Border Background="#3a55d8" CornerRadius="50" Width="50" Height="50">
-                    <TextBlock Text="{Binding ShortName}" FontWeight="DemiBold" FontSize="35" Foreground="White" Padding="0 0 0 5" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </Border>
-
-                <TextBlock FontWeight="DemiBold"
-                           Foreground="#364C59" FontSize="16"
-                           VerticalAlignment="Center"
-                           Padding="15 0 15 5">
-                    <Run Text="{Binding Name}"/>
-                    <Run Text="{Binding Surname}"/>
-                </TextBlock>
-
-                <Button Style="{StaticResource BtnWithIcon}"
-                    Command="{Binding LogOutCommand}" Tag="&#xf08b;"
-                         VerticalAlignment="Center" 
-                         Padding="10" Margin="0 0 10 0" Content="Выйти">
-                </Button>
-
-            </StackPanel>
-        </Border>
-
-            <Border Grid.Row="0" Grid.Column="0" Background="White" BorderThickness="0 0 0.5 0.5" BorderBrush="Gray">
-           <Grid>
-               <Grid.ColumnDefinitions>
-                   <ColumnDefinition Width="Auto"/>
-                   <ColumnDefinition Width="Auto"/>
-                   <ColumnDefinition Width="Auto"/>
-               </Grid.ColumnDefinitions>
-                <TextBlock Foreground="#3a55d8" VerticalAlignment="Center" Padding="10 0 10 5" Grid.Column="0" Text="&#xf2b1;" FontSize="50"  FontFamily="{StaticResource IcoMood}" />
-                <TextBlock Foreground="#3a55d8" VerticalAlignment="Center" LineHeight="10" Padding="10 0" Grid.Column="1" Text="KNOW"  FontSize="22" FontFamily="{StaticResource GothamProMedium}" FontWeight="Bold" />
-           </Grid>
-        </Border>
-
-        <Border Grid.Column="0" Grid.Row="1" Background="White">
-            <Border.Effect>
-                <DropShadowEffect  BlurRadius="10" Opacity="0.2"  Color="LightGray" ShadowDepth="8" />
-            </Border.Effect>
-        </Border>
-
-        <Border Grid.Row="1" Grid.Column="0" Background="White" BorderThickness="0 0 0.5 0" BorderBrush="Gray">
-            <ListBox Name="Box"  ItemsSource="{Binding MenuCollection}">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Margin" Value="0"></Setter>
-                        <Setter Property="Padding" Value="0"></Setter>
-                        <Setter Property="Template" Value="{StaticResource MenuTemplate}"/>
-                        </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
-        </Border>
-
-        <TabControl Name="TabControl" 
-                    Padding="0 0 0 0"  
-                    SelectedItem="{Binding SelectedTab}" 
-                    ItemsSource="{Binding Tabs}" 
-                    OverridesDefaultStyle="True" TabStripPlacement="Top"
-                    Margin="10 10 0 0" Grid.Row="1" Grid.Column="1">
-            <TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Border Name="Panel"  Cursor="Hand" BorderThickness="0 0 0 3" BorderBrush="Gray">
-                                    <ContentPresenter x:Name="ContentSite"
-                                                          VerticalAlignment="Center"
-                                                          HorizontalAlignment="Center"
-                                                          ContentSource="Header"
-                                                          Margin="10,2"/>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
                                 </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Trigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <ColorAnimation To="#3a55d8" Duration="0:0:0.3"
-                                                                        Storyboard.TargetName="Panel"
-                                                                        Storyboard.TargetProperty="BorderBrush.Color" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.EnterActions>
-                                        <Trigger.ExitActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <ColorAnimation To="Transparent" Duration="0:0:0.3"
-                                                                    Storyboard.TargetName="Panel"
-                                                                    Storyboard.TargetProperty="BorderBrush.Color" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.ExitActions>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
-            <TabControl.Template>
-                <ControlTemplate TargetType="{x:Type TabControl}">
-                    <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition x:Name="ColumnDefinition0"/>
-                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
-                            <RowDefinition x:Name="RowDefinition1" Height="*"/>
-                        </Grid.RowDefinitions>
-                        <ScrollViewer VerticalScrollBarVisibility="Disabled"
-                                      HorizontalScrollBarVisibility="Auto">
-                            <StackPanel x:Name="HeaderPanel" Grid.Column="0"  
-                                        IsItemsHost="true" Margin="2,2,2,0" 
-                                        Grid.Row="0" KeyboardNavigation.TabIndex="1" 
-                                        Panel.ZIndex="1" Orientation="Horizontal" />
-                        </ScrollViewer>
-                        <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
-                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </Border>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="TabStripPlacement" Value="Bottom">
-                            <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="1"/>
-                            <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
-                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
-                            <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
-                            <Setter Property="Margin" TargetName="HeaderPanel" Value="2,0,2,2"/>
-                        </Trigger>
-                        <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
-                            <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
-                            <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="0"/>
-                            <Setter Property="Grid.Column" TargetName="ContentPanel" Value="1"/>
-                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
-                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
-                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
-                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
-                            <Setter Property="Margin" TargetName="HeaderPanel" Value="2,2,0,2"/>
-                        </Trigger>
-                        <Trigger Property="TabStripPlacement" Value="Right">
-                            <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
-                            <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
-                            <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="1"/>
-                            <Setter Property="Grid.Column" TargetName="ContentPanel" Value="0"/>
-                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
-                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
-                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
-                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
-                            <Setter Property="Margin" TargetName="HeaderPanel" Value="0,2,2,2"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </TabControl.Template>
-            <TabControl.ItemTemplate>
-                <DataTemplate DataType="tabs:ITab">
-                    <StackPanel Orientation="Horizontal" TextBlock.FontSize="16" Margin="2 0" Background="Transparent">
-                        <TextBlock Foreground="#364C59" Padding="5 7" FontSize="16" FontFamily="{StaticResource GothamProMedium}" FontWeight="Medium" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <Button Style="{StaticResource HoverButtonStyle}" Command="{Binding CloseCommand}" CommandParameter="{Binding }" Content="&#xf00d;" FontFamily="{StaticResource IcoMood}" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Margin="15 0 0 0" HorizontalAlignment="Center" Padding="5"   VerticalAlignment="Center"/>
+                            </TextBlock>
                         </StackPanel>
-                </DataTemplate>
-                </TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate DataType="tabs:ITab">
-                        <Frame NavigationUIVisibility="Hidden" Content="{Binding Page}"/>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-        </TabControl>
+                    </MenuItem.Header>
+                </MenuItem>
+                <Separator />
+                <MenuItem
+                    Command="{Binding Connect}"
+                    FontFamily="{StaticResource GothamPro}"
+                    FontSize="16">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <TextBlock Text="Подключится" />
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem
+                    Command="{Binding Disconnect}"
+                    FontFamily="{StaticResource GothamPro}"
+                    FontSize="16">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <TextBlock Text="Отключиться" />
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+            </ContextMenu.Items>
 
+        </ContextMenu>
+    </getStat:BasePage.ContextMenu>
 
-        <!--#region RegionName-->
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
+    <Grid>
+        <Grid Background="{StaticResource BackgroundLightGrayBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <userControls:AboutUser Grid.Row="0"/>
-
-            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" >
-                <Button Content="Создать тест" Command="{Binding CreateTestCommand}" />
-                <Button Content="Перейти к тесту" Command="{Binding GoToTest}"/>
-                <Button Content="Мои тесты" Command="{Binding MyTest}"/>
-                <Button Content="Мои результаты"/>
-                <Button Content="Претензии"/>
-            </StackPanel>
-
-            <Grid Grid.Row="2">
-                <Button Style="{StaticResource artaStyle}" FontFamily="{StaticResource GothamProNarrowMedium}" FontWeight="Thin" Margin="0"  FontSize="18"  Foreground="White" Content="LogOut" Command="{Binding LogOutCommand}"/>
-            </Grid>
-        </Grid>
-
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" TextBlock.FontSize="25">
-                <Button FontFamily="{StaticResource IcoMood}" Content="&#xe951;"/>
-                <Button FontFamily="{StaticResource IcoMood}" Content="&#xea2e;" /> 
-            </StackPanel>
 
-            --><!--<Frame Grid.Row="1" Content="{Binding CurrentPage}"  NavigationUIVisibility="Hidden"/>--><!--
+            <Border
+                Grid.Row="0"
+                Grid.Column="1"
+                Height="75"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0,0,0,0.5">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button
+                        Name="push"
+                        Margin="0,0,5,0"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Content="&#xf0f3;"
+                        Cursor="Hand"
+                        FontFamily="{StaticResource IcoMood}"
+                        FontSize="25"
+                        Foreground="#364C59"
+                        Style="{StaticResource HoverButtonStyle}">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="Popup" Storyboard.TargetProperty="IsOpen">
+                                            <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True" />
+                                        </BooleanAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
 
-            <TabControl Grid.Row="1" SelectedItem="{Binding SelectedTab}" ItemsSource="{Binding Tabs}" Style="{StaticResource TabControlStyle1}">
+                    <Canvas Visibility="{Binding HasNewPush, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Border
+                            Canvas.Top="18"
+                            Canvas.Right="5"
+                            Width="10"
+                            Height="10"
+                            Background="Red"
+                            CornerRadius="20" />
+                    </Canvas>
+                    <Popup
+                        Name="Popup"
+                        AllowsTransparency="True"
+                        HorizontalOffset="200"
+                        Placement="Left"
+                        PlacementTarget="{Binding ElementName=push}"
+                        PopupAnimation="Fade"
+                        StaysOpen="False"
+                        VerticalOffset="50">
+                        <Grid>
+                            <Border
+                                Width="300"
+                                Height="500"
+                                Margin="0,0,8,8"
+                                Padding="5,7"
+                                Background="White"
+                                BorderThickness="1">
+                                <Border.Effect>
+                                    <DropShadowEffect
+                                        BlurRadius="5"
+                                        Opacity="0.4"
+                                        ShadowDepth="2"
+                                        Color="Black" />
+                                </Border.Effect>
+                            </Border>
+                            <Border
+                                Name="brd"
+                                Width="300"
+                                Height="500"
+                                Margin="0,0,8,8"
+                                Padding="5,7"
+                                Background="White"
+                                BorderThickness="1">
+
+                                <StackPanel Orientation="Vertical">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="0,2,0,0"
+                                            HorizontalAlignment="Center"
+                                            FontFamily="{StaticResource GothamPro}"
+                                            FontSize="18"
+                                            FontWeight="DemiBold"
+                                            Foreground="#364C59"
+                                            Text="Уведомления" />
+
+                                        <Button
+                                            Grid.Column="1"
+                                            Margin="0,0,0,5"
+                                            VerticalAlignment="Center"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Content="&#xf013;"
+                                            Command="{Binding SettingsCommand}"
+                                            FontFamily="{StaticResource IcoMood}"
+                                            FontSize="25"
+                                            Style="{StaticResource HoverButtonStyle}" />
+                                    </Grid>
+                                    <Separator />
+
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl ItemsSource="{Binding EventCollection}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+
+                                                    <TextBlock
+                                                        FontFamily="{StaticResource GothamPro}"
+                                                        FontSize="16"
+                                                        TextWrapping="Wrap">
+                                                        <Run
+                                                            FontWeight="DemiBold"
+                                                            Foreground="#3a55d8"
+                                                            Text="{Binding FullName, StringFormat={}{0}:}" />
+                                                        <Run Foreground="#364C59" Text="{Binding Text}" />
+                                                    </TextBlock>
+
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+
+                                </StackPanel>
+                            </Border>
+
+                        </Grid>
+                    </Popup>
+
+                    <Border
+                        Width="50"
+                        Height="50"
+                        Background="#3a55d8"
+                        CornerRadius="50">
+
+                        <TextBlock
+                            Padding="0,0,0,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="35"
+                            FontWeight="DemiBold"
+                            Foreground="White"
+                            Text="{Binding ShortName}" />
+                    </Border>
+
+                    <TextBlock
+                        Padding="15,0,15,5"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="DemiBold"
+                        Foreground="#364C59">
+                        <Run Text="{Binding Name}" />
+                        <Run Text="{Binding Surname}" />
+                    </TextBlock>
+
+                    <Button
+                        Margin="0,0,10,0"
+                        Padding="10"
+                        VerticalAlignment="Center"
+                        Command="{Binding LogOutCommand}"
+                        Content="Выйти"
+                        Style="{StaticResource BtnWithIcon}"
+                        Tag="&#xf08b;" />
+
+                </StackPanel>
+            </Border>
+
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0,0,0.5,0.5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        Padding="10,0,10,5"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource IcoMood}"
+                        FontSize="50"
+                        Foreground="#3a55d8"
+                        Text="&#xf2b1;" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Padding="10,0"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource GothamProMedium}"
+                        FontSize="22"
+                        FontWeight="Bold"
+                        Foreground="#3a55d8"
+                        LineHeight="10"
+                        Text="KNOW" />
+                </Grid>
+            </Border>
+
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Background="White">
+                <Border.Effect>
+                    <DropShadowEffect
+                        BlurRadius="10"
+                        Opacity="0.2"
+                        ShadowDepth="8"
+                        Color="LightGray" />
+                </Border.Effect>
+            </Border>
+
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0,0,0.5,0">
+                <ListBox Name="Box" ItemsSource="{Binding MenuCollection}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Template" Value="{StaticResource MenuTemplate}" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Border>
+
+            <TabControl
+                Name="TabControl"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="10,10,0,0"
+                Padding="0,0,0,0"
+                ItemsSource="{Binding Tabs}"
+                OverridesDefaultStyle="True"
+                SelectedItem="{Binding SelectedTab}"
+                TabStripPlacement="Top">
                 <TabControl.Resources>
                     <Style TargetType="TabItem">
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="TabItem">
-                                    <Border Name="Panel" CornerRadius="5 5 0 0">
-                                        <ContentPresenter x:Name="ContentSite"
-                                                          VerticalAlignment="Center"
-                                                          HorizontalAlignment="Center"
-                                                          ContentSource="Header"
-                                                          Margin="10,2"/>
+                                    <Border
+                                        Name="Panel"
+                                        BorderBrush="Gray"
+                                        BorderThickness="0,0,0,3"
+                                        Cursor="Hand">
+                                        <ContentPresenter
+                                            x:Name="ContentSite"
+                                            Margin="10,2"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            ContentSource="Header" />
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Trigger.EnterActions>
                                                 <BeginStoryboard>
                                                     <Storyboard>
-                                                        <ColorAnimation To="{StaticResource BackgroundOrange}" Duration="0:0:0.3"
-                                                                        Storyboard.TargetName="Panel"
-                                                                        Storyboard.TargetProperty="Background.Color" />
+                                                        <ColorAnimation
+                                                            Storyboard.TargetName="Panel"
+                                                            Storyboard.TargetProperty="BorderBrush.Color"
+                                                            To="#3a55d8"
+                                                            Duration="0:0:0.3" />
                                                     </Storyboard>
                                                 </BeginStoryboard>
                                             </Trigger.EnterActions>
-                                            <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
-                                            <Setter Property="FontWeight" Value="DemiBold" />
+                                            <Trigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation
+                                                            Storyboard.TargetName="Panel"
+                                                            Storyboard.TargetProperty="BorderBrush.Color"
+                                                            To="Transparent"
+                                                            Duration="0:0:0.3" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.ExitActions>
                                         </Trigger>
-                                        <Trigger Property="IsSelected" Value="False">
-                                            <Setter TargetName="Panel" Property="Background" Value="White" />
-                                        </Trigger>
-                                        
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
                     </Style>
                 </TabControl.Resources>
+                <TabControl.Template>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid
+                            ClipToBounds="true"
+                            KeyboardNavigation.TabNavigation="Local"
+                            SnapsToDevicePixels="true">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="ColumnDefinition0" />
+                                <ColumnDefinition x:Name="ColumnDefinition1" Width="0" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition x:Name="RowDefinition0" Height="Auto" />
+                                <RowDefinition x:Name="RowDefinition1" Height="*" />
+                            </Grid.RowDefinitions>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                <StackPanel
+                                    x:Name="HeaderPanel"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="2,2,2,0"
+                                    Panel.ZIndex="1"
+                                    IsItemsHost="true"
+                                    KeyboardNavigation.TabIndex="1"
+                                    Orientation="Horizontal" />
+                            </ScrollViewer>
+                            <Border
+                                x:Name="ContentPanel"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                KeyboardNavigation.DirectionalNavigation="Contained"
+                                KeyboardNavigation.TabIndex="2"
+                                KeyboardNavigation.TabNavigation="Local">
+                                <ContentPresenter
+                                    x:Name="PART_SelectedContentHost"
+                                    Margin="{TemplateBinding Padding}"
+                                    ContentSource="SelectedContent"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="TabStripPlacement" Value="Bottom">
+                                <Setter TargetName="HeaderPanel" Property="Grid.Row" Value="1" />
+                                <Setter TargetName="ContentPanel" Property="Grid.Row" Value="0" />
+                                <Setter TargetName="RowDefinition0" Property="Height" Value="*" />
+                                <Setter TargetName="RowDefinition1" Property="Height" Value="Auto" />
+                                <Setter TargetName="HeaderPanel" Property="Margin" Value="2,0,2,2" />
+                            </Trigger>
+                            <Trigger Property="TabStripPlacement" Value="Left">
+                                <Setter TargetName="HeaderPanel" Property="Grid.Row" Value="0" />
+                                <Setter TargetName="ContentPanel" Property="Grid.Row" Value="0" />
+                                <Setter TargetName="HeaderPanel" Property="Grid.Column" Value="0" />
+                                <Setter TargetName="ContentPanel" Property="Grid.Column" Value="1" />
+                                <Setter TargetName="ColumnDefinition0" Property="Width" Value="Auto" />
+                                <Setter TargetName="ColumnDefinition1" Property="Width" Value="*" />
+                                <Setter TargetName="RowDefinition0" Property="Height" Value="*" />
+                                <Setter TargetName="RowDefinition1" Property="Height" Value="0" />
+                                <Setter TargetName="HeaderPanel" Property="Margin" Value="2,2,0,2" />
+                            </Trigger>
+                            <Trigger Property="TabStripPlacement" Value="Right">
+                                <Setter TargetName="HeaderPanel" Property="Grid.Row" Value="0" />
+                                <Setter TargetName="ContentPanel" Property="Grid.Row" Value="0" />
+                                <Setter TargetName="HeaderPanel" Property="Grid.Column" Value="1" />
+                                <Setter TargetName="ContentPanel" Property="Grid.Column" Value="0" />
+                                <Setter TargetName="ColumnDefinition0" Property="Width" Value="*" />
+                                <Setter TargetName="ColumnDefinition1" Property="Width" Value="Auto" />
+                                <Setter TargetName="RowDefinition0" Property="Height" Value="*" />
+                                <Setter TargetName="RowDefinition1" Property="Height" Value="0" />
+                                <Setter TargetName="HeaderPanel" Property="Margin" Value="0,2,2,2" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </TabControl.Template>
                 <TabControl.ItemTemplate>
                     <DataTemplate DataType="tabs:ITab">
-                        <StackPanel Orientation="Horizontal" TextBlock.FontSize="16" Margin="2 0">
-                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            <TextBlock Text="X" HorizontalAlignment="Right" Padding="15 0 0 0"  VerticalAlignment="Center"/>
+                        <StackPanel
+                            Margin="2,0"
+                            Background="Transparent"
+                            Orientation="Horizontal"
+                            TextBlock.FontSize="16">
+                            <TextBlock
+                                Padding="5,7"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource GothamProMedium}"
+                                FontSize="16"
+                                FontWeight="Medium"
+                                Foreground="#364C59"
+                                Text="{Binding Name}" />
+                            <Button
+                                Margin="15,0,0,0"
+                                Padding="5"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Command="{Binding CloseCommand}"
+                                CommandParameter="{Binding}"
+                                Content="&#xf00d;"
+                                FontFamily="{StaticResource IcoMood}"
+                                Style="{StaticResource HoverButtonStyle}" />
                         </StackPanel>
-                        --><!--<TextBlock FontSize="16" Width="150" TextTrimming="WordEllipsis" >
-                            <Run Text="{Binding Name}" BaselineAlignment="Center"/>
-                            <Hyperlink Command="{Binding CloseCommand}" BaselineAlignment="Center">X</Hyperlink>
-                        </TextBlock>--><!--
                     </DataTemplate>
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate DataType="tabs:ITab">
-                        <Frame NavigationUIVisibility="Hidden" Content="{Binding Page}"/>
+                        <Frame Content="{Binding Page}" NavigationUIVisibility="Hidden" />
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
-        </Grid>-->
 
-        <!--#endregion-->
+
+
+        </Grid>
+
+
     </Grid>
 </getStat:BasePage>

@@ -1,61 +1,155 @@
-﻿<getStat:BasePage x:Class="GetStat.Pages.Authorization.EnterCodePage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:GetStat.Pages.Authorization"
-      xmlns:getStat="clr-namespace:GetStat"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="EnterCodePage" DataContext="{Binding Source={StaticResource ViewModelLocator},Path=EnterCodePageViewModel}">
+﻿<getStat:BasePage
+    x:Class="GetStat.Pages.Authorization.EnterCodePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:getStat="clr-namespace:GetStat"
+    xmlns:local="clr-namespace:GetStat.Pages.Authorization"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="EnterCodePage"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=EnterCodePageViewModel}"
+    mc:Ignorable="d">
+
+    <getStat:BasePage.ContextMenu>
+        <ContextMenu>
+            <ContextMenu.Items>
+                <MenuItem
+                    FontFamily="{StaticResource GothamPro}"
+                    FontSize="16"
+                    IsEnabled="False">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <TextBlock>
+                                <Run BaselineAlignment="Center" Text="Статус: " />
+                                <Border
+                                    Width="20"
+                                    Height="20"
+                                    Margin="0,2,0,0"
+                                    VerticalAlignment="Center"
+                                    CornerRadius="25">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ConnectionState}" Value="Disconnected">
+                                                    <Setter Property="Background" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ConnectionState}" Value="Connected">
+                                                    <Setter Property="Background" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ConnectionState}" Value="Connecting">
+                                                    <Setter Property="Background" Value="Yellow" />
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                            </TextBlock>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <Separator />
+                <MenuItem
+                    Command="{Binding Connect}"
+                    FontFamily="{StaticResource GothamPro}"
+                    FontSize="16">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <TextBlock Text="Подключится" />
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem
+                    Command="{Binding Disconnect}"
+                    FontFamily="{StaticResource GothamPro}"
+                    FontSize="16">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <TextBlock Text="Отключиться" />
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+            </ContextMenu.Items>
+
+        </ContextMenu>
+    </getStat:BasePage.ContextMenu>
 
     <Border>
         <Grid Background="{StaticResource BackgroundLightGrayBrush}">
-            <!-- Main content scroll -->
-            <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
-                <StackPanel
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
+            <!--  Main content scroll  -->
+            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                    <Border Name="brd" Background="{StaticResource BackgroundWhiteBrush}"
-                            CornerRadius="10"
-                            BorderBrush="LightGray"
-                            BorderThickness="1.5"
-                            Padding="15 50 15 15"
-                            Width="330"
-                            Margin="50 50 50 5">
+                    <Border
+                        Name="brd"
+                        Width="330"
+                        Margin="50,50,50,5"
+                        Padding="15,50,15,15"
+                        Background="{StaticResource BackgroundWhiteBrush}"
+                        BorderBrush="LightGray"
+                        BorderThickness="1.5"
+                        CornerRadius="10">
 
                         <StackPanel Background="#fff">
-                            <TextBlock Foreground="#364C59" FontWeight="Bold"
-                                       FontFamily="{StaticResource GothamPro}" HorizontalAlignment="Center"
-                                       FontSize="26" Text="Войти по коду" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontFamily="{StaticResource GothamPro}"
+                                FontSize="26"
+                                FontWeight="Bold"
+                                Foreground="#364C59"
+                                Text="Войти по коду" />
 
-                            <ContentControl HorizontalAlignment="Center" Margin="0 20" 
-                                            Foreground="#5A6CCE"
-                                            Content="&#xf198;" FontSize="80" FontFamily="{StaticResource IcoMood}"/>
-                            
-                            <TextBox Margin="0 10" FontFamily="{StaticResource GothamProLight}"
-                                     Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите ФИО:"
-                                     Text="{Binding FullName}" />
+                            <ContentControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                Content="&#xf198;"
+                                FontFamily="{StaticResource IcoMood}"
+                                FontSize="80"
+                                Foreground="#5A6CCE" />
 
-                            <TextBox Margin="0 10" FontFamily="{StaticResource GothamProLight}"
-                                     Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите код:"
-                                     Text="{Binding Code}" />
+                            <TextBox
+                                Margin="0,10"
+                                FontFamily="{StaticResource GothamProLight}"
+                                Style="{StaticResource PlaceholderTextBoxStyle}"
+                                Tag="Введите ФИО:"
+                                Text="{Binding FullName}" />
+
+                            <TextBox
+                                Margin="0,10"
+                                FontFamily="{StaticResource GothamProLight}"
+                                Style="{StaticResource PlaceholderTextBoxStyle}"
+                                Tag="Введите код:"
+                                Text="{Binding Code}" />
 
 
 
-                            <Button getStat:IsBusyProperty.Value="{Binding IsLogging,UpdateSourceTrigger=PropertyChanged}"
-                                    Style="{StaticResource SignButtonLoadingStyle}" 
-                                    Content="Войти" Command="{Binding GetStartTest}"
-                                    CommandParameter="{Binding ElementName=Root}" Cursor="Hand" />
+                            <Button
+                                getStat:IsBusyProperty.Value="{Binding IsLogging, UpdateSourceTrigger=PropertyChanged}"
+                                Command="{Binding GetStartTest}"
+                                CommandParameter="{Binding ElementName=Root}"
+                                Content="Войти"
+                                Cursor="Hand"
+                                Style="{StaticResource SignButtonLoadingStyle}" />
 
                         </StackPanel>
 
                     </Border>
-                    <TextBlock HorizontalAlignment="Center" Grid.Row="3" FontSize="16" Margin="0 10">
-                        <Run Text="У вас есть аккаунт?" FontWeight="Light" FontFamily="{StaticResource GothamProLight}" />
-                        <Run Text="Войти" Cursor="Hand" FontWeight="DemiBold"
-                             FontFamily="{StaticResource GothamProMedium}">
+                    <TextBlock
+                        Grid.Row="3"
+                        Margin="0,10"
+                        HorizontalAlignment="Center"
+                        FontSize="16">
+                        <Run
+                            FontFamily="{StaticResource GothamProLight}"
+                            FontWeight="Light"
+                            Text="У вас есть аккаунт?" />
+                        <Run
+                            Cursor="Hand"
+                            FontFamily="{StaticResource GothamProMedium}"
+                            FontWeight="DemiBold"
+                            Text="Войти">
                             <Run.InputBindings>
                                 <MouseBinding Command="{Binding GetSignInPage}" Gesture="LeftClick" />
                             </Run.InputBindings>
@@ -68,18 +162,20 @@
                                             <Trigger.EnterActions>
                                                 <BeginStoryboard>
                                                     <Storyboard>
-                                                        <ColorAnimation Duration="0:0:.5"
-                                                                        To="#5A6CCE"
-                                                                        Storyboard.TargetProperty="Foreground.Color" />
+                                                        <ColorAnimation
+                                                            Storyboard.TargetProperty="Foreground.Color"
+                                                            To="#5A6CCE"
+                                                            Duration="0:0:.5" />
                                                     </Storyboard>
                                                 </BeginStoryboard>
                                             </Trigger.EnterActions>
                                             <Trigger.ExitActions>
                                                 <BeginStoryboard>
                                                     <Storyboard>
-                                                        <ColorAnimation Duration="0:0:.5"
-                                                                        To="{StaticResource ForegroundDarkGray}"
-                                                                        Storyboard.TargetProperty="Foreground.Color" />
+                                                        <ColorAnimation
+                                                            Storyboard.TargetProperty="Foreground.Color"
+                                                            To="{StaticResource ForegroundDarkGray}"
+                                                            Duration="0:0:.5" />
                                                     </Storyboard>
                                                 </BeginStoryboard>
                                             </Trigger.ExitActions>

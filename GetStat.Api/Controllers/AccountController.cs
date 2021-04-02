@@ -11,6 +11,7 @@ using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models;
 using GetStat.Domain.Services;
 using GetStat.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,14 +33,57 @@ namespace GetStat.Api.Controllers
             _userManager = userManager;
             _emailService = emailService;
         }
-
-
-        [HttpGet]
-        [Route("")]
-        public string Check()
+        private string UserId => User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        
+        [Authorize]
+        [Route("api/changePassword")]
+        [HttpPost]
+        public async Task<ApiResponse> ChangePassword(string[] param)
         {
-            return "Ok";
+            var user = await _userManager.FindByIdAsync(UserId);
+            if (user == null)
+                return new ApiResponse
+                {
+                    Error = "Пользователь не найден"
+                };
+
+            var b = await _userManager.ChangePasswordAsync(user, param[0], param[1]);
+
+            if (b.Succeeded)
+                return new ApiResponse();
+
+            return new ApiResponse
+            {
+                Error = "Произошла ошибка при изменении пароля"
+            };
+
         }
+
+        [Authorize]
+        [Route("api/changeName")]
+        [HttpPost]
+        public async Task<ApiResponse> ChangeFullName(string[] param)
+        {
+            var user = await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Id == UserId);
+            if (user == null)
+                return new ApiResponse
+                {
+                    Error = "Пользователь не найден"
+                };
+
+            user.Name = param[1];
+            user.Surname = param[0];
+            user.MiddleName = param[2];
+
+            await _dbContext.SaveChangesAsync();
+
+            return new ApiResponse
+            {
+                Error = "Произошла ошибка при изменении пароля"
+            };
+
+        }
+
 
 
         [Route("api/register")]
@@ -197,7 +241,10 @@ namespace GetStat.Api.Controllers
             var code = (await _userManager.GenerateEmailConfirmationTokenAsync(user))
                 .Base64ForUrlEncode();
 
-            var emailuri = "https://" + HttpContext.Request.Host.Value +
+            string https = string.Empty;
+            https = HttpContext.Request.IsHttps ? "https://" : "http://";
+
+            var emailuri = https + HttpContext.Request.Host.Value +
                            $"/api/ConfirmEmail?token={code}&id={user.Id}";
 
             var isSendEmail = await _emailService.SendEmailAsync(user.Email, "Подтвердите email", emailuri);

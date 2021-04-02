@@ -14,7 +14,7 @@ namespace GetStat.Api.Controllers
 {
     [ApiController]
     [Authorize]
-    public class ConfirmController : ControllerBase
+    public class ConfirmController : Controller
     {
         private readonly UserManager<Account> _userManager;
         private string UserId => User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -27,21 +27,34 @@ namespace GetStat.Api.Controllers
         [Route("api/ConfirmEmail")]
         [AllowAnonymous]
         [HttpGet]
-        public async Task<string> ConfirmEmail(string token,string id)
+        public async Task<IActionResult> ConfirmEmail(string token,string id)
         {
             if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(id))
-                return "BadRequest";
+            {
+                ViewBag.Message = "tokenNull";
+                return View();
+            }
+                
 
             var account = await _userManager.FindByIdAsync(id);
             if (account == null)
-                return "Not Found";
+            {
+                ViewBag.Message = "AccountIsNotValid";
+                return View();
+            }
 
 
             var checkCode = await _userManager.ConfirmEmailAsync(account, token.Base64ForUrlDecode());
 
             if (checkCode.Succeeded)
-                return "<b>Your email is activated!</b>";
-            return string.Join('\n', checkCode.Errors.Select(x => x.Description));
+            { 
+                ViewBag.Message = "ok";
+                return View();
+            }
+
+            ViewBag.Message = string.Join('\n', checkCode.Errors.Select(x => x.Description));
+            return View();
+            
         }
 
         [HttpPost]

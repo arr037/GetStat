@@ -87,4 +87,9 @@ namespace GetStat.Domain.Models.Event
         }
 
     }
+
+    public class OnCancelRequestToHub : IEvent
+    {
+
+    }
 }

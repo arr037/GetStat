@@ -1,35 +1,67 @@
-﻿<Window x:Class="GetStat.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GetStat"
-        xmlns:controls="clr-namespace:GetStat.Controls"
-        mc:Ignorable="d"
-        DataContext="{Binding Source={StaticResource ViewModelLocator},Path=MainViewModel}"
-        Title="GetStatApp" MinHeight="768" MinWidth="1024">
+﻿<Window
+    x:Class="GetStat.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:GetStat.Controls"
+    xmlns:converters="clr-namespace:GetStat.Domain.Converters;assembly=GetStat.Domain"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enum="clr-namespace:GetStat.Services;assembly=GetStat.Domain"
+    xmlns:local="clr-namespace:GetStat"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="GetStatApp"
+    MinWidth="1024"
+    MinHeight="768"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <converters:ButtonTypeToVisibilityConverter x:Key="ButtonTypeToVisibilityConverter" />
+    </Window.Resources>
 
     <Grid Background="{StaticResource BackgroundLightGrayBrush}">
         <controls:PageHost CurrentPage="{Binding CurrentPage}" />
-        <!--<Frame Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden" />-->
-        <Grid Background="#D8000000" Name="ModalGrid">
-            <Border CornerRadius="5" Width="330" Margin="35" Background="#fff" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Padding="15 30">
+
+        <Grid Name="ModalGrid" Background="#D8000000">
+            <Border
+                Width="330"
+                Margin="35"
+                Padding="15,30"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="#fff"
+                CornerRadius="5">
                 <StackPanel>
 
-                    <TextBlock FontSize="18" FontWeight="DemiBold" FontFamily="{StaticResource GothamProNarrowMedium}"
-                               Text="{Binding ModalTitle}" />
+                    <TextBlock
+                        FontFamily="{StaticResource GothamProNarrowMedium}"
+                        FontSize="18"
+                        FontWeight="DemiBold"
+                        Text="{Binding ModalTitle}" />
                     <Border Height="1.5" Background="LightGray" />
-                    <TextBlock Padding="5 10" Text="{Binding ModalText}" TextWrapping="Wrap" FontSize="16"
-                               FontWeight="Normal" FontFamily="{StaticResource GothamPro}" />
+                    <TextBlock
+                        Padding="5,10"
+                        FontFamily="{StaticResource GothamPro}"
+                        FontSize="16"
+                        FontWeight="Normal"
+                        Text="{Binding ModalText}"
+                        TextWrapping="Wrap" />
                     <Border Height="1.5" Background="LightGray" />
-                    <Button Content="ОК" Style="{StaticResource SignButtonStyle}"
-                            Command="{Binding CloseModalWindowCommand}" Margin="0 10 0 0" />
+                    <Button
+                        Margin="0,10,0,0"
+                        Command="{Binding CloseModalWindowCommand}"
+                        Content="ОК"
+                        Style="{StaticResource SignButtonStyle}"
+                        Visibility="{Binding Button, Converter={StaticResource ButtonTypeToVisibilityConverter}, ConverterParameter={x:Static enum:ModalButton.Ok}}" />
+                    <Button
+                        Command="{Binding CancelCommand}"
+                        Margin="0,10,0,0"
+                        Content="Отмена"
+                        Style="{StaticResource SignButtonStyle}"
+                        Visibility="{Binding Button, Converter={StaticResource ButtonTypeToVisibilityConverter}, ConverterParameter={x:Static enum:ModalButton.Cancel}}" />
                 </StackPanel>
             </Border>
             <Grid.Style>
                 <Style TargetType="Grid">
-
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding ModalTitle}" Value="">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -39,11 +71,17 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation From="0" To="1" Duration="0:0:0.4"
-                                                         Storyboard.TargetProperty="Opacity" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0"
+                                            To="1"
+                                            Duration="0:0:0.4" />
 
-                                        <ThicknessAnimation Duration="0:0:.2" Storyboard.TargetProperty="Margin"
-                                                            From="250" To="0">
+                                        <ThicknessAnimation
+                                            Storyboard.TargetProperty="Margin"
+                                            From="250"
+                                            To="0"
+                                            Duration="0:0:.2">
                                             <ThicknessAnimation.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" />
                                             </ThicknessAnimation.EasingFunction>
@@ -59,4 +97,6 @@
             </Grid.Style>
         </Grid>
     </Grid>
+
+
 </Window>

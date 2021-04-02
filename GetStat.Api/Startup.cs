@@ -1,8 +1,13 @@
 using System;
 using System.Text;
+using System.Text.Json.Serialization;
 using GetStat.Api.Domain;
+using GetStat.Api.Domain.Abstract;
+using GetStat.Api.Domain.Ef;
+using GetStat.Api.Hubs;
 using GetStat.Domain.Models;
 using GetStat.Domain.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -26,15 +31,18 @@ namespace GetStat.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson(opt =>
+            services.AddControllersWithViews().AddNewtonsoftJson(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
             var connection = Configuration.GetConnectionString("DefaultConnection");
             //var connection = Environment.GetEnvironmentVariable("DbContext");
-
+            
             services.AddTransient<EmailService>();
-
+            services.AddScoped<ITestService,TestService>();
+            services.AddScoped<GetStatHub>();
+            services.AddScoped<CodeHub>();
+            services.AddSignalR().AddMessagePackProtocol();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
             services.AddIdentity<Account, IdentityRole>(opts =>
             {
@@ -55,6 +63,7 @@ namespace GetStat.Api
                 opt.DefaultChallengeScheme = "JwtBearer";
             }).AddJwtBearer("JwtBearer", jwtbeaereOpt =>
             {
+                
                 jwtbeaereOpt.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -81,6 +90,8 @@ namespace GetStat.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<GetStatHub>("/getstat");
+                endpoints.MapHub<CodeHub>("/code");
             });
         }
     }

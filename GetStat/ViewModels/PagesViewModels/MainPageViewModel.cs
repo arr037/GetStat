@@ -11,6 +11,7 @@ using System.Windows.Input;
 using GetStat.Commands;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
+using GetStat.Domain.Models;
 using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Menu;
 using GetStat.Domain.Models.Tabs;
@@ -19,20 +20,29 @@ using GetStat.Domain.Services;
 using GetStat.Models;
 using GetStat.Pages;
 using GetStat.Pages.Authorization;
+using GetStat.Pages.Help;
 using GetStat.Pages.Main.Test;
 using GetStat.Reporting;
 using GetStat.Services;
 using GetStat.ViewModels.PagesViewModels.Tests;
 using GetStat.ViewModels.PagesViewModels.Tests.StartTest;
+using Microsoft.AspNetCore.SignalR.Client;
+using NetCoreAudio;
 
 namespace GetStat.ViewModels.PagesViewModels
 {
     public class MainPageViewModel : BaseVM
     {
+        
         private readonly LoginResponseService _loginResponseService;
+        private readonly HubService _hubService;
         private readonly PageService _pageService;
         private readonly ModalService _modalService;
         private readonly EventBus _eventBus;
+        private readonly MediaPlayerService _mediaPlayerService;
+        public bool HasNewPush { get; set; }
+        public ObservableCollection<BaseEventMessage> EventCollection { get; set; }
+        public HubConnectionState ConnectionState { get; set; }
         public ObservableCollection<ItemText> MenuCollection { get; private set; }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -40,15 +50,18 @@ namespace GetStat.ViewModels.PagesViewModels
         public ITab SelectedTab { get; set; }
         public ObservableCollection<ITab> Tabs { get; set; }
 
-        public MainPageViewModel(LoginResponseService loginResponseService,
+        public MainPageViewModel(LoginResponseService loginResponseService,HubService hubService,
             PageService pageService,
             ModalService modalService,
-            EventBus eventBus)
+            EventBus eventBus,MediaPlayerService mediaPlayerService)
         {
             _loginResponseService = loginResponseService;
+            
+            _hubService = hubService;
             _pageService = pageService;
             _modalService = modalService;
             _eventBus = eventBus;
+            _mediaPlayerService = mediaPlayerService;
             _eventBus.Subscribe<OnTeacherResult>(TeacherResult);
             _eventBus.Subscribe<OnEditTest>(EditTest);
             _eventBus.Subscribe<OnCloseTab>(ClsTab);
@@ -85,10 +98,41 @@ namespace GetStat.ViewModels.PagesViewModels
                     IconImage = "\uf201",
                     Page = new GetResultPage()
                 },
+                new ItemText()
+                {
+                    Name = "Запросы",
+                    IconImage = "\uf201",
+                    Page = new RequestPage()
+                },
             };
             Tabs = new ObservableCollection<ITab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
+
+            _ = _hubService.Connect();
+            _hubService.OnConnectionStateChanged += (state) =>
+            {
+                ConnectionState = state;
+            };
+
+            EventCollection = new ObservableCollection<BaseEventMessage>();
+            _hubService.OnNewPush += (name,txt) =>
+            {
+                EventCollection.Add(new BaseEventMessage
+                {
+                    FullName = name,
+                    Text = txt
+                });
+                HasNewPush = true;
+               _= mediaPlayerService.Play(true);
+            };
+
+            //_=  hubService.Connect(loginResponseService.LoginResponse?.Token);
+
         }
+
+      
+
+       
 
         private Task PrintResultTest(OnPrintResultTest arg)
         {
@@ -176,10 +220,12 @@ namespace GetStat.ViewModels.PagesViewModels
              Tabs.Remove(item);
          });
 
-        public ICommand LogOutCommand => new DelegateCommand(() =>
+        public ICommand LogOutCommand => new DelegateCommand(async () =>
         {
-            LoginResponseService.Clear();
-            PageService.Navigate(new SignIn());
+           await _mediaPlayerService.Play();
+            //_ = _hubService.Disconnect();
+            //LoginResponseService.Clear();
+            //PageService.Navigate(new SignIn());
         });
 
         public ICommand AddItemToTabs => new DelegateCommand<ItemText>(async (item) =>
@@ -212,6 +258,13 @@ namespace GetStat.ViewModels.PagesViewModels
         public ModalService ModalService => _modalService;
 
         public EventBus EventBus => _eventBus;
+        public bool IsShow { get; set; } = false;
+        public ICommand OpenPopup => new DelegateCommand(() =>
+        {
+            //var s= new MediaPlayerService();
+            HasNewPush = false;
+            IsShow = true;
+        });
 
         private void Tabs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -229,6 +282,11 @@ namespace GetStat.ViewModels.PagesViewModels
                     break;
             }
         }
+
+        public ICommand SettingsCommand => new DelegateCommand(() =>
+        {
+            _pageService.NavigateWithAnimation(new HelperPage(),PageAnimation.SlideAndFadeInFromTop,PageAnimation.SlideAndFadeOutToBottom);
+        });
 
         private void Tab_CloseRequired(object sender, EventArgs e)
         {

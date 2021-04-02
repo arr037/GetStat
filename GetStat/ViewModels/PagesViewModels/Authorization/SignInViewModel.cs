@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using GetStat.Commands;
+using GetStat.Domain.Services;
 using GetStat.Domain.ViewModels;
 using GetStat.Helpers;
 using GetStat.Models;
@@ -15,12 +18,14 @@ namespace GetStat.ViewModels.PagesViewModels.Authorization
     {
         private readonly PageService _pageService;
         private readonly AuthorizationService _authorizationService;
+        private readonly MediaPlayerService _mediaPlayerService;
         public  bool IsLogging { get; set; }
-        public SignInViewModel(PageService pageService,AuthorizationService authorizationService)
+        public SignInViewModel(PageService pageService,AuthorizationService authorizationService,MediaPlayerService mediaPlayerService)
         {
             _pageService = pageService;
             _authorizationService = authorizationService;
-            }
+            _mediaPlayerService = mediaPlayerService;
+        }
 
    
 
@@ -29,6 +34,10 @@ namespace GetStat.ViewModels.PagesViewModels.Authorization
 
         public ICommand SignIn => new DelegateCommand<IHavePassword>(async item =>
         {
+
+
+            //var path = new Uri("push.mp3",UriKind.Relative).ToString();
+            //await _mediaPlayerService.Play();
 
             if (!IsLogging)
             {

@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>!DOCTYPE</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <div class="container">
+        @if (ViewBag.Message == "ok")
+        {
+            <h1>Ваша почта подтвеждена!</h1>
+        }
+        @if (ViewBag.Message == "tokenNull")
+        {
+            <h1>Произошла ошибка. Токен не верный</h1>
+        }
+
+        @if (ViewBag.Message == "AccountIsNotValid")
+        {
+            <h1>Произошла ошибка. Аккаунт не найден</h1>
+        }
+
+    </div>
+</body> 
+</html>
