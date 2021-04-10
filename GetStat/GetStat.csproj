@@ -36,8 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\DotNetKit.Misc.Disposables\DotNetKit.Misc.Disposables.csproj" />
-    <ProjectReference Include="..\..\..\..\..\..\..\DotNetKit.Wpf.Printing\DotNetKit.Wpf.Printing.csproj" />
+    <ProjectReference Include="..\DotNetKit.Misc.Disposables\DotNetKit.Misc.Disposables.csproj" />
+    <ProjectReference Include="..\DotNetKit.Wpf.Printing\DotNetKit.Wpf.Printing.csproj" />
     <ProjectReference Include="..\GetStat.Domain\GetStat.Domain.csproj" />
   </ItemGroup>
 
