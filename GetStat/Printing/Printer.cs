@@ -38,8 +38,8 @@ namespace GetStat.Printing
             var document = new FixedDocumentCreator().FromDataContexts(pages, pageSize);
 
             // Print.
-            var writer = PrintQueue.CreateXpsDocumentWriter(printQueue);
-            writer.Write(document);
+            XpsDocumentWriter writer = PrintQueue.CreateXpsDocumentWriter(printQueue);
+            writer.Write(document,ticket);
         }
 
         public Printer(PrintQueue printQueue)

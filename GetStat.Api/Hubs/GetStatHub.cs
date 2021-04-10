@@ -80,12 +80,14 @@ namespace GetStat.Api.Hubs
             }
         }
 
-        [Authorize]
         public async Task GetJoinTestUsers()
         {
-            var userTestsId = await _context.Tests.Where(x => x.AccountId == UserId).Select(x => x.TestId).ToListAsync();
+            var userTestsId = await _context.Tests.Include(x => x.Settings)
+                .Where(x => x.AccountId == UserId).Select(x => x.TestId).ToListAsync();
+
             var tests = await _context.QueueTests.Where(x => userTestsId.Contains(x.TestId)).ToListAsync();
-            await Clients.Caller.SendAsync("ReceiveJoinTestUsers",tests);
+
+            await Clients.Caller.SendAsync("ReceiveJoinTestUsers", tests);
         }
 
         public async Task AllowOrDenyJoinTest(string connectionId,bool flag,int testId)
@@ -137,6 +139,7 @@ namespace GetStat.Api.Hubs
             
             if (tests.Count != 0)
             {
+                var ts = new List<string>();
                 foreach (Test test in tests)
                 {
                    var check = await _testService.CheckTestSettingTime(test.Settings, timeZone);
@@ -144,9 +147,13 @@ namespace GetStat.Api.Hubs
                    if (string.IsNullOrEmpty(check))
                    {
                        test.ConnectionId = Context.ConnectionId;
+                       ts.Add(test.Settings.TestName);
                    }
                 }
                 await _context.SaveChangesAsync();
+                int i = 1;
+                await Clients.Caller.SendAsync("ReceiveSetConnectionId",
+                    string.Join(Environment.NewLine, ts.Select(x => $"{i++}. {x}")));
             }
         }
 

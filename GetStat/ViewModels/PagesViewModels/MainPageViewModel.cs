@@ -10,14 +10,17 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using GetStat.Commands;
 using GetStat.Domain.Base;
+using GetStat.Domain.Converters;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models;
 using GetStat.Domain.Models.Event;
 using GetStat.Domain.Models.Menu;
+using GetStat.Domain.Models.Pages.Page;
 using GetStat.Domain.Models.Tabs;
 using GetStat.Domain.Models.Test;
 using GetStat.Domain.Services;
 using GetStat.Models;
+using GetStat.PageConverter;
 using GetStat.Pages;
 using GetStat.Pages.Authorization;
 using GetStat.Pages.Help;
@@ -78,40 +81,53 @@ namespace GetStat.ViewModels.PagesViewModels
                 {
                     Name = "К Тесту",
                     IconImage = "\uf05b",
-                    Page = new JoinWithCode()
+                    Page = MainPages.GoToTestPage
                 },
                 new ItemText()
                 {
                     Name = "Создать тест",
                     IconImage = "\uf067",
-                    Page = new CreateTestPage()
+                    Page = MainPages.CreatePage
                 },
                 new ItemText()
                 {
                     Name = "Мои тесты",
                     IconImage = "\uf16c",
-                    Page = new MyTestsPage()
+                    Page = MainPages.MyTestPage
                 },
                 new ItemText()
                 {
                     Name = "Результаты",
                     IconImage = "\uf201",
-                    Page = new GetResultPage()
+                    Page = MainPages.ResultPage
                 },
                 new ItemText()
                 {
                     Name = "Запросы",
                     IconImage = "\uf201",
-                    Page = new RequestPage()
+                    Page = MainPages.RequestPage
                 },
             };
             Tabs = new ObservableCollection<ITab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
-
-            _ = _hubService.Connect();
+           
+            if (ConnectionState != HubConnectionState.Connected)
+            {
+                _ = _hubService.Connect();
+            }
+            
             _hubService.OnConnectionStateChanged += (state) =>
             {
                 ConnectionState = state;
+            };
+
+            _hubService.OnSetConnectionId += (text) =>
+            {
+                EventCollection.Add(new BaseEventMessage
+                {
+                    FullName = "Активные тесты:",
+                    Text = string.IsNullOrEmpty(text)?"Нет активных тестов":text
+                });
             };
 
             EventCollection = new ObservableCollection<BaseEventMessage>();
@@ -140,7 +156,7 @@ namespace GetStat.ViewModels.PagesViewModels
 
             SelectedTab = Tabs.AddUnique(new Tab
             {
-                Name = "ПредПросмотр печати",
+                Name = "Печать отчета",
                 Page = page
             });
 
@@ -222,18 +238,17 @@ namespace GetStat.ViewModels.PagesViewModels
 
         public ICommand LogOutCommand => new DelegateCommand(async () =>
         {
-           await _mediaPlayerService.Play();
-            //_ = _hubService.Disconnect();
-            //LoginResponseService.Clear();
-            //PageService.Navigate(new SignIn());
+            _ = _hubService.Disconnect();
+            LoginResponseService.Clear();
+            PageService.Navigate(new SignIn());
         });
 
         public ICommand AddItemToTabs => new DelegateCommand<ItemText>(async (item) =>
-         {
-             SelectedTab = Tabs.AddUnique(new Tab
+        {
+            SelectedTab = Tabs.AddUnique(new Tab
              {
                  Name = item.Name,
-                 Page = item.Page
+                 Page = item.Page.ConvertToPage()
              });
 
              if (SelectedTab?.Name == "Мои тесты")
@@ -259,11 +274,9 @@ namespace GetStat.ViewModels.PagesViewModels
 
         public EventBus EventBus => _eventBus;
         public bool IsShow { get; set; } = false;
-        public ICommand OpenPopup => new DelegateCommand(() =>
+        public ICommand HideNewPush => new DelegateCommand(() =>
         {
-            //var s= new MediaPlayerService();
             HasNewPush = false;
-            IsShow = true;
         });
 
         private void Tabs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

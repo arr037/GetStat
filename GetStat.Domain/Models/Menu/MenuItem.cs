@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using GetStat.Domain.Models.Pages.Page;
 
 namespace GetStat.Domain.Models.Menu
 {
@@ -11,6 +12,6 @@ namespace GetStat.Domain.Models.Menu
     {
         public string Name { get; set; }
         public string IconImage { get; set; }
-        public Page Page { get; set; }
+        public MainPages Page { get; set; }
     }
 }

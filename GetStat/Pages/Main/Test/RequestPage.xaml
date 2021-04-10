@@ -47,6 +47,8 @@
                                     Padding="10,3"
                                     Background="Transparent"
                                     BorderThickness="0"
+                                    Command="{Binding DataContext.AcceptAllCommand, RelativeSource={RelativeSource AncestorType=Page,Mode=FindAncestor}}"
+                                    CommandParameter="{Binding}"
                                     Content="Принять всех"
                                     Foreground="White"
                                     Style="{StaticResource AcceptAllButtonStyle}" />

@@ -22,21 +22,25 @@ namespace GetStat.Domain.Services
         public event Action<QueueTest> OnNewQueune;
         public event Action<QueueTest> OnCancelQueune;
         public event Action<List<QueueTest>> OnAllQuene;
-        public event Action<string,string> OnNewPush; 
+        public event Action<string,string> OnNewPush;
+        public event Action<string> OnSetConnectionId; 
         public HubService(LoginResponseService loginResponseService)
         {
             connection = new HubConnectionBuilder().WithUrl("http://localhost:5000/getstat", opt =>
             {
                 opt.AccessTokenProvider = () => Task.FromResult(loginResponseService.LoginResponse?.Token);
             }).AddMessagePackProtocol().Build();
-           
-            OnConnectionStateChanged?.Invoke(connection.State);
 
             connection.On<string>("Connected", (connId) => OnConnected?.Invoke(connId));
             
             connection.On<List<QueueTest>>("ReceiveJoinTestUsers", (items) =>
             {
                 OnAllQuene?.Invoke(items);
+            });
+
+            connection.On<string>("ReceiveSetConnectionId", str =>
+            {
+                OnSetConnectionId?.Invoke(str);
             });
 
             #region Push Messages
@@ -94,12 +98,18 @@ namespace GetStat.Domain.Services
 
         public async Task GetQueneUsers()
         {
-            await connection.SendAsync("GetJoinTestUsers");
+            if (connection.State == HubConnectionState.Connected)
+            {
+                await connection.SendAsync("GetJoinTestUsers");
+            }
         }
 
         public async Task SetConnectionIdTest()
         {
-            await connection.SendAsync("SetTestConnectionId",TimeZoneInfo.Utc.Id);
+            if (connection.State == HubConnectionState.Connected)
+            {
+                await connection.SendAsync("SetTestConnectionId", TimeZoneInfo.Utc.Id);
+            }
         }
 
         public async Task Connect()

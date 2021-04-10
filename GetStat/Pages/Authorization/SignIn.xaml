@@ -54,6 +54,7 @@
                                 Tag="Введите логин:"
                                 Text="{Binding UserName}" />
                             <PasswordBox
+                                Style="{StaticResource PassWordBoxStyle}"
                                 Name="PasswordText"
                                 Margin="0,15"
                                 getStat:IsBusyProperty.Value="{Binding IsLogging}"

@@ -118,6 +118,7 @@
 
 
                             <PasswordBox
+                                Style="{StaticResource PassWordBoxStyle}"
                                 Name="PasswordText"
                                 Grid.Row="5"
                                 Grid.Column="0"
@@ -128,6 +129,7 @@
 
 
                             <PasswordBox
+                                Style="{StaticResource PassWordBoxStyle}"
                                 Name="PasswordText1"
                                 Grid.Row="5"
                                 Grid.Column="2"

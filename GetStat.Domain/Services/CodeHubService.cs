@@ -47,8 +47,12 @@ namespace GetStat.Domain.Services
 
         public async Task Connect()
         {
-            await connection.StartAsync();
-            OnConnectionStateChanged?.Invoke(connection.State);
+            if (connection.State != HubConnectionState.Connected)
+            {
+                await connection.StartAsync();
+                OnConnectionStateChanged?.Invoke(connection.State);
+            }
+           
         }
 
         public async Task Disconnect()

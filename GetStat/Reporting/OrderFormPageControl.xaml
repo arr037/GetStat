@@ -18,7 +18,9 @@
 
                 <Trigger Property="Grid.Row" Value="0">
                     <Setter Property="BorderThickness" Value="0,1,1,1" />
-                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="FontWeight" Value="DemiBold" />
+                    <Setter Property="FontFamily" Value="{StaticResource GothamPro}" />
                 </Trigger>
 
                 <MultiTrigger>
@@ -29,8 +31,8 @@
                     <Setter Property="BorderThickness" Value="1" />
                 </MultiTrigger>
             </Style.Triggers>
-
-            <Setter Property="Padding" Value="6,0,6,0" />
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Padding" Value="7 5" />
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="0,0,1,1" />
         </Style>
@@ -41,7 +43,7 @@
             x:Key="NumberCellStyle"
             BasedOn="{StaticResource DefaultCellStyle}"
             TargetType="{x:Type printableDataGrid:PrintableDataGridCell}">
-            <Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
     </UserControl.Resources>
 

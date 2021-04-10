@@ -227,9 +227,14 @@ namespace GetStat.Api.Domain.Ef
             return res;
         }
 
-        public Task<ResultTest> GetResultQuestions(int resultTestId)
+        public async Task<ResultTest> GetResultQuestions(int resultTestId)
         {
-            throw new NotImplementedException();
+            var res = await _dbContext.ResultTests
+                .Include(x => x.ResultQuestons)
+                .ThenInclude(a => a.ResultAnswers).
+                FirstOrDefaultAsync(x => x.ResultTestId == resultTestId);
+
+            return res;
         }
 
         public async Task<Setting> GetTestHeader(int testId)

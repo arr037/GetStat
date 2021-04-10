@@ -76,6 +76,7 @@ namespace GetStat.ViewModels.PagesViewModels.Authorization
                         , FullName,
                         test.TestId)
                 );
+                _=_hubService.Disconnect();
             };
             
             hubService.ReceiveJoinTest += (error) =>

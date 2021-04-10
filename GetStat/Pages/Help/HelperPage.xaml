@@ -6,6 +6,7 @@
     xmlns:getstat="clr-namespace:GetStat"
     xmlns:local="clr-namespace:GetStat.Pages.Help"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Page"
     Title="HelperPage"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -67,13 +68,14 @@
                         FontWeight="DemiBold"
                         Text="Старый пароль: " />
 
-                    <TextBox
+                    <PasswordBox
                         Grid.Row="2"
                         Grid.Column="1"
                         Margin="2"
                         Padding="3,5"
                         FontFamily="{StaticResource GothamPro}"
-                        FontSize="16" />
+                        FontSize="16"
+                        Tag="old" />
 
                     <TextBlock
                         Grid.Row="3"
@@ -84,13 +86,14 @@
                         FontWeight="DemiBold"
                         Text="Новый пароль: " />
 
-                    <TextBox
+                    <PasswordBox
                         Grid.Row="3"
                         Grid.Column="1"
                         Margin="2"
                         Padding="3,5"
                         FontFamily="{StaticResource GothamPro}"
-                        FontSize="16" />
+                        FontSize="16"
+                        Tag="new" />
 
                     <TextBlock
                         Grid.Row="4"
@@ -101,18 +104,21 @@
                         FontWeight="DemiBold"
                         Text="Подтвердите пароль: " />
 
-                    <TextBox
+                    <PasswordBox
                         Grid.Row="4"
                         Grid.Column="1"
                         Margin="2"
                         Padding="3,5"
                         FontFamily="{StaticResource GothamPro}"
-                        FontSize="16" />
+                        FontSize="16"
+                        Tag="new1" />
 
                     <Button
                         Grid.Row="5"
                         Grid.ColumnSpan="2"
                         Margin="0,2"
+                        Command="{Binding ChangePasswordCommand}"
+                        CommandParameter="{Binding ElementName=Page, Path=Resources[AccountView]}"
                         Content="Изменить"
                         Style="{StaticResource SignButtonStyle}" />
                 </Grid>
@@ -167,7 +173,8 @@
                         Margin="2"
                         Padding="3,5"
                         FontFamily="{StaticResource GothamPro}"
-                        FontSize="16" />
+                        FontSize="16"
+                        Text="{Binding Surname}" />
 
                     <TextBlock
                         Grid.Row="3"
@@ -184,7 +191,8 @@
                         Margin="2"
                         Padding="3,5"
                         FontFamily="{StaticResource GothamPro}"
-                        FontSize="16" />
+                        FontSize="16"
+                        Text="{Binding Name}" />
 
                     <TextBlock
                         Grid.Row="4"
@@ -201,12 +209,14 @@
                         Margin="2"
                         Padding="3,5"
                         FontFamily="{StaticResource GothamPro}"
-                        FontSize="16" />
+                        FontSize="16"
+                        Text="{Binding LastName}" />
 
                     <Button
                         Grid.Row="5"
                         Grid.ColumnSpan="2"
                         Margin="0,2"
+                        Command="{Binding ChangeFullNameCommand}"
                         Content="Изменить"
                         Style="{StaticResource SignButtonStyle}" />
                 </Grid>
@@ -366,15 +376,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Button
-            Style="{StaticResource HoverButtonStyle}"
-            Background="Transparent"
-            BorderThickness="0"
-            FontWeight="DemiBold"
             Margin="10,2"
             Padding="10,7"
             HorizontalAlignment="Left"
+            Background="Transparent"
+            BorderThickness="0"
             Command="{Binding BackCommand}"
-            Content="Назад" />
+            Content="Назад"
+            FontWeight="DemiBold"
+            Style="{StaticResource HoverButtonStyle}" />
         <Separator Grid.Row="1" Margin="10,5" />
 
         <Grid Grid.Row="2" Margin="2">

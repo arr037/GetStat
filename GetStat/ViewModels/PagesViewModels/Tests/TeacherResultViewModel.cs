@@ -53,14 +53,8 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
 
                 IReadOnlyList<ResultTest> s = ResultTests.ToList().AsReadOnly();
                 var st = response.ServerResponse.Response;
-                var header = new OrderFormHeader(st.TestName, 1, 1)
-                {
-                    MaxQuestion = st.MaxQuestion,
-                    StartTime = st.StartTime,
-                    EndTime = st.EndTime,
-                    DeadLine = st.DeadLine,
-                    StartDay = st.StartDay
-                };
+                var header = new OrderFormHeader(st.TestName, 1, 1, st.StartDay, st.StartTime, st.EndTime,
+                    st.MaxQuestion,st.DeadLine);
                 await eventBus.Publish(new OnPrintResultTest(header, s));
             }
             

@@ -38,11 +38,11 @@ namespace GetStat.Api.Controllers
         [Authorize]
         [Route("api/changePassword")]
         [HttpPost]
-        public async Task<ApiResponse> ChangePassword(string[] param)
+        public async Task<ApiResponse<bool>> ChangePassword(string[] param)
         {
             var user = await _userManager.FindByIdAsync(UserId);
             if (user == null)
-                return new ApiResponse
+                return new ApiResponse<bool>
                 {
                     Error = "Пользователь не найден"
                 };
@@ -50,9 +50,12 @@ namespace GetStat.Api.Controllers
             var b = await _userManager.ChangePasswordAsync(user, param[0], param[1]);
 
             if (b.Succeeded)
-                return new ApiResponse();
+                return new ApiResponse<bool>
+                {
+                    Response = true
+                };
 
-            return new ApiResponse
+            return new ApiResponse<bool>
             {
                 Error = "Произошла ошибка при изменении пароля"
             };
@@ -62,11 +65,11 @@ namespace GetStat.Api.Controllers
         [Authorize]
         [Route("api/changeName")]
         [HttpPost]
-        public async Task<ApiResponse> ChangeFullName(string[] param)
+        public async Task<ApiResponse<int>> ChangeFullName(string[] param)
         {
             var user = await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Id == UserId);
             if (user == null)
-                return new ApiResponse
+                return new ApiResponse<int>
                 {
                     Error = "Пользователь не найден"
                 };
@@ -75,11 +78,11 @@ namespace GetStat.Api.Controllers
             user.Surname = param[0];
             user.MiddleName = param[2];
 
-            await _dbContext.SaveChangesAsync();
+            var res = await _dbContext.SaveChangesAsync();
 
-            return new ApiResponse
+            return new ApiResponse<int>
             {
-                Error = "Произошла ошибка при изменении пароля"
+                Response = res
             };
 
         }

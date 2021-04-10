@@ -26,13 +26,18 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
         public RequestPageViewModel(HubService hubService)
         {
             _hubService = hubService;
-            _ = _hubService.GetQueneUsers();
             SortingQuenes = new ObservableCollection<BaseDic>();
             hubService.OnNewQueune += HubService_OnNewQueune;
             hubService.OnCancelQueune += HubService_OnCancelQueune;
             hubService.OnAllQuene += HubService_OnAllQuene;
 
+            Task.Run(async () =>await LoadQueneUsers());
             //SortingQuenes.
+        }
+
+        private async Task LoadQueneUsers()
+        {
+             await _hubService.GetQueneUsers();
         }
 
         private void HubService_OnAllQuene(List<QueueTest> obj)
@@ -99,31 +104,13 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             }
         }
 
-        public ICommand AddCommand => new DelegateCommand<string>((str) =>
+        public ICommand AcceptAllCommand => new DelegateCommand<BaseDic>((baseDic) =>
         {
-            //var b=  SortingQuenes.FirstOrDefault(x => x.Header == str);
-
-            //if (b == null)
-            //{
-            //    SortingQuenes.Add(new BaseDic
-            //    {
-            //        Header = str,
-            //        QueneTest = new ObservableCollection<QueueTest>
-            //        {
-            //            new QueueTest
-            //            {
-            //                FullName = "b is null: "+ str 
-            //            }
-            //        }
-            //    });
-            //}
-            //else
-            //{
-            //    b.QueneTest.Add(new QueueTest
-            //    {
-            //        FullName = "b is not null: "+ str
-            //    });
-            //}
+            foreach (var item in baseDic.QueneTest.ToList())
+            {
+                _ = _hubService.AllowOrDenyJoin(item.ConnectionId, true, item.TestId);
+                _ = RemoveFromCollection(item);
+            }
         });
 
         public ICommand AcceptCommand => new DelegateCommand<QueueTest>(test =>
@@ -131,6 +118,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             _ = _hubService.AllowOrDenyJoin(test.ConnectionId, true, test.TestId);
             _ = RemoveFromCollection(test);
         });
+
 
         public ICommand RejectCommand => new DelegateCommand<QueueTest>(test =>
         {

@@ -104,8 +104,8 @@
                         VerticalAlignment="Center"
                         Background="Transparent"
                         BorderThickness="0"
+                        Command="{Binding HideNewPush}"
                         Content="&#xf0f3;"
-                        Cursor="Hand"
                         FontFamily="{StaticResource IcoMood}"
                         FontSize="25"
                         Foreground="#364C59"
@@ -123,7 +123,7 @@
                         </Button.Triggers>
                     </Button>
 
-                    <Canvas Visibility="{Binding HasNewPush, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Canvas Name="Canvas" Visibility="{Binding HasNewPush, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Border
                             Canvas.Top="18"
                             Canvas.Right="5"
@@ -166,8 +166,13 @@
                                 Background="White"
                                 BorderThickness="1">
 
-                                <StackPanel Orientation="Vertical">
-                                    <Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
@@ -188,19 +193,21 @@
                                             VerticalAlignment="Center"
                                             Background="Transparent"
                                             BorderThickness="0"
-                                            Content="&#xf013;"
                                             Command="{Binding SettingsCommand}"
+                                            Content="&#xf013;"
                                             FontFamily="{StaticResource IcoMood}"
                                             FontSize="25"
                                             Style="{StaticResource HoverButtonStyle}" />
                                     </Grid>
-                                    <Separator />
+                                    <Separator Grid.Row="1" />
 
-                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                                        <ItemsControl ItemsSource="{Binding EventCollection}">
+                                    <ScrollViewer
+                                        Grid.Row="2"
+                                        HorizontalScrollBarVisibility="Disabled"
+                                        VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl ItemsSource="{Binding EventCollection}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-
                                                     <TextBlock
                                                         FontFamily="{StaticResource GothamPro}"
                                                         FontSize="16"
@@ -217,7 +224,7 @@
                                         </ItemsControl>
                                     </ScrollViewer>
 
-                                </StackPanel>
+                                </Grid>
                             </Border>
 
                         </Grid>

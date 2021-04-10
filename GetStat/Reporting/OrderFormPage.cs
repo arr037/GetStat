@@ -33,22 +33,5 @@ namespace GetStat.Reporting
             Header = header;
             Items = items;
         }
-
-        /// <summary>
-        /// Constructs with random data.
-        /// </summary>
-        //public OrderFormPage()
-        //{
-        //    Items = new ObservableCollection<ResultTest>(); 
-        //    Header =
-        //        new OrderFormHeader(
-        //            "Foo Bar Inc.",
-        //            new DateTime(2017, 01, 15),
-        //            Items.Sum(item => item.AllCountQuestion),
-        //            pageIndex: 0,
-        //            pageCount: 1
-        //        );
-        //}
-
     }
 }

@@ -12,11 +12,11 @@ namespace GetStat.Reporting
     public sealed class OrderFormHeader
     {
         public string TestName { get; }
-        public string MaxQuestion { get; set; }
-        public DateTime StartDay { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
-        public TimeSpan DeadLine { get; set; }
+        public string MaxQuestion { get;  }
+        public DateTime StartDay { get;  }
+        public TimeSpan StartTime { get;  }
+        public TimeSpan EndTime { get;  }
+        public TimeSpan DeadLine { get; }
 
         public int PageIndex { get; }
         public int PageCount { get; }
@@ -26,11 +26,20 @@ namespace GetStat.Reporting
         public OrderFormHeader(
                 string targetName,
                 int pageIndex,
-                int pageCount)
+                int pageCount,
+                DateTime startDay,
+                TimeSpan startTime,
+                TimeSpan endTime,
+                string maxQuestion,TimeSpan deadLine)
         {
             TestName = targetName;
             PageIndex = pageIndex;
             PageCount = pageCount;
+            StartDay = startDay;
+            StartTime = startTime;
+            EndTime = endTime;
+            MaxQuestion = maxQuestion;
+            DeadLine = deadLine;
         }
 
         public OrderFormHeader UpdatePageIndexCount(int pageIndex, int pageCount)
@@ -39,7 +48,7 @@ namespace GetStat.Reporting
                 new OrderFormHeader(
                     TestName,
                     pageIndex,
-                    pageCount
+                    pageCount,StartDay,StartTime,EndTime,MaxQuestion,DeadLine
                 );
         }
     }
