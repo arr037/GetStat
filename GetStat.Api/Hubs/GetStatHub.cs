@@ -134,9 +134,7 @@ namespace GetStat.Api.Hubs
                 .Where(x => x.AccountId == UserId).Select(x => x.TestId).ToListAsync();
             
             var tests = await _context.Tests.Include(x=>x.Settings).Where(x => userTestsId.Contains(x.TestId)).ToListAsync();
-            
-            
-            
+
             if (tests.Count != 0)
             {
                 var ts = new List<string>();

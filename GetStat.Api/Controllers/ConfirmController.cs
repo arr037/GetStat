@@ -5,6 +5,7 @@ using GetStat.Api.Domain;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models;
+using GetStat.Domain.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GetStat.Api.Controllers
 {
-    [ApiController]
+    [Controller]
     [Authorize]
     public class ConfirmController : Controller
     {
@@ -23,6 +24,52 @@ namespace GetStat.Api.Controllers
         {
             _userManager = userManager;
         }
+        [AllowAnonymous]
+        [Route("api/reset")]
+        [HttpGet]
+        public async Task<IActionResult> ResetPassword(string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            var res = new ResetPasswordViewModel
+            {
+                UserId = userId,
+                Code = code
+            };
+            return View(res);
+        }
+
+        [AllowAnonymous]
+        [Route("api/reset")]
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword([FromForm]ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+
+                if (user == null)
+                    return Forbid();
+
+                var res =  await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+
+                if (res.Succeeded)
+                {
+                    return View("SetResetPassword");
+                }
+
+                return Problem();
+            }
+
+            return View("ResetPassword",model);
+        }
+
+
 
         [Route("api/ConfirmEmail")]
         [AllowAnonymous]

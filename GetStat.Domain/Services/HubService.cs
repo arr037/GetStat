@@ -26,7 +26,7 @@ namespace GetStat.Domain.Services
         public event Action<string> OnSetConnectionId; 
         public HubService(LoginResponseService loginResponseService)
         {
-            connection = new HubConnectionBuilder().WithUrl("http://localhost:5000/getstat", opt =>
+            connection = new HubConnectionBuilder().WithUrl(Config.UrlAddress+"getstat", opt =>
             {
                 opt.AccessTokenProvider = () => Task.FromResult(loginResponseService.LoginResponse?.Token);
             }).AddMessagePackProtocol().Build();

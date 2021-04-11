@@ -21,7 +21,7 @@ namespace GetStat.Domain.Services
         public event Action<bool,Test> RecieveAllowOrDeny; 
         public CodeHubService()
         {
-            connection = new HubConnectionBuilder().WithUrl("http://localhost:5000/code").AddMessagePackProtocol().Build();
+            connection = new HubConnectionBuilder().WithUrl(Config.UrlAddress + "code").AddMessagePackProtocol().Build();
 
             connection.On<string>("ReceiveJoinTest", (err) =>
             {

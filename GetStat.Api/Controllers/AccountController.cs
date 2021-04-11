@@ -34,7 +34,51 @@ namespace GetStat.Api.Controllers
             _emailService = emailService;
         }
         private string UserId => User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-        
+
+
+        [Route("api/resetpassword")]
+        [HttpPost]
+        public async Task<ApiResponse<string>> ResetPassword([FromBody]string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+                return new ApiResponse<string>
+                {
+                    Error = "Пользователь не найден"
+                };
+
+            if (!user.EmailConfirmed)
+                return new ApiResponse<string>
+                {
+                    Error = "Восстановление пароля невозможно."
+                };
+
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            
+            var callbackUrl = Url.Action("ResetPassword", "Confirm", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+            var check = await _emailService.SendEmailAsync(user.Email, "Восстановление пароля", $"Для сброса пароля пройдите по ссылке: <a href='{callbackUrl}'>link</a>");
+            if (!check)
+                return new ApiResponse<string>
+                {
+                    Error = "При отправке пароля произошла ошибка.Повторите попытку позже"
+                };
+
+
+            var userMail = user.Email.ToCharArray();
+
+            userMail[0] = '*';
+            userMail[1] = '*';
+            userMail[2] = '*';
+
+
+            return new ApiResponse<string>
+            {
+                Response = $"На вашу почту {string.Join("",userMail)} отправлено сообщение.\nПроверьте вашу почту"
+            };
+        }
+
         [Authorize]
         [Route("api/changePassword")]
         [HttpPost]

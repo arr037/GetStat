@@ -31,16 +31,18 @@ namespace GetStat.ViewModels.PagesViewModels.Help
         private readonly LoginResponseService _loginResponseService;
         private readonly MediaPlayerService _mediaPlayerService;
         private readonly ModalService _modalService;
+        private readonly HubService _hubService;
         public int Volume { get; set; }
         public bool IsAutoPlay { get; set; }
         public HelperPageViewModel(PageService pageService,
             LoginResponseService loginResponseService,
-            MediaPlayerService mediaPlayerService,ModalService modalService)
+            MediaPlayerService mediaPlayerService,ModalService modalService,HubService hubService)
         {
             this.pageService = pageService;
             _loginResponseService = loginResponseService;
             _mediaPlayerService = mediaPlayerService;
             _modalService = modalService;
+            _hubService = hubService;
             IsAutoPlay= _mediaPlayerService.IsAutoPlay;
             Volume=_mediaPlayerService.Volume;
 
@@ -75,6 +77,7 @@ namespace GetStat.ViewModels.PagesViewModels.Help
                     _modalService.ShowModalWindow("Успешно", "Ваш пароль успешно изменен");
                     _loginResponseService.Clear();
                     pageService.NavigateWithAnimation(new SignIn(),PageAnimation.SlideAndFadeInFromTop,PageAnimation.SlideAndFadeOutToBottom);
+                    await _hubService.Disconnect();
                 }
                 else
                 {

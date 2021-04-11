@@ -32,8 +32,4 @@
   <ItemGroup>
     <ProjectReference Include="..\GetStat.Domain\GetStat.Domain.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="JsonConverters\" />
-  </ItemGroup>
 </Project>
