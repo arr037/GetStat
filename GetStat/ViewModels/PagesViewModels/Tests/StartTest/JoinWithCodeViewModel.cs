@@ -41,7 +41,7 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             _pageService = pageService;
             _eventBus = eventBus;
             _hubService = hubService;
-
+            eventBus.Subscribe<OnCancelRequestToHub>(CancelHubRequest);
             hubService.RecieveAllowOrDeny += (flag, test) =>
             {
                 if (flag == false)
@@ -78,39 +78,18 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
             };
         }
 
+        private async Task CancelHubRequest(OnCancelRequestToHub arg)
+        {
+            await _hubService.CancelJoinTest();
+        }
+
         public ICommand JoinInTest=> new DelegateCommand(async () =>
         {
             var log = _loginResponseService.LoginResponse;
             string fullName = log.Surname + " " + log.Name + " " + log.MiddleName;
 
-            await _hubService.JoinTest(fullName, Code);
-            //var response = await WebRequests.PostAsync<ApiResponse<Test>>
-            //(Config.UrlAddress+"api/test/JoinTest", new[]{Code,fullName},
-            //    bearerToken: _loginResponseService.LoginResponse.Token);
-
-            //var res = response.DisplayErrorIfFailedAsync();
-
-            //if (!res.SuccessFul)
-            //{
-            //    _modalService.ShowModalWindow("Ошибка",res.Message);
-            //    return;
-            //}
-
-            //var result = response.ServerResponse.Response;
-
-            //_pageService.NavigateWithAnimation(new Pages.Main.Test.StartTest());
-
-
-            //await _eventBus.Publish(
-            //    new OnStartTest(
-            //        result.Questions, 
-            //        result.Settings.TestName,
-            //        result.Settings.MaxQuestion,
-            //        result.Settings.DeadLine,
-            //        fullName,
-            //        result.TestId)
-            //    );
-
+            await _hubService.JoinTest(fullName, Code,TimeZoneInfo.Utc.Id);
+            
 
         },code=>!string.IsNullOrWhiteSpace(Code));
     }

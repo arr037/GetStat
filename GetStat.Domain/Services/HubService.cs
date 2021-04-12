@@ -15,7 +15,6 @@ namespace GetStat.Domain.Services
     public class HubService
     {
         private HubConnection connection;
-        public event Action<string> OnConnected;
         public event Action<HubConnectionState> OnConnectionStateChanged;
         public event Action<bool, Test> RecieveAllowOrDeny;
         public event Action<string> ReceiveJoinTest;
@@ -23,7 +22,8 @@ namespace GetStat.Domain.Services
         public event Action<QueueTest> OnCancelQueune;
         public event Action<List<QueueTest>> OnAllQuene;
         public event Action<string,string> OnNewPush;
-        public event Action<string> OnSetConnectionId; 
+        public event Action<string> OnSetConnectionId;
+        public event Action ReceiveCreateTest; 
         public HubService(LoginResponseService loginResponseService)
         {
             connection = new HubConnectionBuilder().WithUrl(Config.UrlAddress+"getstat", opt =>
@@ -31,8 +31,9 @@ namespace GetStat.Domain.Services
                 opt.AccessTokenProvider = () => Task.FromResult(loginResponseService.LoginResponse?.Token);
             }).AddMessagePackProtocol().Build();
 
-            connection.On<string>("Connected", (connId) => OnConnected?.Invoke(connId));
-            
+
+
+            #region Push Messages
             connection.On<List<QueueTest>>("ReceiveJoinTestUsers", (items) =>
             {
                 OnAllQuene?.Invoke(items);
@@ -42,8 +43,6 @@ namespace GetStat.Domain.Services
             {
                 OnSetConnectionId?.Invoke(str);
             });
-
-            #region Push Messages
 
             connection.On<QueueTest>("NewReceiveJoinTest", (item) =>
             {
@@ -74,12 +73,31 @@ namespace GetStat.Domain.Services
             #endregion
 
 
+            #region MainPageReceives
+
+            connection.On("ReceiveCreateTest", () =>
+            {
+                ReceiveCreateTest?.Invoke();
+            });
+
+            #endregion
         }
 
+        #region MainPageCommand
 
-        public async Task JoinTest(string fullName, string code)
+        public async Task CreateTest(Test test)
         {
-            await connection.SendAsync("JoinInTest", fullName, code);
+            await connection.SendAsync("CreateTest", test);
+        }
+        
+
+        #endregion
+
+        #region QueneUserCommands
+
+        public async Task JoinTest(string fullName, string code, string timeZoneInfo)
+        {
+            await connection.SendAsync("JoinInTest", fullName, code, timeZoneInfo);
         }
 
         public async Task CancelJoinTest()
@@ -104,6 +122,10 @@ namespace GetStat.Domain.Services
             }
         }
 
+        #endregion
+
+        #region Connec/Disconect/SetConnId
+
         public async Task SetConnectionIdTest()
         {
             if (connection.State == HubConnectionState.Connected)
@@ -127,5 +149,8 @@ namespace GetStat.Domain.Services
             await connection.StopAsync();
             OnConnectionStateChanged?.Invoke(connection.State);
         }
+
+        #endregion
+
     }
 }

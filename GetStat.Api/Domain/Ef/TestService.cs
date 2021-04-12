@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GetStat.Api.Domain.Abstract;
+using GetStat.Api.Hubs;
 using GetStat.Domain.Base;
 using GetStat.Domain.Extetrions;
 using GetStat.Domain.Models.Test;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace GetStat.Api.Domain.Ef
@@ -213,7 +215,6 @@ namespace GetStat.Api.Domain.Ef
             }
 
             await _dbContext.SaveChangesAsync();
-
             return test.TestId;
         }
 

@@ -82,7 +82,10 @@ namespace GetStat.ViewModels.PagesViewModels.Tests
                      return;
                  }
                  Questions.Clear();
-                 TestSettings = new Setting();
+                 TestSettings = new Setting
+                 {
+                     StartDay = DateTime.Now
+                 };
                  _modalService.ShowModalWindow("Новый тест", "Тест успешно добавлен в базу.\nПосмотреть можете в разделе Мои Тесты");
                  GC.Collect();
              }

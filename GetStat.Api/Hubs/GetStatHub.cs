@@ -29,7 +29,28 @@ namespace GetStat.Api.Hubs
             _testService = testService;
         }
 
-        public async Task JoinInTest(string fullname, string code)
+        public async Task CreateTest(Test test)
+        {
+            await _testService.CreateTest(test);
+
+            await Clients.Caller.SendAsync("ReceiveCreateTest");
+        }
+
+        public async Task MyTests()
+        {
+            var tests = await _testService.GetMyTests(UserId);
+
+            await Clients.Caller.SendAsync("ReceiveMyTests", tests);
+        }
+
+        public async Task EndTest(BaseResultQA baseResult)
+        {
+            var result = _testService.EndTest(baseResult, UserId);
+        }
+
+        #region Join Test
+
+        public async Task JoinInTest(string fullname, string code, string timeZoneInfo)
         {
             var setting = await _context.Settings.FirstOrDefaultAsync(x => x.Code == code);
 
@@ -41,7 +62,7 @@ namespace GetStat.Api.Hubs
                     return;
                 }
 
-                var set = await _testService.CheckTestSettingTime(setting,TimeZoneInfo.Local.Id);
+                var set = await _testService.CheckTestSettingTime(setting, timeZoneInfo);
                 if (!string.IsNullOrEmpty(set))
                 {
                     await Clients.Caller.SendAsync("ReceiveJoinTest", set);
@@ -52,6 +73,7 @@ namespace GetStat.Api.Hubs
                 {
                     FullName = fullname,
                     TestId = setting.TestId,
+                    TestName = setting.TestName,
                     ConnectionId = Context.ConnectionId
                 };
                 await _context.QueueTests.AddAsync(qTest);
@@ -66,6 +88,10 @@ namespace GetStat.Api.Hubs
             }
 
         }
+
+        #endregion
+
+        #region GetStatHub
 
         public async Task CancelJoinTest()
         {
@@ -90,7 +116,7 @@ namespace GetStat.Api.Hubs
             await Clients.Caller.SendAsync("ReceiveJoinTestUsers", tests);
         }
 
-        public async Task AllowOrDenyJoinTest(string connectionId,bool flag,int testId)
+        public async Task AllowOrDenyJoinTest(string connectionId, bool flag, int testId)
         {
             if (flag)
             {
@@ -115,38 +141,37 @@ namespace GetStat.Api.Hubs
                     })
                     .FirstOrDefaultAsync(a => a.TestId == testId);
 
-                _= _codeHubContext.Clients.Client(connectionId).SendAsync("RecieveAllowOrDeny", true, test);
-                _= Clients.Client(connectionId).SendAsync("RecieveAllowOrDeny", true, test);
+                _ = _codeHubContext.Clients.Client(connectionId).SendAsync("RecieveAllowOrDeny", true, test);
+                _ = Clients.Client(connectionId).SendAsync("RecieveAllowOrDeny", true, test);
             }
             else
             {
-                _= _codeHubContext.Clients.Client(connectionId).SendAsync("RecieveAllowOrDeny", false, null);
-                _= _codeHubContext.Clients.Client(connectionId).SendAsync("RecieveAllowOrDeny", false, null);
+                _ = _codeHubContext.Clients.Client(connectionId).SendAsync("RecieveAllowOrDeny", false, null);
+                _ = _codeHubContext.Clients.Client(connectionId).SendAsync("RecieveAllowOrDeny", false, null);
             }
 
             await RemoveFromDb(connectionId);
         }
 
-
         public async Task SetTestConnectionId(string timeZone)
         {
-            var userTestsId = await _context.Tests.Include(x=>x.Settings)
+            var userTestsId = await _context.Tests.Include(x => x.Settings)
                 .Where(x => x.AccountId == UserId).Select(x => x.TestId).ToListAsync();
-            
-            var tests = await _context.Tests.Include(x=>x.Settings).Where(x => userTestsId.Contains(x.TestId)).ToListAsync();
+
+            var tests = await _context.Tests.Include(x => x.Settings).Where(x => userTestsId.Contains(x.TestId)).ToListAsync();
 
             if (tests.Count != 0)
             {
                 var ts = new List<string>();
                 foreach (Test test in tests)
                 {
-                   var check = await _testService.CheckTestSettingTime(test.Settings, timeZone);
+                    var check = await _testService.CheckTestSettingTime(test.Settings, timeZone);
 
-                   if (string.IsNullOrEmpty(check))
-                   {
-                       test.ConnectionId = Context.ConnectionId;
-                       ts.Add(test.Settings.TestName);
-                   }
+                    if (string.IsNullOrEmpty(check))
+                    {
+                        test.ConnectionId = Context.ConnectionId;
+                        ts.Add(test.Settings.TestName);
+                    }
                 }
                 await _context.SaveChangesAsync();
                 int i = 1;
@@ -154,6 +179,10 @@ namespace GetStat.Api.Hubs
                     string.Join(Environment.NewLine, ts.Select(x => $"{i++}. {x}")));
             }
         }
+
+        #endregion
+
+        #region Ovveride Methods
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
@@ -174,10 +203,13 @@ namespace GetStat.Api.Hubs
             return base.OnConnectedAsync();
         }
 
+        #endregion
+
+        #region Private Methods
 
         private async Task RemoveFromDb(string connectionId)
         {
-            var s = await _context.QueueTests.FirstOrDefaultAsync(x => x.ConnectionId ==connectionId);
+            var s = await _context.QueueTests.FirstOrDefaultAsync(x => x.ConnectionId == connectionId);
 
             if (s != null)
             {
@@ -185,5 +217,8 @@ namespace GetStat.Api.Hubs
                 await _context.SaveChangesAsync();
             }
         }
+
+        #endregion
+
     }
 }
