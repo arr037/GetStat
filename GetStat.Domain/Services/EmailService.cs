@@ -25,7 +25,7 @@ namespace GetStat.Domain.Services
                 using var client = new SmtpClient();
                 {
                     await client.ConnectAsync("smtp.yandex.kz", 465, true);
-                    await client.AuthenticateAsync("ar037@yandex.kz", "admin123");
+                    await client.AuthenticateAsync("testUser", "testPass");
                     await client.SendAsync(emailMessage);
 
                     await client.DisconnectAsync(true);

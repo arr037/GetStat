@@ -142,18 +142,20 @@ namespace GetStat.Api.Controllers
 
             if (ModelState.IsValid)
             {
+                account.EmailConfirmed = true;
+
                 var result = await _userManager.CreateAsync(account, account.PasswordHash);
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByNameAsync(account.UserName);
                     
-                    var isSendEmail = await SendEmailCode(user);
+                   var isSendEmail = await SendEmailCode(user);
 
-                   if (!isSendEmail)
-                       return new ApiResponse<LoginResponse>
-                       {
-                           Error = "При отправке email, произошла ошибка"
-                       };
+                   //if (!isSendEmail)
+                   //    return new ApiResponse<LoginResponse>
+                   //    {
+                   //        Error = "При отправке email, произошла ошибка"
+                   //    };
 
                     return new ApiResponse<LoginResponse>
                     {

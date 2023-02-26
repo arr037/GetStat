@@ -35,7 +35,7 @@ namespace GetStat.Api
             {
                 opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
-            var connection = Configuration.GetConnectionString("DefaultConnection");
+            var connection = Configuration.GetConnectionString("API");
             //var connection = Environment.GetEnvironmentVariable("DbContext");
             
             services.AddTransient<EmailService>();
@@ -93,6 +93,9 @@ namespace GetStat.Api
                 endpoints.MapHub<GetStatHub>("/getstat");
                 endpoints.MapHub<CodeHub>("/code");
             });
+
+            app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
+
         }
     }
 }
